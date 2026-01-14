@@ -6,19 +6,23 @@ import { get } from 'svelte/store';
 export async function send<Req, Res>(method: string, params?: Req): Promise<Res> {
     const rc = new RequestCreator(method, params);
 
-    return await fetch(`${process.env.OCEAN_API_URL}?token=${get(token)}`, {
+    const answer = await fetch(`${process.env.OCEAN_API_URL}?token=${get(token)}`, {
         method: "POST",
         body: rc.toString()
-    }).then(r => r.text())
-        .then((json: string) => {
-            const response: Response<Res> = JSON.parse(json);
+    })
 
-            if (response.error) {
-                throw (response.error);
-            } else {
-                return response.result || null;
-            }
-        });
+    const text = await answer.text();
+    const response: Response<Res> = JSON.parse(text);
+
+    if (response.error) {
+        throw (response.error);
+    }
+
+    if (response.result === undefined || response.result === null) {
+        throw new Error("Empty result");
+    }
+
+    return response.result;
 }
 
 export function errorMessage(error: Error): string {
