@@ -1,32 +1,13 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
-    import * as route from "$lib/route";
+    import { run } from "svelte/legacy";
+    import { page } from "$app/state";
     import { goto } from "$app/navigation";
+    import * as route from "$lib/route";
     import { Code, printMessage } from "$lib/api-error";
     import Frame from "../components/Frame.svelte";
 
-    interface Message {
-        code: number;
-        message: string;
-    }
-
-    interface Error {
-        message: Message;
-        stack: string;
-    }
-
-    interface Props {
-        status: string;
-        error: Error;
-    }
-
-    let { status, error }: Props = $props();
-
-    const dev = process.env.NODE_ENV === "development";
-
     run(() => {
-        if (process.browser && error.message.code == Code.AccountBlocked) {
+        if (page.error.code == Code.AccountBlocked) {
             goto(route.Signout);
         }
     });
@@ -35,10 +16,6 @@
 <style>
 </style>
 
-<Frame title={status}>
-    <p>{printMessage(error.message.code, error.message.message)}</p>
-
-    {#if dev && error.stack}
-        <pre>{error.stack}</pre>
-    {/if}
+<Frame title={page.status}>
+    <p>{printMessage(page.error.code, page.error.message)}</p>
 </Frame>
