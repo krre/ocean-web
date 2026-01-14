@@ -1,4 +1,4 @@
-import { RequestCreator, Response, Error } from "$lib/json-rpc"
+import { RequestCreator, type Response, type Error } from "$lib/json-rpc"
 import { printMessage } from "$lib/api-error"
 import { token } from "$lib/stores"
 import { get } from 'svelte/store';
@@ -26,5 +26,5 @@ export function errorMessage(error: Error): string {
 }
 
 export function setToken(value: string) {
-    token.set(value || process.env.ANONYM_TOKEN);
+    token.set(value || String(process.env.ANONYM_TOKEN));
 }
