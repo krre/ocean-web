@@ -7,15 +7,12 @@
     import Frame from "../components/Frame.svelte";
 
     run(() => {
-        if (page.error.code == Code.AccountBlocked) {
+        if (page.error?.code == Code.AccountBlocked) {
             goto(route.Signout);
         }
     });
 </script>
 
-<style>
-</style>
-
-<Frame title={page.status}>
-    <p>{printMessage(page.error.code, page.error.message)}</p>
+<Frame title={String(page.status)}>
+    <p>{printMessage(page.error?.code || 0, page.error?.message || "")}</p>
 </Frame>
