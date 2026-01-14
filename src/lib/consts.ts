@@ -3,10 +3,11 @@ export namespace Account {
     export const User = "user";
     export const Anonym = "anonym";
 
-    export const ModeNames = {};
-    ModeNames[Admin] = "Администратор";
-    ModeNames[User] = "Пользователь";
-    ModeNames[Anonym] = "Аноним";
+    export const ModeNames: Record<string, string> = {
+        [Admin]: "Администратор",
+        [User]: "Пользователь",
+        [Anonym]: "Аноним"
+    };
 }
 
 export namespace Mandela {

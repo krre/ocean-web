@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as consts from "$lib/consts";
     import type { User } from "$lib/types";
@@ -7,16 +7,16 @@
 
     interface Props {
         user?: User;
-        userName: string;
+        userName?: string;
         isAdmin?: boolean;
         isAnonym?: boolean;
     }
 
     let {
-        user = $bindable(null),
+        user = $bindable(undefined),
         userName = $bindable(),
         isAdmin = $bindable(false),
-        isAnonym = $bindable(true)
+        isAnonym = $bindable(true),
     }: Props = $props();
 
     run(() => {
