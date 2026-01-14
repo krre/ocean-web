@@ -153,7 +153,6 @@
             };
 
             voteUsers = await api.Forum.Topic.GetVoteUsers.exec(params);
-            console.log(voteUsers);
         }
 
         voteUserVisible = !voteUserVisible;
