@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
@@ -40,7 +40,7 @@
         category = $bindable(0),
         sort = $bindable(0),
         userId = 0,
-        getAllResponse
+        getAllResponse,
     }: Props = $props();
 
     let mounted = new Mounted();
@@ -50,7 +50,7 @@
     });
 
     let baseQuery = $state(new URLSearchParams());
-    let user: User = $state();
+    let user: User | undefined = $state();
 
     let mandels: api.Mandela.GetAll.Mandela[] = $state([]);
     let categories = ["Все"].concat(consts.Categories);
@@ -67,11 +67,6 @@
 
     const sorts = ["Манделам", "Комментариям"];
     const zeroLeadingCount = 4;
-
-
-
-
-
 
     function makeBaseQuery() {
         const params = new URLSearchParams();

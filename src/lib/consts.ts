@@ -16,6 +16,14 @@ export namespace Mandela {
         export const Complex = 1;
     }
 
+    export namespace Catalog {
+        export const PageLimit = 50;
+    }
+
+    export namespace Activity {
+        export const PageLimit = 5;
+    }
+
     export namespace Comment {
         export const PageLimit = 50;
     }
