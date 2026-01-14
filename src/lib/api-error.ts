@@ -4,7 +4,7 @@ export function printMessage(code: number, message: string): string {
 
 function codeToMessage(code: number): string {
     const message = errors[code]
-    return message ? `${message} (код ${code})` : undefined;
+    return message ? `${message} (код ${code})` : "Сообщение не найдено";
 }
 
 interface Error {
