@@ -1,9 +1,10 @@
 <script lang="ts">
     import * as api from "$lib/api";
-    import { page } from "$app/stores";
     import { goto } from "$app/navigation";
-    import { setToken, errorMessage } from "$lib/network";
-    import { post, createToken } from "$lib/utils";
+    import { errorMessage } from "$lib/network";
+    import { createToken } from "$lib/utils";
+    import type { UserSession } from "$lib/types";
+    import { setSession } from "$lib/stores";
     import Frame from "../../components/Frame.svelte";
     import BoxForm from "../../components/BoxForm.svelte";
     import OperationResult from "../../components/OperationResult.svelte";
@@ -15,7 +16,6 @@
 
     let signinButtonEnabled = $derived(id && password);
     let error = $state("");
-    
 
     async function signin() {
         const token = createToken(id, password);
@@ -24,18 +24,21 @@
             token: token,
         };
 
+        console.log("params", params);
+
         try {
             const result = await api.User.Auth.exec(params);
-            const user = {
+
+            const session: UserSession = {
                 token: token,
                 id: id,
                 code: result.code,
                 name: result.name,
             };
 
-            await post("auth/login", user);
-            $page.data.session.user = user;
-            setToken(token);
+            console.log("result", result);
+
+            setSession(session);
             goto("/");
         } catch (e) {
             error = errorMessage(e);

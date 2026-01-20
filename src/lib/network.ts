@@ -1,12 +1,12 @@
 import { RequestCreator, type Response, type Error } from "$lib/json-rpc"
 import { printMessage } from "$lib/api-error"
-import { token } from "$lib/stores"
-import { get } from 'svelte/store';
+import { session } from "./stores";
+import { PUBLIC_OCEAN_API_URL } from '$env/static/public';
 
 export async function send<Req, Res>(method: string, params?: Req): Promise<Res> {
     const rc = new RequestCreator(method, params);
 
-    const answer = await fetch(`${process.env.OCEAN_API_URL}?token=${get(token)}`, {
+    const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${session().token}`, {
         method: "POST",
         body: rc.toString()
     })
@@ -27,8 +27,4 @@ export async function send<Req, Res>(method: string, params?: Req): Promise<Res>
 
 export function errorMessage(error: Error): string {
     return printMessage(error.code, error.message);
-}
-
-export function setToken(value: string) {
-    token.set(value || String(process.env.ANONYM_TOKEN));
 }

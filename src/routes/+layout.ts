@@ -1,7 +1,6 @@
 import type { LayoutLoad } from './$types';
-import { setToken } from "$lib/network";
+import { setSession } from '$lib/stores';
 
-export const load: LayoutLoad = async ({ params }) => {
-	// setToken(session.user ? session.user.token : "");
-	setToken("")
+export const load: LayoutLoad = async ({ data }) => {
+	setSession(data.session)
 };

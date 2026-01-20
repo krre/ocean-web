@@ -1,0 +1,36 @@
+import fs from 'fs/promises';
+import path from 'path';
+import type { UserSession } from './types';
+import { anonymSession } from './stores';
+
+const SESSIONS_DIR = '.sessions';
+
+await fs.mkdir(SESSIONS_DIR, { recursive: true });
+
+export async function getSession(sessionId?: string): Promise<UserSession> {
+    if (sessionId) {
+        try {
+            const file = await fs.readFile(
+                path.join(SESSIONS_DIR, sessionId),
+                'utf-8'
+            );
+
+            return JSON.parse(file);
+        } catch {
+            return anonymSession()
+        }
+    }
+
+    return anonymSession()
+}
+
+export async function setSession(sessionId: string, session: UserSession) {
+    await fs.writeFile(
+        path.join(SESSIONS_DIR, sessionId),
+        JSON.stringify(session)
+    );
+}
+
+export async function deleteSession(sessionId: string) {
+    await fs.rm(path.join(SESSIONS_DIR, sessionId), { force: true });
+}

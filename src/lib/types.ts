@@ -15,6 +15,13 @@ export interface User {
     create_ts: any;
 }
 
+export interface UserSession {
+    id: number;
+    code: string;
+    name: string;
+    token: string;
+}
+
 export interface Input {
     focus(): void;
 }

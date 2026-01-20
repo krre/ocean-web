@@ -1,22 +1,10 @@
-<script module lang="ts">
-    import Modal from "../components/dialog/Modal.svelte";
-    import { setToken } from "$lib/network";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(_page: Page, session: Session) {
-        setToken(session.user ? session.user.token : "");
-    }
-</script>
-
 <script lang="ts">
+    import Modal from "../components/dialog/Modal.svelte";
     import Navbar from "../components/menu/Navbar.svelte";
     import Sidebar from "../components/menu/Sidebar.svelte";
-    interface Props {
-        children?: import('svelte').Snippet;
-    }
+    import type { LayoutProps } from "./$types";
 
-    let { children }: Props = $props();
-
+    let { children }: LayoutProps = $props();
     let open = $state(false);
 </script>
 

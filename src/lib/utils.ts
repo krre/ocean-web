@@ -1,6 +1,7 @@
 import * as consts from "$lib/consts";
 import type { MandelaTitle } from "$lib/types"
 import sha1 from "sha1";
+import { PUBLIC_ANONYM_ALLOWED } from '$env/static/public';
 
 export function post(endpoint: string, data?) {
     return fetch(endpoint, {
@@ -79,5 +80,5 @@ export function dateUrl(baseUrl: string, date: Date, id: number, page: number) {
 }
 
 export function isAnonymAllowed(): boolean {
-    return String(process.env.ANONYM_ALLOWED) === "1"
+    return PUBLIC_ANONYM_ALLOWED === "1"
 }
