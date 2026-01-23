@@ -24,8 +24,6 @@
             token: token,
         };
 
-        console.log("params", params);
-
         try {
             const result = await api.User.Auth.exec(params);
 
@@ -35,8 +33,6 @@
                 code: result.code,
                 name: result.name,
             };
-
-            console.log("result", result);
 
             setSession(session);
             goto("/");

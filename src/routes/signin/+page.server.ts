@@ -3,7 +3,6 @@ import { setSession } from '$lib/session-store';
 
 export const actions = {
     login: async ({ request, cookies, locals }) => {
-        console.log(request, cookies, locals)
         // const form = await request.formData();
         // const user = await authenticate(form);
 
