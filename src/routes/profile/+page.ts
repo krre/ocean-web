@@ -1,5 +1,4 @@
 import * as api from "$lib/api";
-import { setToken } from "$lib/network";
 import type { Session, Page } from "$lib/types";
 import { createToken } from "$lib/utils";
 

@@ -1,10 +1,11 @@
 <!-- @migration-task Error while migrating Svelte code: `$session` is an illegal variable name. To reference a global variable called `$session`, use `globalThis.$session`
 https://svelte.dev/e/global_reference_invalid -->
 <script context="module" lang="ts">
-    throw new Error("@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)");
+    throw new Error(
+        "@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)",
+    );
 
     // import * as api from "$lib/api";
-    // import { setToken } from "$lib/network";
     // import type { Session, Page } from "$lib/types";
     // import { createToken } from "$lib/utils";
 
@@ -19,7 +20,9 @@ https://svelte.dev/e/global_reference_invalid -->
 </script>
 
 <script lang="ts">
-    throw new Error("@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)");
+    throw new Error(
+        "@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)",
+    );
 
     import * as consts from "$lib/consts";
     import { errorMessage } from "$lib/network";
@@ -81,7 +84,6 @@ https://svelte.dev/e/global_reference_invalid -->
 
         try {
             await api.User.UpdateToken.exec(params);
-            setToken(token);
             $session.user.token = token;
 
             password1 = "";
