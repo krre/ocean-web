@@ -4,6 +4,7 @@
     import { isAnonymAllowed } from "$lib/utils";
     import * as route from "$lib/route";
     import * as consts from "$lib/consts";
+    import { userSession } from "$lib/stores";
 
     interface Props {
         [key: string]: any;
@@ -11,9 +12,7 @@
 
     let { ...props }: Props = $props();
 
-    const isAnonymUser =
-        !page.data.session || page.data.session.code == consts.Account.Anonym;
-
+    const isAnonymUser = $derived($userSession.code == consts.Account.Anonym);
     const dispatch = createEventDispatcher();
 </script>
 
