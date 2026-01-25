@@ -35,7 +35,7 @@
             };
 
             setSession(session);
-            login(session);
+            await login(session);
             goto("/");
         } catch (e) {
             error = errorMessage(e);

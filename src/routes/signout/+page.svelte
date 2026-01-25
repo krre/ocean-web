@@ -6,7 +6,7 @@
 
     async function signout() {
         await api.User.Logout.exec();
-        logout();
+        await logout();
         setSession(anonymSession());
         goto("/");
     }
