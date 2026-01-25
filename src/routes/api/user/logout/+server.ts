@@ -10,7 +10,7 @@ export const POST: RequestHandler = async ({ cookies }) => {
     }
 
     cookies.delete("session_id", { path: '/' });
-    deleteSession(sessionId)
+    await deleteSession(sessionId)
 
     return json(true);
 };

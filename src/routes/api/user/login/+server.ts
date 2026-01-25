@@ -7,7 +7,7 @@ import type { UserSession } from '$lib/types';
 export const POST: RequestHandler = async ({ request, cookies }) => {
     const session: UserSession = await request.json();
     const sessionId = uidSafe.sync(24)
-    saveSession(sessionId, session)
+    await saveSession(sessionId, session)
 
     cookies.set('session_id', sessionId, {
         path: '/',
