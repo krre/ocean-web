@@ -41,3 +41,9 @@ export async function login(session: UserSession) {
         throw new Error("Ошибка сохранения сессии");
     }
 }
+
+export async function logout() {
+    await fetch("/api/user/logout", {
+        method: "POST",
+    });
+}

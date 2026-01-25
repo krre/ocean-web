@@ -11,7 +11,7 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
     if (sessionId) {
         try {
             const file = await fs.readFile(
-                path.join(SESSIONS_DIR, sessionId + '.json'),
+                filePath(sessionId),
                 'utf-8'
             );
 
@@ -26,11 +26,15 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
 
 export async function saveSession(sessionId: string, session: UserSession) {
     await fs.writeFile(
-        path.join(SESSIONS_DIR, sessionId + '.json'),
+        filePath(sessionId),
         JSON.stringify(session)
     );
 }
 
 export async function deleteSession(sessionId: string) {
-    await fs.rm(path.join(SESSIONS_DIR, sessionId), { force: true });
+    await fs.rm(filePath(sessionId), { force: true });
+}
+
+function filePath(sessionId: string): string {
+    return path.join(SESSIONS_DIR, sessionId + '.json')
 }
