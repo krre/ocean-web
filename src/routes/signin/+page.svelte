@@ -35,7 +35,22 @@
             };
 
             setSession(session);
-            goto("/");
+
+            const response = await fetch("/api/user/login", {
+                method: "POST",
+                body: JSON.stringify(session),
+                headers: {
+                    "content-type": "application/json",
+                },
+            });
+
+            const res = await response.json();
+
+            if (!res) {
+                error = "Ошибка сохранения сессии";
+            } else {
+                goto("/");
+            }
         } catch (e) {
             error = errorMessage(e);
         }

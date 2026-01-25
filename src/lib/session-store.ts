@@ -7,11 +7,11 @@ const SESSIONS_DIR = '.sessions';
 
 await fs.mkdir(SESSIONS_DIR, { recursive: true });
 
-export async function getSession(sessionId?: string): Promise<UserSession> {
+export async function loadSession(sessionId?: string): Promise<UserSession> {
     if (sessionId) {
         try {
             const file = await fs.readFile(
-                path.join(SESSIONS_DIR, sessionId),
+                path.join(SESSIONS_DIR, sessionId + '.json'),
                 'utf-8'
             );
 
@@ -24,9 +24,9 @@ export async function getSession(sessionId?: string): Promise<UserSession> {
     return anonymSession()
 }
 
-export async function setSession(sessionId: string, session: UserSession) {
+export async function saveSession(sessionId: string, session: UserSession) {
     await fs.writeFile(
-        path.join(SESSIONS_DIR, sessionId),
+        path.join(SESSIONS_DIR, sessionId + '.json'),
         JSON.stringify(session)
     );
 }

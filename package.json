@@ -11,13 +11,15 @@
         "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
     },
     "dependencies": {
-        "sha1": "^1.1.1"
+        "sha1": "^1.1.1",
+        "uid-safe": "^2.1.5"
     },
     "devDependencies": {
         "@sveltejs/adapter-auto": "^7.0.0",
         "@sveltejs/kit": "^2.49.4",
         "@sveltejs/vite-plugin-svelte": "^6.2.4",
         "@types/node": "^25.0.6",
+        "@types/uid-safe": "^2.1.5",
         "svelte": "^5.46.1",
         "svelte-check": "^4.3.5",
         "svelte-preprocess": "^6.0.3",
