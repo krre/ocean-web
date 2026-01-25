@@ -1,14 +1,12 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     interface Props {
         success?: string;
         error?: string;
     }
 
-    let { success = "", error = $bindable("") }: Props = $props();
+    let { success, error }: Props = $props();
 
-    run(() => {
+    $effect(() => {
         if (success) {
             error = "";
         }

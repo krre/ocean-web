@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
-    import { errorMessage } from "$lib/network";
+    import { errorMessage, login } from "$lib/network";
     import { createToken } from "$lib/utils";
     import type { UserSession } from "$lib/types";
     import { setSession } from "$lib/stores";
@@ -35,22 +35,8 @@
             };
 
             setSession(session);
-
-            const response = await fetch("/api/user/login", {
-                method: "POST",
-                body: JSON.stringify(session),
-                headers: {
-                    "content-type": "application/json",
-                },
-            });
-
-            const res = await response.json();
-
-            if (!res) {
-                error = "Ошибка сохранения сессии";
-            } else {
-                goto("/");
-            }
+            login(session);
+            goto("/");
         } catch (e) {
             error = errorMessage(e);
         }

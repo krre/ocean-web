@@ -1,51 +1,31 @@
-<!-- @migration-task Error while migrating Svelte code: `$session` is an illegal variable name. To reference a global variable called `$session`, use `globalThis.$session`
-https://svelte.dev/e/global_reference_invalid -->
-<script context="module" lang="ts">
-    throw new Error(
-        "@migration task: Check code was safely removed (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292722)",
-    );
-
-    // import * as api from "$lib/api";
-    // import type { Session, Page } from "$lib/types";
-    // import { createToken } from "$lib/utils";
-
-    // export async function preload(_page: Page, session: Session) {
-    //     const params: api.User.GetOne.Request = {
-    //         id: +session.user.id,
-    //     };
-
-    //     const user = await api.User.GetOne.exec(params);
-    //     return { user };
-    // }
-</script>
-
 <script lang="ts">
-    throw new Error(
-        "@migration task: Add data prop (https://github.com/sveltejs/kit/discussions/5774#discussioncomment-3292707)",
-    );
-
     import * as consts from "$lib/consts";
-    import { errorMessage } from "$lib/network";
-    import type { User } from "$lib/types";
-    import { page } from "$app/stores";
+    import * as api from "$lib/api";
+    import { errorMessage, login } from "$lib/network";
     import Frame from "../../components/Frame.svelte";
     import OperationResult from "../../components/OperationResult.svelte";
     import Profile from "../../components/Profile.svelte";
+    import type { PageProps } from "./$types";
+    import { createToken } from "$lib/utils";
+    import { session, setSession } from "$lib/stores";
 
-    export let user: User;
+    let { data }: PageProps = $props();
+    let user = data.user;
+
+    let userSession = session();
 
     const title = "Профиль";
 
-    let currentGender = user.gender;
+    let currentGender = $state(user.gender);
 
-    let successProfile: string;
-    let errorProfile: string;
+    let successProfile = $state("");
+    let errorProfile = $state("");
 
-    let successPassword: string;
-    let errorPassword: string;
+    let successPassword = $state("");
+    let errorPassword = $state("");
 
-    let password1: string;
-    let password2: string;
+    let password1 = $state("");
+    let password2 = $state("");
 
     async function update() {
         const params: api.User.UpdateProfile.Request = {
@@ -56,8 +36,9 @@ https://svelte.dev/e/global_reference_invalid -->
         try {
             await api.User.UpdateProfile.exec(params);
 
-            $page.data.session.user.name = params.name;
-            $page.data.session.user.code = user.code;
+            userSession.name = user.name;
+            setSession(userSession);
+            login(userSession);
 
             successProfile = "Профиль успешно обновлён";
         } catch (e) {
@@ -84,7 +65,10 @@ https://svelte.dev/e/global_reference_invalid -->
 
         try {
             await api.User.UpdateToken.exec(params);
-            $session.user.token = token;
+
+            userSession.token = token;
+            setSession(userSession);
+            login(userSession);
 
             password1 = "";
             password2 = "";
@@ -120,15 +104,12 @@ https://svelte.dev/e/global_reference_invalid -->
 
         <div />
         <div>
-            <OperationResult
-                bind:success={successProfile}
-                bind:error={errorProfile}
-            />
+            <OperationResult success={successProfile} error={errorProfile} />
         </div>
 
         <div />
         <div>
-            <button on:click={update} disabled={!user.name}>Сохранить</button>
+            <button onclick={update} disabled={!user.name}>Сохранить</button>
         </div>
 
         <div>Пароль:</div>
@@ -138,14 +119,11 @@ https://svelte.dev/e/global_reference_invalid -->
 
         <div />
         <div>
-            <OperationResult
-                bind:success={successPassword}
-                bind:error={errorPassword}
-            />
+            <OperationResult success={successPassword} error={errorPassword} />
         </div>
 
         <div />
-        <div><button on:click={changePassword}>Изменить</button></div>
+        <div><button onclick={changePassword}>Изменить</button></div>
 
         <Profile {user} />
     </div>
