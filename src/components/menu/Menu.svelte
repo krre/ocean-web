@@ -36,7 +36,7 @@
 
 <!-- svelte-ignore a11y_click_events_have_key_events -->
 <nav class={props.class} onclick={() => dispatch("itemClicked")}>
-    <a href=".">Каталог</a>
+    <a href="/">Каталог</a>
     {#if isAnonymAllowed() || !isAnonymUser}
         <a href={route.Mandela.Append}>Добавить</a>
     {/if}
