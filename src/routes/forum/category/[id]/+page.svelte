@@ -20,8 +20,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
@@ -43,7 +41,7 @@
     let user: User = $state();
     let sections: api.Forum.Section.GetAll.Section[] = $state([]);
 
-    run(() => {
+    $effect(() => {
         categoryName = getAllResponse.category_name;
         sections = getAllResponse.sections;
     });

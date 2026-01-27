@@ -26,8 +26,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import * as consts from "$lib/consts";
     import * as types from "$lib/types";
@@ -79,7 +77,7 @@
     let categoryNav: PathPart = $state();
     let sectionNav: PathPart = $state();
 
-    run(() => {
+    $effect(() => {
         topicName = getAllResponse.topic_name;
         postCount = getAllResponse.post_count;
         posts = getAllResponse.posts as EditedPost[];
@@ -97,7 +95,7 @@
         };
     });
 
-    run(() => {
+    $effect(() => {
         if (poll) {
             for (const answer of poll) {
                 if (answer.voted) {

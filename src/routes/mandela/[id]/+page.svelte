@@ -43,8 +43,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as consts from "$lib/consts";
     import * as bbcode from "$lib/bbcode";
     import * as dialog from "$lib/dialog";
@@ -99,11 +97,12 @@
             ? mandela.title
             : mandela.what,
     );
-    run(() => {
+
+    $effect(() => {
         votes = getOneResponse.votes;
     });
 
-    run(() => {
+    $effect(() => {
         totalVotes = 0;
 
         for (let v of votes) {

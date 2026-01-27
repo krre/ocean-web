@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
@@ -122,12 +120,14 @@
 
         return consts.VoteColors[maxVote];
     }
-    run(() => {
+
+    $effect(() => {
         if (mounted.done()) {
             filter = category > 0 ? Filter.Category : Filter.All;
         }
     });
-    run(() => {
+
+    $effect(() => {
         mandels = getAllResponse.mandels;
         totalCount = getAllResponse.total_count;
         newCount = getAllResponse.new_count;
@@ -153,18 +153,21 @@
             currentCount = categoryCount;
         }
     });
-    run(() => {
+
+    $effect(() => {
         if (mounted.done() && filter >= 0 && category >= 0) {
             pageNo = 1;
             makeQueryAndGoto(false);
         }
     });
-    run(() => {
+
+    $effect(() => {
         if (mounted.done() && sort >= 0) {
             makeQueryAndGoto();
         }
     });
-    run(() => {
+
+    $effect(() => {
         if (userId) {
             makeBaseQuery();
         }
