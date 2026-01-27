@@ -1,10 +1,7 @@
-<!-- @migration-task Error while migrating Svelte code: Can only bind to an Identifier or MemberExpression or a `{get, set}` pair
-https://svelte.dev/e/bind_invalid_expression -->
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
-    import { page } from "$app/stores";
     import { goto } from "$app/navigation";
     import Frame from "../../../components/Frame.svelte";
     import MandelaEditor from "../../../components/MandelaEditor.svelte";
@@ -44,7 +41,6 @@ https://svelte.dev/e/bind_invalid_expression -->
         bind:after
         bind:description
         bind:categories
-        bind:user={$page.data.session?.user}
         sendAction={append}
     />
 </Frame>

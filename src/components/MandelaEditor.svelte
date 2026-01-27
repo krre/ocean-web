@@ -1,7 +1,6 @@
 <script lang="ts">
-    import type { User } from "$lib/types";
     import * as consts from "$lib/consts";
-    import * as utils from "$lib/utils";
+    import { userSession } from "$lib/stores";
     import MandelaTitle from "./MandelaTitle.svelte";
     import PostEditor from "./post/PostEditor.svelte";
     import WaitButton from "./WaitButton.svelte";
@@ -14,7 +13,6 @@
         after?: string;
         description?: string;
         categories?: any;
-        user: User;
         sendAction?: any;
     }
 
@@ -26,18 +24,16 @@
         after = $bindable(""),
         description = $bindable(""),
         categories = $bindable([]),
-        user,
-        sendAction = async () => {}
+        sendAction = async () => {},
     }: Props = $props();
 
-    let buttonEnabled: boolean = $derived((titleMode === consts.Mandela.Title.Simple && title.length > 0) ||
-        (titleMode === consts.Mandela.Title.Complex &&
-            what.length > 0 &&
-            before.length > 0 &&
-            after.length > 0));
-
-    
-    let userName = utils.sessionUserName(user);
+    let buttonEnabled: boolean = $derived(
+        (titleMode === consts.Mandela.Title.Simple && title.length > 0) ||
+            (titleMode === consts.Mandela.Title.Complex &&
+                what.length > 0 &&
+                before.length > 0 &&
+                after.length > 0),
+    );
 </script>
 
 <style>
@@ -83,7 +79,7 @@
             </label>
         {/each}
     </div>
-    <div>Пользователь: {userName}</div>
+    <div>Пользователь: {$userSession.name}</div>
 </div>
 
 <div class="wait-button">
