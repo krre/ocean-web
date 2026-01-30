@@ -101,12 +101,12 @@
             </select>
         </div>
 
-        <div />
+        <div></div>
         <div>
             <OperationResult success={successProfile} error={errorProfile} />
         </div>
 
-        <div />
+        <div></div>
         <div>
             <button onclick={update} disabled={!data.user.name}
                 >Сохранить</button
@@ -118,12 +118,11 @@
         <div>Пароль (ещё раз):</div>
         <div><input type="password" bind:value={password2} /></div>
 
-        <div />
+        <div></div>
         <div>
             <OperationResult success={successPassword} error={errorPassword} />
         </div>
 
-        <div />
         <div><button onclick={changePassword}>Изменить</button></div>
 
         <Profile user={data.user} />
