@@ -10,13 +10,12 @@
     import { session, setSession } from "$lib/stores";
 
     let { data }: PageProps = $props();
-    let user = data.user;
 
     let userSession = session();
 
     const title = "Профиль";
 
-    let currentGender = $state(user.gender);
+    let currentGender = $derived(data.user.gender);
 
     let successProfile = $state("");
     let errorProfile = $state("");
@@ -29,14 +28,14 @@
 
     async function update() {
         const params: api.User.UpdateProfile.Request = {
-            name: user.name,
+            name: data.user.name,
             gender: currentGender,
         };
 
         try {
             await api.User.UpdateProfile.exec(params);
 
-            userSession.name = user.name;
+            userSession.name = data.user.name;
             setSession(userSession);
             login(userSession);
 
@@ -57,7 +56,7 @@
             return;
         }
 
-        const token = createToken(user.id, password1);
+        const token = createToken(data.user.id, password1);
 
         const params: api.User.UpdateToken.Request = {
             token: token,
@@ -90,9 +89,9 @@
 <Frame {title}>
     <div class="grid">
         <div>ИД:</div>
-        <div>{user.id}</div>
+        <div>{data.user.id}</div>
         <div>Имя:</div>
-        <div><input bind:value={user.name} /></div>
+        <div><input bind:value={data.user.name} /></div>
         <div>Пол:</div>
         <div>
             <select bind:value={currentGender}>
@@ -109,7 +108,9 @@
 
         <div />
         <div>
-            <button onclick={update} disabled={!user.name}>Сохранить</button>
+            <button onclick={update} disabled={!data.user.name}
+                >Сохранить</button
+            >
         </div>
 
         <div>Пароль:</div>
@@ -125,6 +126,6 @@
         <div />
         <div><button onclick={changePassword}>Изменить</button></div>
 
-        <Profile {user} />
+        <Profile user={data.user} />
     </div>
 </Frame>
