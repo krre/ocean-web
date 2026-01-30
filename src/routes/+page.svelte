@@ -8,14 +8,6 @@
     import Activity from "../components/main/activity/Activity.svelte";
 
     let { data }: PageProps = $props();
-    const pageNo = data.pageNo;
-    const filter = data.filter;
-    const category = data.category;
-    const sort = data.sort;
-    const userId = data.userId;
-    const getAllResponse = data.getAllResponse;
-    const topics = data.topics;
-    const comments = data.comments;
 </script>
 
 <style>
@@ -43,15 +35,15 @@
 <div class="container">
     <div class="catalog">
         <Catalog
-            {pageNo}
-            {filter}
-            {category}
-            {sort}
-            {userId}
-            {getAllResponse}
+            pageNo={data.pageNo}
+            filter={data.filter}
+            category={data.category}
+            sort={data.sort}
+            userId={data.userId}
+            getAllResponse={data.getAllResponse}
             pageLimit={consts.Mandela.Catalog.PageLimit}
         />
     </div>
 
-    <Activity {topics} {comments} />
+    <Activity topics={data.topics} comments={data.comments} />
 </div>
