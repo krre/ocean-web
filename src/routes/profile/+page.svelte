@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as api from "$lib/api";
+    import { type Error } from "$lib/json-rpc";
     import { errorMessage, login } from "$lib/network";
     import Frame from "../../components/Frame.svelte";
     import OperationResult from "../../components/OperationResult.svelte";
@@ -41,7 +42,7 @@
 
             successProfile = "Профиль успешно обновлён";
         } catch (e) {
-            errorProfile = errorMessage(e);
+            errorProfile = errorMessage(e as Error);
         }
     }
 
@@ -73,7 +74,7 @@
             password2 = "";
             successPassword = "Пароль успешно изменён";
         } catch (e) {
-            errorPassword = errorMessage(e);
+            errorPassword = errorMessage(e as Error);
         }
     }
 </script>
