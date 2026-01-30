@@ -1,19 +1,19 @@
-export const Search = "search"
-export const Rating = "rating"
-export const Help = "help"
-export const Profile = "profile"
-export const Signout = "signout"
-export const Signin = "signin"
+export const Search = "/search"
+export const Rating = "/rating"
+export const Help = "/help"
+export const Profile = "/profile"
+export const Signout = "/signout"
+export const Signin = "/signin"
 
 export namespace Mandela {
-    export const Root = "mandela"
+    export const Root = "/mandela"
     export const Append = `${Root}/append`
     export const Id = (id: number) => `${Root}/${id}`
     export const Edit = (id: number) => `${Root}/${id}/edit`
 }
 
 export namespace Forum {
-    export const Root = "forum"
+    export const Root = "/forum"
     export const New = `${Forum.Root}/new`
 
     export namespace Category {
@@ -46,10 +46,10 @@ export namespace Forum {
 }
 
 export namespace Register {
-    export const Root = "register"
+    export const Root = "/register"
     export const UserId = (id: number) => `${Root}/user${id}`
 }
 
 export namespace Feed {
-    export const Root = "feed"
+    export const Root = "/feed"
 }
