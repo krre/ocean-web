@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { page } from "$app/state";
     import { createEventDispatcher } from "svelte";
     import { isAnonymAllowed } from "$lib/utils";
     import * as route from "$lib/route";
