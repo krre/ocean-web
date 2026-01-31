@@ -20,6 +20,8 @@ export interface UserSession {
     code: string;
     name: string;
     token: string;
+    isAdmin: boolean;
+    isAnonym: boolean;
 }
 
 export interface Input {

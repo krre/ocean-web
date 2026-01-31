@@ -1,5 +1,6 @@
 <script lang="ts">
     import * as api from "$lib/api";
+    import * as consts from "$lib/consts";
     import { goto } from "$app/navigation";
     import { errorMessage, login } from "$lib/network";
     import { createToken } from "$lib/utils";
@@ -32,6 +33,8 @@
                 id: id,
                 code: result.code,
                 name: result.name,
+                isAnonym: false,
+                isAdmin: result.code == consts.Account.Admin,
             };
 
             setSession(session);

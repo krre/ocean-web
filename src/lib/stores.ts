@@ -15,5 +15,5 @@ export function session(): UserSession {
 }
 
 export function anonymSession(): UserSession {
-    return { id: 0, code: consts.Account.Anonym, name: consts.Account.ModeNames[consts.Account.Anonym], token: PUBLIC_ANONYM_TOKEN }
+    return { id: 0, code: consts.Account.Anonym, name: consts.Account.ModeNames[consts.Account.Anonym], token: PUBLIC_ANONYM_TOKEN, isAdmin: false, isAnonym: true }
 }

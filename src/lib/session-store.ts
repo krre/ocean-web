@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import * as consts from '$lib/consts'
 import type { UserSession } from './types';
 import { anonymSession } from './stores';
 
@@ -15,7 +16,11 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
                 'utf-8'
             );
 
-            return JSON.parse(file);
+            const session: UserSession = JSON.parse(file);
+            session.isAnonym = false;
+            session.isAdmin = session.code == consts.Account.Admin;
+
+            return session;
         } catch {
             return anonymSession()
         }
@@ -25,9 +30,16 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
 }
 
 export async function saveSession(sessionId: string, session: UserSession) {
+    const obj = {
+        id: session.id,
+        code: session.code,
+        name: session.name,
+        token: session.token
+    }
+
     await fs.writeFile(
         filePath(sessionId),
-        JSON.stringify(session)
+        JSON.stringify(obj)
     );
 }
 
