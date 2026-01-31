@@ -43,14 +43,14 @@
 
     $effect(() => {
         const maxPageSelectors = 5;
-        pages = Array(Math.min(last, maxPageSelectors));
+        const newPages = Array(Math.min(last, maxPageSelectors));
 
-        pages[0] = 1;
-        pages[pages.length - 1] = last;
+        newPages[0] = 1;
+        newPages[newPages.length - 1] = last;
 
         let start = 2;
 
-        if (pages.length == maxPageSelectors && offset >= 4) {
+        if (newPages.length == maxPageSelectors && offset >= 4) {
             if (last - offset <= 3 && offset > last - 3) {
                 start = last - 3;
             } else if (offset >= 4) {
@@ -58,11 +58,11 @@
             }
         }
 
-        for (let i = 0; i < pages.length - 2; i++) {
-            pages[i + 1] = start + i;
+        for (let i = 0; i < newPages.length - 2; i++) {
+            newPages[i + 1] = start + i;
         }
 
-        pages = pages;
+        pages = newPages;
     });
 </script>
 
