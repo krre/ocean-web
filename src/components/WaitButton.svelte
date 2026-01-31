@@ -9,10 +9,14 @@
         sendAction?: any;
     }
 
-    let { title, enabled = $bindable(true), sendAction = async () => {} }: Props = $props();
+    let {
+        title,
+        enabled = $bindable(true),
+        sendAction = async () => {},
+    }: Props = $props();
 
     let sending = $state(false);
-    let error: string = $state();
+    let error: string = $state("");
 
     async function action() {
         let timerId = setTimeout(() => (sending = true), 200);
