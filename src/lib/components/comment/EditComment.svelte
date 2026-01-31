@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import PostEditor from "../post/PostEditor.svelte";
-    import WaitButton from "../../components/WaitButton.svelte";
+    import PostEditor from "$lib/components/post/PostEditor.svelte";
+    import WaitButton from "$lib/components/WaitButton.svelte";
 
     const dispatch = createEventDispatcher();
     interface Props {
@@ -9,7 +9,10 @@
         sendAction?: any;
     }
 
-    let { text = $bindable(), sendAction = async (_text: string) => {} }: Props = $props();
+    let {
+        text = $bindable(),
+        sendAction = async (_text: string) => {},
+    }: Props = $props();
 
     function cancel() {
         dispatch("cancel");

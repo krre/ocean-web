@@ -5,7 +5,7 @@
     import { goto } from "$app/navigation";
 
     import { createEventDispatcher } from "svelte";
-    import SectionElement from "../section/SectionElement.svelte";
+    import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -59,7 +59,8 @@
             ><i class="far fa-plus-square"></i></button
         >
         <button onclick={editCategory}><i class="fas fa-edit"></i></button>
-        <button onclick={removeCategory}><i class="fas fa-trash-alt"></i></button
+        <button onclick={removeCategory}
+            ><i class="fas fa-trash-alt"></i></button
         >
     {/if}
 </div>

@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Rectangle from "../../Rectangle.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
     interface Props {
         title: string;
         showHeader?: boolean;
         showPoll?: boolean;
         showContent?: boolean;
-        button?: import('svelte').Snippet;
-        poll?: import('svelte').Snippet;
-        children?: import('svelte').Snippet;
+        button?: import("svelte").Snippet;
+        poll?: import("svelte").Snippet;
+        children?: import("svelte").Snippet;
     }
 
     let {
@@ -17,7 +17,7 @@
         showContent = true,
         button,
         poll,
-        children
+        children,
     }: Props = $props();
 </script>
 

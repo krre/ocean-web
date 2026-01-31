@@ -4,7 +4,7 @@
     import * as route from "$lib/route";
     import { textCut } from "$lib/utils";
     import type { NewTopic } from "$lib/forum";
-    import PostTitle from "../../PostTitle.svelte";
+    import PostTitle from "$lib/components/PostTitle.svelte";
 
     interface Props {
         topic: NewTopic;

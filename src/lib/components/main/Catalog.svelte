@@ -8,8 +8,8 @@
     import { goto } from "$app/navigation";
     import { formatDateTime, zeroLeading, makeTitle } from "$lib/utils";
     import Indicator from "./Indicator.svelte";
-    import Pagination from "../Pagination.svelte";
-    import Frame from "../Frame.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
+    import Frame from "$lib/components/Frame.svelte";
 
     enum Filter {
         All,

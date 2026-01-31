@@ -2,7 +2,7 @@
     import { errorMessage } from "$lib/network";
     import { type Error } from "$lib/json-rpc";
     import Loader from "./Loader.svelte";
-    import OperationResult from "../components/OperationResult.svelte";
+    import OperationResult from "$lib/components/OperationResult.svelte";
 
     interface Props {
         title: string;

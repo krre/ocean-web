@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import type { Input } from "$lib/types";
-    import Dialog from "../dialog/Dialog.svelte";
+    import Dialog from "$lib/components/dialog/Dialog.svelte";
     import * as dialog from "$lib/dialog";
 
     onMount(() => {
@@ -30,7 +30,7 @@
         placeholder="Введите описание"
     />
     {#snippet buttons()}
-        <div >
+        <div>
             <button disabled={!description} onclick={pressOk}>ОК</button>
             <button onclick={() => dialog.close()}>Отменить</button>
         </div>

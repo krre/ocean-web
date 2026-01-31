@@ -8,7 +8,7 @@
     import { formatDateTime, userUrl, dateUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
     import { createEventDispatcher } from "svelte";
-    import SessionHub from "../../SessionHub.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
 
     const dispatch = createEventDispatcher();
 

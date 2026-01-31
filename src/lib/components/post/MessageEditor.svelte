@@ -1,8 +1,8 @@
 <script lang="ts">
     import PostEditor from "./PostEditor.svelte";
-    import Rectangle from "../Rectangle.svelte";
-    import SessionHub from "../SessionHub.svelte";
-    import WaitButton from "../WaitButton.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import WaitButton from "$lib/components/WaitButton.svelte";
 
     interface Props {
         message?: string;
@@ -10,7 +10,11 @@
         sendAction?: any;
     }
 
-    let { message = $bindable(""), sendButtonEnabled = true, sendAction = async () => {} }: Props = $props();
+    let {
+        message = $bindable(""),
+        sendButtonEnabled = true,
+        sendAction = async () => {},
+    }: Props = $props();
 
     let userName: string = $state();
     let postEditorRef: PostEditor = $state();

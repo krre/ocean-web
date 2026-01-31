@@ -2,7 +2,7 @@
     import type { ActivityMessage } from "$lib/types";
     import { textCut } from "$lib/utils";
     import { userUrl, dateUrl } from "$lib/utils";
-    import Rectangle from "../../Rectangle.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
 
     interface Props {
         title?: string;

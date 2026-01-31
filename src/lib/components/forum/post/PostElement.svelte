@@ -6,9 +6,9 @@
     import { isAnonymAllowed } from "$lib/utils";
     import type { User } from "$lib/types";
     import { createEventDispatcher } from "svelte";
-    import SessionHub from "../../SessionHub.svelte";
-    import PostTitle from "../../../components/PostTitle.svelte";
-    import EditComment from "../../../components/comment/EditComment.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import PostTitle from "$lib/components/PostTitle.svelte";
+    import EditComment from "$lib/components/comment/EditComment.svelte";
 
     const dispatch = createEventDispatcher();
 

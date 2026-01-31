@@ -7,11 +7,11 @@
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
     import { isAnonymAllowed } from "$lib/utils";
-    import Rectangle from "../Rectangle.svelte";
-    import PostTitle from "../PostTitle.svelte";
-    import MessageEditor from "../post/MessageEditor.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
+    import PostTitle from "$lib/components/PostTitle.svelte";
+    import MessageEditor from "$lib/components/post/MessageEditor.svelte";
     import EditComment from "./EditComment.svelte";
-    import Pagination from "../Pagination.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -36,7 +36,7 @@
         comments = $bindable([]),
         pageNo = 1,
         commentCount = 0,
-        pageLimit = 1
+        pageLimit = 1,
     }: Props = $props();
 
     let message: string = $state();
