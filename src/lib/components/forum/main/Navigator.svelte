@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type { PathPart } from "$lib/forum";
     import * as route from "$lib/route";
 
@@ -10,11 +8,15 @@
         topic?: PathPart;
     }
 
-    let { category = $bindable(null), section = $bindable(null), topic = $bindable(null) }: Props = $props();
+    let {
+        category = $bindable(null),
+        section = $bindable(null),
+        topic = $bindable(null),
+    }: Props = $props();
 
     let path: PathPart[] = $state();
 
-    run(() => {
+    $effect(() => {
         path = [];
         path.push({ name: "Форум", route: route.Forum.Root });
 

@@ -12,8 +12,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
@@ -32,7 +30,7 @@
     let user: User = $state();
     let categories: api.Forum.GetAll.Category[] = $state([]);
 
-    run(() => {
+    $effect(() => {
         categories = [];
 
         for (let category of getAllResponse.categories) {

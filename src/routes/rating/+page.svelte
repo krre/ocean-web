@@ -37,8 +37,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import * as types from "$lib/types";
     import { goto } from "$app/navigation";
@@ -79,21 +77,21 @@
     let users: api.Rating.GetUsers.User[] = $state([]);
     let usersCount = $state(0);
 
-    run(() => {
+    $effect(() => {
         if (getUsersResponse) {
             users = getUsersResponse.users;
             usersCount = getUsersResponse.user_count;
         }
     });
 
-    run(() => {
+    $effect(() => {
         if (getMandelsResponse) {
             mandels = getMandelsResponse.mandels;
             mandelsCount = getMandelsResponse.total_count;
         }
     });
 
-    run(() => {
+    $effect(() => {
         if (mounted.done()) {
             const params = new URLSearchParams();
 

@@ -17,8 +17,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
@@ -39,7 +37,7 @@
     let feeds: api.Feed.Feed[] = $state([]);
     let total_count = $state(0);
 
-    run(() => {
+    $effect(() => {
         if (getAllResponse) {
             feeds = getAllResponse.feeds;
             total_count = getAllResponse.total_count;

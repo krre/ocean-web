@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as dialog from "$lib/dialog";
@@ -25,7 +23,7 @@
     let isAnonym = $state(true);
     let user: User = $state();
 
-    run(() => {
+    $effect(() => {
         editable = isAdmin || (user && user.id === topic.user_id && !isAnonym);
     });
 

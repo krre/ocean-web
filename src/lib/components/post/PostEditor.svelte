@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import LinkDialog from "./LinkDialog.svelte";
     import ImageDialog from "./ImageDialog.svelte";
     import VideoDialog from "./VideoDialog.svelte";
@@ -30,7 +28,7 @@
         areaRef.focus();
     }
 
-    run(() => {
+    $effect(() => {
         if (!post) {
             isPreview = false;
         }
@@ -158,7 +156,8 @@
         <div>
             <button onclick={appendBold}><i class="fas fa-bold"></i></button>
 
-            <button onclick={appendItalic}><i class="fas fa-italic"></i></button>
+            <button onclick={appendItalic}><i class="fas fa-italic"></i></button
+            >
 
             <button onclick={appendUnderline}
                 ><i class="fas fa-underline"></i></button
@@ -213,12 +212,8 @@
     {/if}
 
     {#if !isPreview}
-        <textarea
-            class="area"
-            rows="10"
-            bind:value={post}
-            bind:this={areaRef}
-></textarea>
+        <textarea class="area" rows="10" bind:value={post} bind:this={areaRef}
+        ></textarea>
     {:else}
         <div class="preview">
             {@html bbcode.parse(post)}

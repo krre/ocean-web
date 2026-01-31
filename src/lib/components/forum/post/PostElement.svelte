@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
     import * as consts from "$lib/consts";
@@ -33,7 +31,7 @@
         row = 0,
         id = 0,
         baseUrl = "",
-        pageNo
+        pageNo,
     }: Props = $props();
 
     let isAdmin = $state(false);
@@ -41,10 +39,12 @@
     let user: User = $state();
     let likeUsers: api.Like.GetUsers.Response[] = $state();
 
-    run(() => {
+    $effect(() => {
         editable = isAdmin || (user && !isAnonym && user.id === post.user_id);
     });
-    let removable = $derived(isAdmin || (user && !isAnonym && user.id === post.user_id));
+    let removable = $derived(
+        isAdmin || (user && !isAnonym && user.id === post.user_id),
+    );
 
     async function likePost(row: number, action: LikeAction) {
         if (action == LikeAction.Like || action == LikeAction.Dislike) {

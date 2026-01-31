@@ -24,6 +24,8 @@ export const load: PageServerLoad = async ({ url }) => {
         params.user_id = userId;
     }
 
+    console.log(params)
+
     const getAllResponse = await api.Mandela.GetAll.exec(params);
     const [topics, comments] = await loadActivity();
 

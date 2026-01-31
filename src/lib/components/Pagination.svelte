@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     interface Props {
         baseRoute?: string;
         baseQuery?: any;
@@ -16,10 +14,9 @@
         pageQuery = $bindable(new URLSearchParams()),
         limit = 1,
         count = 1,
-        offset = 1
+        offset = 1,
     }: Props = $props();
     let pages = $state([]);
-
 
     function query(page: number, qry?: URLSearchParams): URLSearchParams {
         let result = new URLSearchParams(qry);
@@ -37,10 +34,12 @@
         return baseRoute + (params ? "?" + params : "");
     }
     let last = $derived(Math.ceil(count / limit));
-    run(() => {
+
+    $effect(() => {
         pageQuery = query(offset);
     });
-    run(() => {
+
+    $effect(() => {
         const maxPageSelectors = 5;
         pages = Array(Math.min(last, maxPageSelectors));
 
@@ -94,9 +93,9 @@
 {#if count > limit}
     <div class="container">
         {#each pages as page}
-            <a
-                class:offset={offset == page}
-                href={makeLink(page, baseQuery)}>{page}</a>
+            <a class:offset={offset == page} href={makeLink(page, baseQuery)}
+                >{page}</a
+            >
         {/each}
     </div>
 {/if}

@@ -42,8 +42,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import * as consts from "$lib/consts";
     import { pageUrl } from "$lib/utils";
@@ -73,7 +71,7 @@
     let buttonEnabled = $state(true);
     let totalCount = $state(0);
 
-    run(() => {
+    $effect(() => {
         if (searchGetAllResponse) {
             records = searchGetAllResponse.records;
             totalCount = searchGetAllResponse.total_count;

@@ -26,8 +26,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from "svelte/legacy";
-
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { isAnonymAllowed } from "$lib/utils";
@@ -59,7 +57,7 @@
     let isAdmin = $state(false);
     let user: User = $state();
 
-    run(() => {
+    $effect(() => {
         sectionName = getAllResponse.section_name;
         topics = getAllResponse.topics;
         topicCount = getAllResponse.topic_count;
