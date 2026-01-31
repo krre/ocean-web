@@ -1,10 +1,11 @@
 <script lang="ts">
     import Menu from "./Menu.svelte";
+
     interface Props {
         open?: boolean;
     }
 
-    let { open = false }: Props = $props();
+    let { open = $bindable(false) }: Props = $props();
 </script>
 
 <style>
