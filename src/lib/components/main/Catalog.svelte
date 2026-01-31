@@ -2,7 +2,7 @@
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
-    import type { User } from "$lib/types";
+    import { userSession } from "$lib/stores";
     import { onMount } from "svelte";
     import { Mounted, Vote } from "$lib/types";
     import { goto } from "$app/navigation";
@@ -10,7 +10,6 @@
     import Indicator from "./Indicator.svelte";
     import Pagination from "../Pagination.svelte";
     import Frame from "../Frame.svelte";
-    import SessionHub from "../SessionHub.svelte";
 
     enum Filter {
         All,
@@ -48,7 +47,6 @@
     });
 
     let baseQuery = $state(new URLSearchParams());
-    let user: User | undefined = $state();
 
     let mandels: api.Mandela.GetAll.Mandela[] = $state([]);
     let categories = ["Все"].concat(consts.Categories);
@@ -200,8 +198,6 @@
     }
 </style>
 
-<SessionHub bind:user />
-
 <Frame title="Океан. Каталог фактов эффекта Манделы" showHeader={false}>
     <div class="tool-bar">
         {#if !userId}
@@ -211,7 +207,7 @@
                 active={filter == Filter.All}
                 on:clicked={() => (filter = Filter.All)}
             />
-            {#if user}
+            {#if !$userSession.isAnonym}
                 <Indicator
                     title="Новые"
                     count={newCount}
@@ -267,7 +263,9 @@
     {#each mandels as mandela}
         <div class="row" style="background-color: {voteColor(mandela.votes)}">
             <a class="row-link" href={route.Mandela.Id(mandela.id)}>
-                <span class:new-mandela={user && !mandela.mark_ts}
+                <span
+                    class:new-mandela={!$userSession.isAnonym &&
+                        !mandela.mark_ts}
                     >{zeroLeading(mandela.id, zeroLeadingCount)}</span
                 >
                 ·
