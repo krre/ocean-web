@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as api from "$lib/api";
     import * as consts from "$lib/consts";
+    import { type Error } from "$lib/json-rpc";
     import { goto } from "$app/navigation";
     import { errorMessage, login } from "$lib/network";
     import { createToken } from "$lib/utils";
@@ -41,7 +42,7 @@
             await login(session);
             goto("/");
         } catch (e) {
-            error = errorMessage(e);
+            error = errorMessage(e as Error);
         }
     }
 

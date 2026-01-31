@@ -1,5 +1,6 @@
 <script lang="ts">
     import { errorMessage } from "$lib/network";
+    import { type Error } from "$lib/json-rpc";
     import Loader from "./Loader.svelte";
     import OperationResult from "../components/OperationResult.svelte";
 
@@ -25,7 +26,7 @@
         try {
             await sendAction();
         } catch (e) {
-            error = errorMessage(e);
+            error = errorMessage(e as Error);
         }
 
         clearTimeout(timerId);
