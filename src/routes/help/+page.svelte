@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import { page } from "$app/state";
-    import Frame from "../../components/Frame.svelte";
+    import Frame from "$lib/components/Frame.svelte";
     import { Vote } from "$lib/types";
 
     const title = "Справка";

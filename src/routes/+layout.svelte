@@ -1,7 +1,7 @@
 <script lang="ts">
-    import Modal from "../components/dialog/Modal.svelte";
-    import Navbar from "../components/menu/Navbar.svelte";
-    import Sidebar from "../components/menu/Sidebar.svelte";
+    import Modal from "$lib/components/dialog/Modal.svelte";
+    import Navbar from "$lib/components/menu/Navbar.svelte";
+    import Sidebar from "$lib/components/menu/Sidebar.svelte";
     import type { LayoutProps } from "./$types";
 
     let { children }: LayoutProps = $props();

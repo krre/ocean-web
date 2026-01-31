@@ -12,14 +12,14 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
-    import FramePage from "../../components/forum/main/ForumFrame.svelte";
-    import SessionHub from "../../components/SessionHub.svelte";
-    import CategoryElement from "../../components/forum/category/CategoryElement.svelte";
+    import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import CategoryElement from "$lib/components/forum/category/CategoryElement.svelte";
 
     interface Props {
         getAllResponse: api.Forum.GetAll.Response;

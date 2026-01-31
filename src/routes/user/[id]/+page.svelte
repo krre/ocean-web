@@ -15,9 +15,9 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as dialog from "$lib/dialog";
-    import Frame from "../../../components/Frame.svelte";
-    import Profile from "../../../components/Profile.svelte";
-    import SessionHub from "../../../components/SessionHub.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import Profile from "$lib/components/Profile.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
 
     interface Props {
         user: api.User.GetOne.Response;

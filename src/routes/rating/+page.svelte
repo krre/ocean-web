@@ -37,17 +37,17 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as route from "$lib/route";
     import * as types from "$lib/types";
     import { goto } from "$app/navigation";
     import { onMount } from "svelte";
     import { Mounted, MandelaVote } from "$lib/types";
-    import Frame from "../../components/Frame.svelte";
-    import MandelaRating from "../../components/rating/MandelaRating.svelte";
-    import UserRating from "../../components/rating/UserRating.svelte";
-    import Pagination from "../../components/Pagination.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import MandelaRating from "$lib/components/rating/MandelaRating.svelte";
+    import UserRating from "$lib/components/rating/UserRating.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     interface Props {
         type?: any;
@@ -62,7 +62,7 @@
         vote = $bindable(MandelaVote.Yes),
         getMandelsResponse,
         getUsersResponse,
-        pageNo = 1
+        pageNo = 1,
     }: Props = $props();
 
     let mounted = new Mounted();

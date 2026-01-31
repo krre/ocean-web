@@ -4,22 +4,21 @@
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
     import { createToken } from "$lib/utils";
-    import Frame from "../../components/Frame.svelte";
-    import BoxForm from "../../components/BoxForm.svelte";
-    import OperationResult from "../../components/OperationResult.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import BoxForm from "$lib/components/BoxForm.svelte";
+    import OperationResult from "$lib/components/OperationResult.svelte";
 
     const title = "Регистрация";
 
     let error = $state("");
-    
-    
 
     let name = $state("");
     let password1 = $state("");
     let password2 = $state("");
 
-    let singupButtonEnabled =
-        $derived(password1 && password2 && (code === consts.Account.User ? name : true));
+    let singupButtonEnabled = $derived(
+        password1 && password2 && (code === consts.Account.User ? name : true),
+    );
 
     async function signup() {
         if (password1 !== password2) {

@@ -20,8 +20,8 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import { goto } from "$app/navigation";
-    import Frame from "../../../../components/Frame.svelte";
-    import MandelaEditor from "../../../../components/MandelaEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
     const title = "Редактировать манделу";
 

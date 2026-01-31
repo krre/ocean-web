@@ -42,16 +42,16 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as route from "$lib/route";
     import * as consts from "$lib/consts";
     import { pageUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
-    import Frame from "../../components/Frame.svelte";
-    import Rectangle from "../../components/Rectangle.svelte";
-    import WaitButton from "../../components/WaitButton.svelte";
-    import Pagination from "../../components/Pagination.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
+    import WaitButton from "$lib/components/WaitButton.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     interface Props {
         searchGetAllResponse: api.Search.GetAll.Response;
@@ -64,7 +64,7 @@
         searchGetAllResponse = $bindable(),
         type = $bindable(Type.Mandela),
         text = $bindable(""),
-        pageNo = $bindable(1)
+        pageNo = $bindable(1),
     }: Props = $props();
 
     let baseQuery = $state(new URLSearchParams());

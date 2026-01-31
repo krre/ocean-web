@@ -50,12 +50,12 @@
     import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
     import { formatDateTime, userUrl } from "$lib/utils";
-    import Comment from "../../../components/comment/Comment.svelte";
-    import Frame from "../../../components/Frame.svelte";
-    import SessionHub from "../../../components/SessionHub.svelte";
-    import Rectangle from "../../../components/Rectangle.svelte";
-    import WaitButton from "../../../components/WaitButton.svelte";
-    import Check from "../../../components/Check.svelte";
+    import Comment from "$lib/components/comment/Comment.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
+    import WaitButton from "$lib/components/WaitButton.svelte";
+    import Check from "$lib/components/Check.svelte";
 
     interface Props {
         getOneResponse: api.Mandela.GetOne.Response;

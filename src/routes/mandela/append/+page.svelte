@@ -3,8 +3,8 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
-    import Frame from "../../../components/Frame.svelte";
-    import MandelaEditor from "../../../components/MandelaEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
     const pageTitle = "Добавить манделу";
 

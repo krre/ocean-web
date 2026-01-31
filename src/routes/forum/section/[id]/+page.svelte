@@ -26,18 +26,18 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { isAnonymAllowed } from "$lib/utils";
     import { goto } from "$app/navigation";
     import type { PathPart } from "$lib/forum";
-    import FramePage from "../../../../components/forum/main/ForumFrame.svelte";
-    import SessionHub from "../../../../components/SessionHub.svelte";
-    import TopicElement from "../../../../components/forum/topic/TopicElement.svelte";
-    import Navigator from "../../../../components/forum/main/Navigator.svelte";
-    import Pagination from "../../../../components/Pagination.svelte";
+    import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import TopicElement from "$lib/components/forum/topic/TopicElement.svelte";
+    import Navigator from "$lib/components/forum/main/Navigator.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     interface Props {
         getAllResponse: api.Forum.Topic.GetAll.Response;
@@ -45,7 +45,11 @@
         pageNo?: number;
     }
 
-    let { getAllResponse = $bindable(), sectionId = 0, pageNo = 1 }: Props = $props();
+    let {
+        getAllResponse = $bindable(),
+        sectionId = 0,
+        pageNo = 1,
+    }: Props = $props();
 
     let topics: api.Forum.Topic.GetAll.Topic[] = $state();
     let topicCount = $state(0);
@@ -85,7 +89,7 @@
 
 <FramePage title={sectionName}>
     {#snippet button()}
-        <button  onclick={append}>Создать тему</button>
+        <button onclick={append}>Создать тему</button>
     {/snippet}
 
     {#each topics as topic}

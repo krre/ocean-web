@@ -7,7 +7,7 @@
 </script>
 
 <script lang="ts">
-    import Frame from "../../../components/Frame.svelte";
+    import Frame from "$lib/components/Frame.svelte";
     const title = "Регистрация окончена";
     interface Props {
         id: number;

@@ -21,8 +21,8 @@
     import { goto } from "$app/navigation";
     import type { User } from "$lib/types";
     import * as route from "$lib/route";
-    import Frame from "../../../../../components/Frame.svelte";
-    import SessionHub from "../../../../../components/SessionHub.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
 
     const title = "Редактировать тему";
 
@@ -33,18 +33,15 @@
         userId: number;
     }
 
-    let {
-        id,
-        sectionId,
-        name = $bindable(),
-        userId
-    }: Props = $props();
+    let { id, sectionId, name = $bindable(), userId }: Props = $props();
 
     let isAdmin = $state(false);
     let isAnonym = $state(true);
     let user: User = $state();
 
-    let editable = $derived(isAdmin || (user && user.id === userId && !isAnonym));
+    let editable = $derived(
+        isAdmin || (user && user.id === userId && !isAnonym),
+    );
 
     const action = async () => {
         const params: api.Forum.Topic.Update.Request = {

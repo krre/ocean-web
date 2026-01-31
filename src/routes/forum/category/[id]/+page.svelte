@@ -23,10 +23,10 @@
     import * as route from "$lib/route";
     import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
-    import FramePage from "../../../../components/forum/main/ForumFrame.svelte";
-    import SessionHub from "../../../../components/SessionHub.svelte";
-    import SectionElement from "../../../../components/forum/section/SectionElement.svelte";
-    import Navigator from "../../../../components/forum/main/Navigator.svelte";
+    import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
+    import Navigator from "$lib/components/forum/main/Navigator.svelte";
 
     interface Props {
         getAllResponse: api.Forum.Section.GetAll.Response;

@@ -3,9 +3,9 @@
     import * as api from "$lib/api";
     import { type Error } from "$lib/json-rpc";
     import { errorMessage, login } from "$lib/network";
-    import Frame from "../../components/Frame.svelte";
-    import OperationResult from "../../components/OperationResult.svelte";
-    import Profile from "../../components/Profile.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import OperationResult from "$lib/components/OperationResult.svelte";
+    import Profile from "$lib/components/Profile.svelte";
     import type { PageProps } from "./$types";
     import { createToken } from "$lib/utils";
     import { session, setSession } from "$lib/stores";

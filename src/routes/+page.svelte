@@ -4,8 +4,8 @@
 
 <script lang="ts">
     import type { PageProps } from "./$types";
-    import Catalog from "../components/main/Catalog.svelte";
-    import Activity from "../components/main/activity/Activity.svelte";
+    import Catalog from "$lib/components/main/Catalog.svelte";
+    import Activity from "$lib/components/main/activity/Activity.svelte";
 
     let { data }: PageProps = $props();
 </script>

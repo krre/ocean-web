@@ -3,7 +3,7 @@
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
     import { Code, printMessage } from "$lib/api-error";
-    import Frame from "../components/Frame.svelte";
+    import Frame from "$lib/components/Frame.svelte";
 
     $effect(() => {
         if (page.error?.code == Code.AccountBlocked) {

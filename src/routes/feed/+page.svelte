@@ -17,15 +17,15 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
+    import { run } from "svelte/legacy";
 
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
     import { userUrl, dateUrl, formatDateTime } from "$lib/utils";
-    import Frame from "../../components/Frame.svelte";
-    import Rectangle from "../../components/Rectangle.svelte";
-    import Pagination from "../../components/Pagination.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import Rectangle from "$lib/components/Rectangle.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     interface Props {
         getAllResponse: api.Feed.GetAll.Response;

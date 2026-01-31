@@ -7,9 +7,9 @@
     import { createToken } from "$lib/utils";
     import type { UserSession } from "$lib/types";
     import { setSession } from "$lib/stores";
-    import Frame from "../../components/Frame.svelte";
-    import BoxForm from "../../components/BoxForm.svelte";
-    import OperationResult from "../../components/OperationResult.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import BoxForm from "$lib/components/BoxForm.svelte";
+    import OperationResult from "$lib/components/OperationResult.svelte";
 
     const title = "Войти";
 

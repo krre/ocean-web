@@ -19,9 +19,9 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
-    import Frame from "../../../../../components/Frame.svelte";
-    import SessionHub from "../../../../../components/SessionHub.svelte";
-    import CategoryEditor from "../../../../../components/forum/category/CategoryEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import CategoryEditor from "$lib/components/forum/category/CategoryEditor.svelte";
 
     const title = "Редактировать категорию";
     let isAdmin = $state(false);

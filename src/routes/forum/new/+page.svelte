@@ -22,10 +22,10 @@
 </script>
 
 <script lang="ts">
-    import * as route from "route";
-    import FramePage from "../../../components/forum/main/ForumFrame.svelte";
-    import NewPost from "../../../components/forum/main/NewPost.svelte";
-    import Pagination from "../../../components/Pagination.svelte";
+    import * as route from "$lib/route";
+    import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
+    import NewPost from "$lib/components/forum/main/NewPost.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
 
     interface Props {
         pageNo?: number;

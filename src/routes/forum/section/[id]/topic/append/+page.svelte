@@ -4,9 +4,9 @@
     import * as types from "$lib/types";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
-    import Frame from "../../../../../../components/Frame.svelte";
-    import SessionHub from "../../../../../../components/SessionHub.svelte";
-    import MessageEditor from "../../../../../../components/post/MessageEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import MessageEditor from "$lib/components/post/MessageEditor.svelte";
 
     const sectionId = +page.params.id;
     const title = "Создать тему";

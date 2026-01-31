@@ -32,13 +32,13 @@
     import type { PathPart } from "$lib/forum";
     import { isAnonymAllowed, userUrl } from "$lib/utils";
     import type { User, ForumTopicPoll } from "$lib/types";
-    import FramePage from "../../../../components/forum/main/ForumFrame.svelte";
-    import SessionHub from "../../../../components/SessionHub.svelte";
-    import PostElement from "../../../../components/forum/post/PostElement.svelte";
-    import Navigator from "../../../../components/forum/main/Navigator.svelte";
-    import Pagination from "../../../../components/Pagination.svelte";
-    import MessageEditor from "../../../../components/post/MessageEditor.svelte";
-    import Check from "../../../../components/Check.svelte";
+    import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import PostElement from "$lib/components/forum/post/PostElement.svelte";
+    import Navigator from "$lib/components/forum/main/Navigator.svelte";
+    import Pagination from "$lib/components/Pagination.svelte";
+    import MessageEditor from "$lib/components/post/MessageEditor.svelte";
+    import Check from "$lib/components/Check.svelte";
 
     interface EditedPost extends api.Forum.Post.GetAll.Post {
         edit: boolean;

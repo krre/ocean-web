@@ -19,9 +19,9 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
-    import Frame from "../../../../../components/Frame.svelte";
-    import SessionHub from "../../../../../components/SessionHub.svelte";
-    import SectionEditor from "../../../../../components/forum/section/SectionEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import SectionEditor from "$lib/components/forum/section/SectionEditor.svelte";
 
     const title = "Редактировать раздел";
 

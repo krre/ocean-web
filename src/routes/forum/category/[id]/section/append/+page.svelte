@@ -3,9 +3,9 @@
     import * as api from "$lib/api";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
-    import Frame from "../../../../../../components/Frame.svelte";
-    import SessionHub from "../../../../../../components/SessionHub.svelte";
-    import SectionEditor from "../../../../../../components/forum/section/SectionEditor.svelte";
+    import Frame from "$lib/components/Frame.svelte";
+    import SessionHub from "$lib/components/SessionHub.svelte";
+    import SectionEditor from "$lib/components/forum/section/SectionEditor.svelte";
 
     const title = "Добавить раздел";
 
