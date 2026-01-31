@@ -16,7 +16,8 @@
         count = 1,
         offset = 1,
     }: Props = $props();
-    let pages = $state([]);
+
+    let pages: number[] = $state([]);
 
     function query(page: number, qry?: URLSearchParams): URLSearchParams {
         let result = new URLSearchParams(qry);
@@ -33,6 +34,7 @@
         let params = query(page, qry).toString();
         return baseRoute + (params ? "?" + params : "");
     }
+
     let last = $derived(Math.ceil(count / limit));
 
     $effect(() => {
