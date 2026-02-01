@@ -3,10 +3,9 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import { userSession } from "$lib/stores";
-    import { onMount } from "svelte";
-    import { Mounted, Vote } from "$lib/types";
     import { goto } from "$app/navigation";
     import { formatDateTime, zeroLeading, makeTitle } from "$lib/utils";
+    import { Vote } from "$lib/types";
     import Indicator from "./Indicator.svelte";
     import Pagination from "$lib/components/Pagination.svelte";
     import Frame from "$lib/components/Frame.svelte";
@@ -40,36 +39,30 @@
         getAllResponse,
     }: Props = $props();
 
-    let mounted = new Mounted();
-
-    onMount(() => {
-        mounted.setDone();
-    });
-
     let baseQuery = $state(new URLSearchParams());
 
-    let mandels: api.Mandela.GetAll.Mandela[] = $state([]);
-    let categories = ["Все"].concat(consts.Categories);
-    let totalCount = $state(0);
-    let newCount = $state(0);
-    let mineCount = $state(0);
-    let pollCount = $state(0);
-    let trashCount = $state(0);
-    let categoryCount = $state(0);
-    let userCount = $state(0);
+    let mandels: api.Mandela.GetAll.Mandela[] = $derived(
+        getAllResponse.mandels,
+    );
+    let totalCount = $derived(getAllResponse.total_count);
+    let newCount = $derived(getAllResponse.new_count);
+    let mineCount = $derived(getAllResponse.mine_count);
+    let pollCount = $derived(getAllResponse.poll_count);
+    let trashCount = $derived(getAllResponse.trash_count);
+    let categoryCount = $derived(getAllResponse.category_count);
+    let userCount = $derived(getAllResponse.user_count);
 
     let currentCount = $state(0);
     let pageQuery = $state(new URLSearchParams());
 
+    const categories = ["Все"].concat(consts.Categories);
     const sorts = ["Манделам", "Комментариям"];
     const zeroLeadingCount = 4;
 
-    function makeBaseQuery() {
-        const params = new URLSearchParams();
+    let isLoaded = false;
 
-        if (filter != Filter.Category && category > 0) {
-            category = 0;
-        }
+    function makeBaseQuery(): URLSearchParams {
+        const params = new URLSearchParams();
 
         if (sort) {
             params.append("sort", sort.toString());
@@ -87,22 +80,25 @@
             params.append("user", userId.toString());
         }
 
-        baseQuery = params;
+        return params;
     }
 
-    function makeQueryAndGoto(usePage: boolean = true) {
-        makeBaseQuery();
+    function makeQueryAndGoto(): URLSearchParams {
+        const query = new URLSearchParams(makeBaseQuery());
 
-        const gotoQuery = new URLSearchParams(baseQuery);
-
-        if (usePage) {
-            for (let params of pageQuery) {
-                gotoQuery.append(params[0], params[1]);
-            }
+        for (let params of pageQuery) {
+            query.append(params[0], params[1]);
         }
 
-        const queryString = gotoQuery.toString();
-        goto((queryString ? "?" : "") + queryString);
+        const queryString = query.toString();
+        let url = (queryString ? "?" : "") + queryString;
+
+        if (!url) {
+            url = "/";
+        }
+
+        goto(url);
+        return query;
     }
 
     function voteColor(votes: api.Mandela.Vote[]): string {
@@ -120,21 +116,10 @@
     }
 
     $effect(() => {
-        if (mounted.done()) {
-            filter = category > 0 ? Filter.Category : Filter.All;
-        }
+        filter = category > 0 ? Filter.Category : Filter.All;
     });
 
     $effect(() => {
-        mandels = getAllResponse.mandels;
-        totalCount = getAllResponse.total_count;
-        newCount = getAllResponse.new_count;
-        mineCount = getAllResponse.mine_count;
-        pollCount = getAllResponse.poll_count;
-        trashCount = getAllResponse.trash_count;
-        categoryCount = getAllResponse.category_count;
-        userCount = getAllResponse.user_count;
-
         if (userId) {
             currentCount = userCount;
         } else if (filter === Filter.All) {
@@ -153,21 +138,18 @@
     });
 
     $effect(() => {
-        if (mounted.done() && filter >= 0 && category >= 0) {
+        if (
+            filter >= 0 &&
+            category >= 0 &&
+            sort >= 0 &&
+            userId >= 0 &&
+            isLoaded
+        ) {
             pageNo = 1;
-            makeQueryAndGoto(false);
-        }
-    });
-
-    $effect(() => {
-        if (mounted.done() && sort >= 0) {
-            makeQueryAndGoto();
-        }
-    });
-
-    $effect(() => {
-        if (userId) {
-            makeBaseQuery();
+            console.log({ filter, category, sort });
+            baseQuery = makeQueryAndGoto();
+        } else {
+            isLoaded = true;
         }
     });
 </script>
