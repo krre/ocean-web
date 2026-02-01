@@ -98,6 +98,7 @@
         }
 
         goto(url);
+        isLoaded = false;
         return query;
     }
 
@@ -146,7 +147,6 @@
             isLoaded
         ) {
             pageNo = 1;
-            console.log({ filter, category, sort });
             baseQuery = makeQueryAndGoto();
         } else {
             isLoaded = true;
