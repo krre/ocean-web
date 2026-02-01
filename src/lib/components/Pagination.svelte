@@ -2,7 +2,6 @@
     interface Props {
         baseRoute?: string;
         baseQuery?: any;
-        pageQuery?: any;
         limit?: number;
         count?: number;
         offset?: number;
@@ -11,20 +10,16 @@
     let {
         baseRoute = "",
         baseQuery = new URLSearchParams(),
-        pageQuery = $bindable(new URLSearchParams()),
         limit = 1,
         count = 1,
         offset = 1,
     }: Props = $props();
 
     let pages: number[] = $state([]);
+    let last = $derived(Math.ceil(count / limit));
 
     function query(page: number, qry?: URLSearchParams): URLSearchParams {
         let result = new URLSearchParams(qry);
-
-        if (page <= 1) {
-            return result;
-        }
 
         result.append("page", page.toString());
         return result;
@@ -34,12 +29,6 @@
         let params = query(page, qry).toString();
         return baseRoute + (params ? "?" + params : "");
     }
-
-    let last = $derived(Math.ceil(count / limit));
-
-    $effect(() => {
-        pageQuery = query(offset);
-    });
 
     $effect(() => {
         const maxPageSelectors = 5;

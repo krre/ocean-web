@@ -53,7 +53,6 @@
     let userCount = $derived(getAllResponse.user_count);
 
     let currentCount = $state(0);
-    let pageQuery = $state(new URLSearchParams());
 
     const categories = ["Все"].concat(consts.Categories);
     const sorts = ["Манделам", "Комментариям"];
@@ -84,10 +83,11 @@
     }
 
     function makeQueryAndGoto(): URLSearchParams {
-        const query = new URLSearchParams(makeBaseQuery());
+        const baseQuery = makeBaseQuery();
+        const query = new URLSearchParams(baseQuery);
 
-        for (let params of pageQuery) {
-            query.append(params[0], params[1]);
+        if (pageNo > 1) {
+            query.append("page", pageNo.toString());
         }
 
         const queryString = query.toString();
@@ -99,7 +99,7 @@
 
         goto(url);
         isLoaded = false;
-        return query;
+        return baseQuery;
     }
 
     function voteColor(votes: api.Mandela.Vote[]): string {
@@ -146,7 +146,6 @@
             userId >= 0 &&
             isLoaded
         ) {
-            pageNo = 1;
             baseQuery = makeQueryAndGoto();
         } else {
             isLoaded = true;
@@ -270,5 +269,4 @@
     limit={pageLimit}
     offset={pageNo}
     {baseQuery}
-    bind:pageQuery
 />
