@@ -1,114 +1,44 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(page: Page, session: Session) {
-        const url = "https://" + page.host + page.path;
-        const mandelaId = +page.params.id;
-        const pageNo = +page.query.page || 1;
-
-        const getOneResponse = await api.Mandela.GetOne.exec({
-            id: mandelaId,
-        });
-
-        const automaticTrash = getOneResponse.mandela.automatic_trash;
-
-        if (session.user && !getOneResponse.mandela.mark_ts) {
-            await api.Mandela.Mark.exec({ id: getOneResponse.mandela.id });
-        }
-
-        const commentGetAllResponse = await loadComments(mandelaId, pageNo);
-
-        return {
-            getOneResponse,
-            commentGetAllResponse,
-            url,
-            pageNo,
-            automaticTrash,
-        };
-    }
-
-    function loadComments(
-        mandelaId: number,
-        pageNo: number,
-    ): Promise<api.Comment.GetAll.Response> {
-        const params: api.Comment.GetAll.Request = {
-            mandela_id: mandelaId,
-            limit: consts.Mandela.Comment.PageLimit,
-            offset: (pageNo - 1) * consts.Mandela.Comment.PageLimit,
-        };
-
-        return api.Comment.GetAll.exec(params);
-    }
-</script>
-
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as bbcode from "$lib/bbcode";
     import * as dialog from "$lib/dialog";
     import * as route from "$lib/route";
-    import type { User } from "$lib/types";
+    import * as api from "$lib/api";
+    import type { PageProps } from "./$types";
+    import { userSession } from "$lib/stores";
     import { goto } from "$app/navigation";
     import { formatDateTime, userUrl } from "$lib/utils";
     import Comment from "$lib/components/comment/Comment.svelte";
     import Frame from "$lib/components/Frame.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import Rectangle from "$lib/components/Rectangle.svelte";
     import WaitButton from "$lib/components/WaitButton.svelte";
     import Check from "$lib/components/Check.svelte";
 
-    interface Props {
-        getOneResponse: api.Mandela.GetOne.Response;
-        commentGetAllResponse: api.Comment.GetAll.Response;
-        url: string;
-        pageNo: number;
-        automaticTrash: boolean;
-    }
+    let { data }: PageProps = $props();
 
-    let {
-        getOneResponse,
-        commentGetAllResponse = $bindable(),
-        url,
-        pageNo,
-        automaticTrash = $bindable(),
-    }: Props = $props();
-
-    let totalVotes = $state(0);
-    let votes: api.Mandela.Vote[] = $state();
     let voteUsers: api.Mandela.GetVoteUsers.Response[];
 
     let voteValue = $state(-1);
     let editVote = $state(false);
     let voteUserVisible = $state(false);
 
-    let user: User = $state();
-    let isAdmin = $state(false);
-    let isAnonym = $state(true);
-
-    let mandela = $derived(getOneResponse.mandela);
-    let comments = $derived(commentGetAllResponse.comments);
+    let mandela = $derived(data.getOneResponse.mandela);
+    let comments = $derived(data.commentGetAllResponse.comments);
     let id = $derived(mandela.id);
-    let categories = $derived(getOneResponse.categories);
-    let vote = $derived(getOneResponse.vote);
-    let htmlUrl = $derived(`<a href="${url}">Океан. Мандела №${id}</a>`);
-    let bbCodeUrl = $derived(`⁅url="${url}"⁆Мандела №${id}⁅/url⁆`);
+    let categories = $derived(data.getOneResponse.categories);
+    let vote = $derived(data.getOneResponse.vote);
+    let votes = $derived(data.getOneResponse.votes);
+    let htmlUrl = $derived(`<a href="${data.url}">Океан. Мандела №${id}</a>`);
+    let bbCodeUrl = $derived(`⁅url="${data.url}"⁆Мандела №${id}⁅/url⁆`);
     let title = $derived(
         mandela.title_mode === consts.Mandela.Title.Simple
             ? mandela.title
             : mandela.what,
     );
-
-    $effect(() => {
-        votes = getOneResponse.votes;
-    });
-
-    $effect(() => {
-        totalVotes = 0;
-
-        for (let v of votes) {
-            totalVotes += v.count;
-        }
-    });
+    let automaticTrash = $derived(data.automaticTrash);
+    let totalVotes = $derived(
+        votes ? votes.reduce((sum, v) => sum + v.count, 0) : 0,
+    );
 
     function edit() {
         goto(route.Mandela.Edit(id));
@@ -187,9 +117,11 @@
     }
 
     function getVoteCount(vote: number) {
-        for (let v of votes) {
-            if (v.vote === vote) {
-                return v.count;
+        if (votes) {
+            for (let v of votes) {
+                if (v.vote === vote) {
+                    return v.count;
+                }
             }
         }
 
@@ -201,7 +133,7 @@
     }
 
     async function reloadComments() {
-        commentGetAllResponse = await loadComments(id, pageNo);
+        // commentGetAllResponse = await loadComments(id, pageNo);
     }
 </script>
 
@@ -251,8 +183,6 @@
     }
 </style>
 
-<SessionHub bind:user bind:isAdmin bind:isAnonym />
-
 <Frame {title}>
     <div class="container">
         {#if mandela.trash}
@@ -301,13 +231,13 @@
             </div>
         {/if}
 
-        {#if !isAnonym && (user.id === mandela.user_id || isAdmin)}
+        {#if !$userSession.isAnonym && ($userSession.id === mandela.user_id || $userSession.isAdmin)}
             <div class="buttons">
-                {#if user.id === mandela.user_id || isAdmin}
+                {#if $userSession.id === mandela.user_id || $userSession.isAdmin}
                     <button onclick={edit}>Редактировать</button>
                 {/if}
 
-                {#if isAdmin}
+                {#if $userSession.isAdmin}
                     <button onclick={remove}>Удалить</button>
                     {#if mandela.trash}
                         <button onclick={() => updateTrash(false)}
@@ -322,7 +252,7 @@
             </div>
         {/if}
 
-        {#if isAdmin}
+        {#if $userSession.isAdmin}
             <label>
                 <input
                     type="checkbox"
@@ -336,8 +266,8 @@
         <details>
             <summary>Ссылка на манделу</summary>
             <div class="mandela-link-grid">
-                <input readonly value={url} />
-                <button onclick={() => copyLink(url)}
+                <input readonly value={data.url} />
+                <button onclick={() => copyLink(data.url)}
                     ><i class="far fa-copy"></i></button
                 >
                 <input readonly value={htmlUrl} />
@@ -355,14 +285,14 @@
 
 <Rectangle>
     <div class="container">
-        {#if !user || (vote != null && !editVote)}
+        {#if $userSession.isAnonym || (vote != null && !editVote)}
             <div>Результаты опроса ({totalVotes})</div>
             <div class="grid" style="margin-left: 1em">
                 {#each consts.Votes as voteName, i}
                     <div>{voteName}:</div>
                     <div>
                         {getVoteCount(i)}
-                        {#if user && vote == i}
+                        {#if !$userSession.isAnonym && vote == i}
                             <Check />
                         {/if}
 
@@ -373,13 +303,13 @@
                 {/each}
             </div>
 
-            {#if user}
+            {#if !$userSession.isAnonym}
                 <div class="buttons">
                     <button onclick={() => (editVote = true)}
                         >Изменить выбор</button
                     >
 
-                    {#if isAdmin}
+                    {#if $userSession.isAdmin}
                         <button onclick={getVoteUsers}
                             >{voteUserVisible ? "Скрыть" : "Показать"}</button
                         >
@@ -410,9 +340,8 @@
 
 <h2>Комментарии</h2>
 
-<div class="comment">
+<!-- <div class="comment">
     <Comment
-        {user}
         {comments}
         {pageNo}
         mandelaId={id}
@@ -420,4 +349,4 @@
         commentCount={commentGetAllResponse.total_count}
         on:appended={() => reloadComments()}
     />
-</div>
+</div> -->
