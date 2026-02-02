@@ -7,11 +7,19 @@
     import Frame from "$lib/components/Frame.svelte";
     import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
-    const title = "Редактировать манделу";
+    const frameTitle = "Редактировать манделу";
 
     let { data }: PageProps = $props();
     let id = $derived(data.mandela.id);
     let mandela = $derived(data.mandela);
+
+    let titleMode = $derived(mandela.title_mode);
+    let title = $derived(mandela.title);
+    let what = $derived(mandela.what);
+    let before = $derived(mandela.before);
+    let after = $derived(mandela.after);
+    let description = $derived(mandela.description);
+    let categories = $derived(data.categories);
 
     async function edit() {
         const params: api.Mandela.Update.Request = {
@@ -42,15 +50,15 @@
     }
 </script>
 
-<Frame {title}>
+<Frame title={frameTitle}>
     <MandelaEditor
-        bind:titleMode={mandela.title_mode}
-        bind:title={mandela.title}
-        bind:what={mandela.what}
-        bind:before={mandela.before}
-        bind:after={mandela.after}
-        bind:description={mandela.description}
-        bind:categories={data.categories}
+        bind:titleMode
+        bind:title
+        bind:what
+        bind:before
+        bind:after
+        bind:description
+        bind:categories
         sendAction={edit}
     />
 </Frame>
