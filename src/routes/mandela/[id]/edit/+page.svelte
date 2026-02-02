@@ -77,7 +77,6 @@
         bind:after={mandela.after}
         bind:description={mandela.description}
         bind:categories
-        bind:user={session.user}
         sendAction={edit}
     />
 </Frame>
