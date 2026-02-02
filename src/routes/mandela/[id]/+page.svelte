@@ -5,6 +5,7 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import type { PageProps } from "./$types";
+    import { loadComments } from "$lib/comments";
     import { userSession } from "$lib/stores";
     import { goto } from "$app/navigation";
     import { formatDateTime, userUrl } from "$lib/utils";
@@ -133,7 +134,7 @@
     }
 
     async function reloadComments() {
-        // commentGetAllResponse = await loadComments(id, pageNo);
+        comments = (await loadComments(id, data.pageNo)).comments;
     }
 </script>
 

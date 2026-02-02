@@ -1,6 +1,6 @@
 import type { PageServerLoad } from './$types';
+import { loadComments } from '$lib/comments'
 import * as api from "$lib/api";
-import * as consts from "$lib/consts";
 
 export const load: PageServerLoad = async ({ url, locals, params }) => {
     const mandelaId = +params.id;
@@ -25,17 +25,4 @@ export const load: PageServerLoad = async ({ url, locals, params }) => {
         pageNo,
         automaticTrash,
     };
-}
-
-function loadComments(
-    mandelaId: number,
-    pageNo: number,
-): Promise<api.Comment.GetAll.Response> {
-    const params: api.Comment.GetAll.Request = {
-        mandela_id: mandelaId,
-        limit: consts.Mandela.Comment.PageLimit,
-        offset: (pageNo - 1) * consts.Mandela.Comment.PageLimit,
-    };
-
-    return api.Comment.GetAll.exec(params);
 }
