@@ -1,11 +1,10 @@
 <script lang="ts">
     import { createEventDispatcher } from "svelte";
-    import type { User } from "$lib/types";
     import { LikeAction, LikeSelection } from "$lib/types";
-    import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
+    import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
     import Rectangle from "$lib/components/Rectangle.svelte";
     import PostTitle from "$lib/components/PostTitle.svelte";
@@ -18,11 +17,10 @@
     interface EditedComment extends api.Comment.GetAll.Comment {
         edit?: boolean;
         remove?: boolean;
-        likeUsers: api.Like.GetUsers.Response[];
+        likeUsers?: api.Like.GetUsers.Response[];
     }
 
     interface Props {
-        user: User;
         mandelaId: number;
         comments?: EditedComment[];
         pageNo?: number;
@@ -31,7 +29,6 @@
     }
 
     let {
-        user,
         mandelaId,
         comments = $bindable([]),
         pageNo = 1,
@@ -39,8 +36,8 @@
         pageLimit = 1,
     }: Props = $props();
 
-    let message: string = $state();
-    let messageEditorRef: MessageEditor = $state();
+    let message: string = $state("");
+    let messageEditorRef: MessageEditor | undefined = $state(undefined);
 
     let baseRoute = $derived(route.Mandela.Id(mandelaId));
 
@@ -83,7 +80,7 @@
                 comments[row].dislike_count -= 1;
             }
 
-            comments[row].like = null;
+            comments[row].like = undefined;
         }
 
         comments = comments;
@@ -153,9 +150,8 @@
                     userName={comment.user_name}
                     userId={comment.user_id}
                     date={comment.create_ts}
-                    likeSelection={!user ||
-                    comment.user_id === user.id ||
-                    user.code === consts.Account.Anonym
+                    likeSelection={comment.user_id === $userSession.id ||
+                    $userSession.isAnonym
                         ? LikeSelection.Disabled
                         : comment.like == null
                           ? LikeSelection.None
@@ -164,15 +160,13 @@
                             : LikeSelection.Dislike}
                     likeCount={comment.like_count}
                     dislikeCount={comment.dislike_count}
-                    likeQuestion={user && user.code === consts.Account.Admin}
+                    likeQuestion={$userSession.isAdmin}
                     likeUsers={comment.likeUsers}
-                    editable={user &&
-                        (comment.user_id === user.id ||
-                            user.code === consts.Account.Admin)}
-                    removable={user &&
-                        (user.id === comment.user_id ||
-                            user.code === consts.Account.Admin)}
-                    replyable={user !== undefined || isAnonymAllowed()}
+                    editable={comment.user_id === $userSession.id ||
+                        $userSession.isAdmin}
+                    removable={$userSession.id === comment.user_id ||
+                        $userSession.isAdmin}
+                    replyable={isAnonymAllowed()}
                     on:like={(event) =>
                         likeComment(event.detail.row, event.detail.action)}
                     on:getLikeUsers={(event) => getLikeUsers(event.detail.row)}
@@ -186,7 +180,7 @@
                 {#if comment.edit}
                     <EditComment
                         text={comment.message}
-                        sendAction={(text) => editComment(i, text)}
+                        sendAction={(text: string) => editComment(i, text)}
                         on:cancel={() => (comment.edit = false)}
                     />
                 {:else}
@@ -206,7 +200,7 @@
     />
 {/if}
 
-{#if user !== undefined || isAnonymAllowed()}
+{#if !$userSession.isAnonym || isAnonymAllowed()}
     <MessageEditor
         bind:message
         bind:this={messageEditorRef}

@@ -340,13 +340,13 @@
 
 <h2>Комментарии</h2>
 
-<!-- <div class="comment">
+<div class="comment">
     <Comment
         {comments}
-        {pageNo}
+        pageNo={data.pageNo}
         mandelaId={id}
         pageLimit={consts.Mandela.Comment.PageLimit}
-        commentCount={commentGetAllResponse.total_count}
+        commentCount={data.commentGetAllResponse.total_count}
         on:appended={() => reloadComments()}
     />
-</div> -->
+</div>
