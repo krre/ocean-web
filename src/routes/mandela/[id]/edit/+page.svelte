@@ -1,43 +1,17 @@
-<script module lang="ts">
-    import * as route from "$lib/route";
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(page: Page, session: Session) {
-        const { id } = page.params;
-        const params: api.Mandela.GetOne.Request = {
-            id: Number(id),
-        };
-
-        const result = await api.Mandela.GetOne.exec(params);
-        const mandela = result.mandela;
-        const categories = result.categories;
-
-        return { id, mandela, categories, session };
-    }
-</script>
-
 <script lang="ts">
     import * as consts from "$lib/consts";
+    import * as api from "$lib/api";
+    import * as route from "$lib/route";
+    import type { PageProps } from "./$types";
     import { goto } from "$app/navigation";
     import Frame from "$lib/components/Frame.svelte";
     import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
     const title = "Редактировать манделу";
 
-    interface Props {
-        id: number;
-        mandela: api.Mandela.GetOne.Mandela;
-        categories?: number[];
-        session: Session;
-    }
-
-    let {
-        id,
-        mandela = $bindable(),
-        categories = $bindable([]),
-        session = $bindable(),
-    }: Props = $props();
+    let { data }: PageProps = $props();
+    let id = $derived(data.mandela.id);
+    let mandela = $derived(data.mandela);
 
     async function edit() {
         const params: api.Mandela.Update.Request = {
@@ -60,7 +34,7 @@
                     ? mandela.after
                     : "",
             description: mandela.description,
-            categories: categories,
+            categories: data.categories,
         };
 
         await api.Mandela.Update.exec(params);
@@ -76,7 +50,7 @@
         bind:before={mandela.before}
         bind:after={mandela.after}
         bind:description={mandela.description}
-        bind:categories
+        bind:categories={data.categories}
         sendAction={edit}
     />
 </Frame>
