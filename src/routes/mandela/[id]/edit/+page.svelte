@@ -14,35 +14,40 @@
     let mandela = $derived(data.mandela);
 
     let titleMode = $derived(mandela.title_mode);
-    let title = $derived(mandela.title);
-    let what = $derived(mandela.what);
-    let before = $derived(mandela.before);
-    let after = $derived(mandela.after);
-    let description = $derived(mandela.description);
-    let categories = $derived(data.categories);
+    let title = $state("");
+    let what = $state("");
+    let before = $state("");
+    let after = $state("");
+    let description = $state("");
+    let categories: number[] = $state([]);
+
+    $effect(() => {
+        title = mandela.title;
+        what = mandela.what;
+        before = mandela.before;
+        after = mandela.after;
+        description = mandela.description;
+        categories = data.categories;
+    });
 
     async function edit() {
         const params: api.Mandela.Update.Request = {
             id: Number(id),
             title_mode: mandela.title_mode,
             title:
-                mandela.title_mode === consts.Mandela.Title.Simple
-                    ? mandela.title
-                    : "",
+                mandela.title_mode === consts.Mandela.Title.Simple ? title : "",
             what:
-                mandela.title_mode === consts.Mandela.Title.Complex
-                    ? mandela.what
-                    : "",
+                mandela.title_mode === consts.Mandela.Title.Complex ? what : "",
             before:
                 mandela.title_mode === consts.Mandela.Title.Complex
-                    ? mandela.before
+                    ? before
                     : "",
             after:
                 mandela.title_mode === consts.Mandela.Title.Complex
-                    ? mandela.after
+                    ? after
                     : "",
-            description: mandela.description,
-            categories: data.categories,
+            description: description,
+            categories: categories,
         };
 
         await api.Mandela.Update.exec(params);
