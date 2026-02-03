@@ -7,9 +7,6 @@
 
     const dispatch = createEventDispatcher();
 
-
-
-
     interface Props {
         baseUrl: string;
         pageNo: number;
@@ -45,7 +42,7 @@
         likable = true,
         editable = false,
         removable = false,
-        replyable = true
+        replyable = true,
     }: Props = $props();
 
     let likeUsersVisible = $state(false);
@@ -167,7 +164,7 @@
                             ? like(LikeAction.Unlike)
                             : {};
                     }}
-></i>
+                ></i>
             {/if}
 
             <span class={likeCount ? "up" : ""}>{likeCount}</span>
@@ -195,7 +192,7 @@
                             ? like(LikeAction.Unlike)
                             : {};
                     }}
-></i>
+                ></i>
             {/if}
 
             <span class={dislikeCount ? "down" : ""}>{dislikeCount}</span>
