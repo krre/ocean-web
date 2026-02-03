@@ -94,6 +94,10 @@
         comments[row].likeUsers = await api.Like.GetUsers.exec(params);
     }
 
+    function openEditor(row: number) {
+        comments[row].edit = true;
+    }
+
     async function editComment(row: number, message: string) {
         const params: api.Comment.Update.Request = {
             id: +comments[row].id,
@@ -170,8 +174,7 @@
                     on:like={(event) =>
                         likeComment(event.detail.row, event.detail.action)}
                     on:getLikeUsers={(event) => getLikeUsers(event.detail.row)}
-                    on:edit={(event) =>
-                        (comments[event.detail.row].edit = true)}
+                    on:edit={(event) => openEditor(event.detail.row)}
                     on:remove={(event) => deleteComment(event.detail.row)}
                     on:reply={(event) => replyComment(event.detail.row)}
                 />

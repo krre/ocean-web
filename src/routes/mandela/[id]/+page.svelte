@@ -22,9 +22,9 @@
     let voteValue = $state(-1);
     let editVote = $state(false);
     let voteUserVisible = $state(false);
+    let comments: api.Comment.GetAll.Comment[] = $state([]);
 
     let mandela = $derived(data.getOneResponse.mandela);
-    let comments = $derived(data.commentGetAllResponse.comments);
     let id = $derived(mandela.id);
     let categories = $derived(data.getOneResponse.categories);
     let vote = $derived(data.getOneResponse.vote);
@@ -40,6 +40,10 @@
     let totalVotes = $derived(
         votes ? votes.reduce((sum, v) => sum + v.count, 0) : 0,
     );
+
+    $effect(() => {
+        comments = data.commentGetAllResponse.comments;
+    });
 
     function edit() {
         goto(route.Mandela.Edit(id));
