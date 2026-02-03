@@ -16,9 +16,7 @@
     let password1 = $state("");
     let password2 = $state("");
 
-    let singupButtonEnabled = $derived(
-        password1 && password2 && (code === consts.Account.User ? name : true),
-    );
+    let singupButtonEnabled = $derived(password1 && password2 && name);
 
     async function signup() {
         if (password1 !== password2) {
