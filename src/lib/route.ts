@@ -47,7 +47,7 @@ export namespace Forum {
 
 export namespace Register {
     export const Root = "/register"
-    export const UserId = (id: number) => `${Root}/user${id}`
+    export const UserId = (id: number) => `${Root}/user/${id}`
 }
 
 export namespace Feed {
