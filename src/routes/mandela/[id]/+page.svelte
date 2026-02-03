@@ -343,7 +343,7 @@
 
 <div class="comment">
     <Comment
-        {comments}
+        bind:comments
         pageNo={data.pageNo}
         mandelaId={id}
         pageLimit={consts.Mandela.Comment.PageLimit}
