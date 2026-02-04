@@ -1,39 +1,22 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(page: Page, _session: Session) {
-        const params: api.User.GetOne.Request = {
-            id: +page.params.id,
-        };
-
-        const user = await api.User.GetOne.exec(params);
-        return { user };
-    }
-</script>
-
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as dialog from "$lib/dialog";
+    import * as api from "$lib/api";
+    import type { PageProps } from "./$types";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import Profile from "$lib/components/Profile.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
 
-    interface Props {
-        user: api.User.GetOne.Response;
-    }
-
-    let { user = $bindable() }: Props = $props();
-    let isAdmin = $state(false);
+    let { data }: PageProps = $props();
     let isUserExists = $state(true);
 
     async function updateUser() {
         const params: api.User.Update.Request = {
-            id: user.id,
-            name: user.name,
-            code: user.code,
-            gender: user.gender,
-            blocked: user.blocked,
+            id: data.user.id,
+            name: data.user.name,
+            code: data.user.code,
+            gender: data.user.gender,
+            blocked: data.user.blocked,
         };
 
         await api.User.Update.exec(params);
@@ -43,7 +26,7 @@
         if (!dialog.remove("Удалить пользователя?")) return;
 
         const params: api.User.Delete.Request = {
-            id: user.id,
+            id: data.user.id,
         };
 
         await api.User.Delete.exec(params);
@@ -74,31 +57,29 @@
     }
 </style>
 
-<SessionHub bind:isAdmin />
-
 <Frame title="Пользователь">
-    {#if user.blocked}
+    {#if data.user.blocked}
         <h3 class="blocked">Акканут заблокирован!</h3>
     {/if}
 
     <div class="column">
         <div class="grid">
             <div>ИД:</div>
-            <div>{user.id}</div>
+            <div>{data.user.id}</div>
             <div>Имя:</div>
-            <div>{user.name}</div>
+            <div>{data.user.name}</div>
             <div>Пол:</div>
-            <div>{consts.Genders[user.gender]}</div>
+            <div>{consts.Genders[data.user.gender]}</div>
 
-            <Profile {user} />
+            <Profile user={data.user} />
         </div>
 
-        {#if isAdmin && user.code === consts.Account.User}
+        {#if $userSession.isAdmin && data.user.code === consts.Account.User}
             {#if isUserExists}
                 <label>
                     <input
                         type="checkbox"
-                        bind:checked={user.blocked}
+                        bind:checked={data.user.blocked}
                         onchange={(_) => updateUser()}
                     />
                     Заблокировано
