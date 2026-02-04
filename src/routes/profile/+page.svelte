@@ -24,19 +24,25 @@
     let successPassword = $state("");
     let errorPassword = $state("");
 
+    let userName = $state("");
+
     let password1 = $state("");
     let password2 = $state("");
 
+    $effect(() => {
+        userName = data.user.name;
+    });
+
     async function update() {
         const params: api.User.UpdateProfile.Request = {
-            name: data.user.name,
+            name: userName,
             gender: currentGender,
         };
 
         try {
             await api.User.UpdateProfile.exec(params);
 
-            userSession.name = data.user.name;
+            userSession.name = userName;
             setSession(userSession);
             login(userSession);
 
@@ -92,7 +98,7 @@
         <div>ИД:</div>
         <div>{data.user.id}</div>
         <div>Имя:</div>
-        <div><input bind:value={data.user.name} /></div>
+        <div><input bind:value={userName} /></div>
         <div>Пол:</div>
         <div>
             <select bind:value={currentGender}>
@@ -109,9 +115,7 @@
 
         <div></div>
         <div>
-            <button onclick={update} disabled={!data.user.name}
-                >Сохранить</button
-            >
+            <button onclick={update} disabled={!userName}>Сохранить</button>
         </div>
 
         <div>Пароль:</div>
