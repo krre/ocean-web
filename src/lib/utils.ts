@@ -33,14 +33,6 @@ export function zeroLeading(value: number, digits: number): string {
     return value.toString().padStart(digits, "0");
 }
 
-export function sessionUserName(user): string {
-    if (user) {
-        return user.name;
-    } else {
-        return consts.Account.ModeNames[consts.Account.Anonym];
-    }
-}
-
 export function makeTitle(mandela: MandelaTitle): string {
     return mandela.title_mode === consts.Mandela.Title.Simple ? mandela.title :
         mandela.what + ": " + mandela.before + " / " + mandela.after;
