@@ -72,19 +72,6 @@ export interface ForumTopicPoll {
     voted: boolean;
 }
 
-// Save non-reactive flag
-export class Mounted {
-    private _done = false;
-
-    setDone() {
-        this._done = true;
-    }
-
-    done() {
-        return this._done;
-    }
-}
-
 export enum ForumTopicType {
     Common,
     Poll
