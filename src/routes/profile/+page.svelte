@@ -128,6 +128,7 @@
             <OperationResult success={successPassword} error={errorPassword} />
         </div>
 
+        <div></div>
         <div><button onclick={changePassword}>Изменить</button></div>
 
         <Profile user={data.user} />
