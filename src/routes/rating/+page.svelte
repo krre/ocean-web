@@ -44,16 +44,19 @@
     });
 
     $effect(() => {
-        if (isLoaded) {
+        if (type >= 0 && vote >= 0 && isLoaded) {
             const params = new URLSearchParams();
+
             if (type == types.RatingType.Users) {
                 params.append("type", type.toString());
             } else if (vote > MandelaVote.Yes) {
                 params.append("vote", vote.toString());
             }
+
             baseQuery = params;
             const query = baseQuery.toString();
             goto(route.Rating + (query ? "?" + query : ""));
+
             isLoaded = false;
         } else {
             isLoaded = true;
