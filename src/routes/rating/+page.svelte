@@ -1,110 +1,62 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    const PAGE_LIMIT = 50;
-
-    export async function preload(page: Page, _session: Session) {
-        const pageNo = +page.query.page || 1;
-        const vote = +page.query.vote || MandelaVote.Yes;
-        const type: types.RatingType =
-            +page.query.type || types.RatingType.Mandels;
-
-        let params = {
-            limit: PAGE_LIMIT,
-            offset: (pageNo - 1) * PAGE_LIMIT,
-        };
-
-        let getMandelsResponse: api.Rating.GetMandels.Response;
-        let getUsersResponse: api.Rating.GetUsers.Response;
-
-        if (type === types.RatingType.Mandels) {
-            const par = params as api.Rating.GetMandels.Request;
-            par.vote = vote;
-            getMandelsResponse = await api.Rating.GetMandels.exec(par);
-        } else {
-            getUsersResponse = await api.Rating.GetUsers.exec(params);
-        }
-
-        return {
-            getMandelsResponse,
-            getUsersResponse,
-            type,
-            vote,
-            pageNo,
-        };
-    }
-</script>
-
 <script lang="ts">
     import * as route from "$lib/route";
     import * as types from "$lib/types";
+    import * as local from "./local";
     import { goto } from "$app/navigation";
-    import { onMount } from "svelte";
-    import { Mounted, MandelaVote } from "$lib/types";
+    import { MandelaVote } from "$lib/types";
+    import type { PageProps } from "./$types";
     import Frame from "$lib/components/Frame.svelte";
     import MandelaRating from "$lib/components/rating/MandelaRating.svelte";
     import UserRating from "$lib/components/rating/UserRating.svelte";
     import Pagination from "$lib/components/Pagination.svelte";
 
-    interface Props {
-        type?: any;
-        vote?: any;
-        getMandelsResponse: api.Rating.GetMandels.Response;
-        getUsersResponse: api.Rating.GetUsers.Response;
-        pageNo?: number;
-    }
+    let { data }: PageProps = $props();
 
-    let {
-        type = $bindable(types.RatingType.Mandels),
-        vote = $bindable(MandelaVote.Yes),
-        getMandelsResponse,
-        getUsersResponse,
-        pageNo = 1,
-    }: Props = $props();
-
-    let mounted = new Mounted();
-
-    onMount(() => {
-        mounted.setDone();
-    });
+    let vote = $state(MandelaVote.Yes);
+    let type = $state(types.RatingType.Mandels);
 
     let baseQuery = $state(new URLSearchParams());
 
-    let mandels: api.Rating.GetMandels.Mandela[] = $state([]);
-    let mandelsCount = $state(0);
+    let mandels = $derived(
+        data.getMandelsResponse ? data.getMandelsResponse.mandels : [],
+    );
 
-    let users: api.Rating.GetUsers.User[] = $state([]);
-    let usersCount = $state(0);
+    let mandelsCount = $derived(
+        data.getMandelsResponse ? data.getMandelsResponse.total_count : 0,
+    );
+
+    let users = $derived(
+        data.getUsersResponse ? data.getUsersResponse.users : [],
+    );
+
+    let usersCount = $derived(
+        data.getUsersResponse ? data.getUsersResponse.user_count : 0,
+    );
+
+    let isLoaded = false;
 
     $effect(() => {
-        if (getUsersResponse) {
-            users = getUsersResponse.users;
-            usersCount = getUsersResponse.user_count;
-        }
+        vote = data.vote;
     });
 
     $effect(() => {
-        if (getMandelsResponse) {
-            mandels = getMandelsResponse.mandels;
-            mandelsCount = getMandelsResponse.total_count;
-        }
+        type = data.type;
     });
 
     $effect(() => {
-        if (mounted.done()) {
+        if (isLoaded) {
             const params = new URLSearchParams();
-
             if (type == types.RatingType.Users) {
                 params.append("type", type.toString());
             } else if (vote > MandelaVote.Yes) {
                 params.append("vote", vote.toString());
             }
-
             baseQuery = params;
-
             const query = baseQuery.toString();
             goto(route.Rating + (query ? "?" + query : ""));
+            isLoaded = false;
+        } else {
+            isLoaded = true;
         }
     });
 </script>
@@ -127,16 +79,21 @@
     <p></p>
 
     {#if type === types.RatingType.Mandels}
-        <MandelaRating bind:vote {mandels} {pageNo} pageLimit={PAGE_LIMIT} />
+        <MandelaRating
+            bind:vote
+            {mandels}
+            pageNo={data.pageNo}
+            pageLimit={local.PageLimit}
+        />
     {:else}
-        <UserRating {users} {pageNo} pageLimit={PAGE_LIMIT} />
+        <UserRating {users} pageNo={data.pageNo} pageLimit={local.PageLimit} />
     {/if}
 </Frame>
 
 <Pagination
     count={type === types.RatingType.Mandels ? mandelsCount : usersCount}
-    limit={PAGE_LIMIT}
-    offset={pageNo}
+    limit={local.PageLimit}
+    offset={data.pageNo}
     baseRoute={route.Rating}
     {baseQuery}
 />
