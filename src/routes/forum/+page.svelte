@@ -65,10 +65,10 @@
 
 {#if $userSession.isAdmin}
     <div style="margin-left: 1em">
-        {#if editable}<button onclick={append}
+        {#if editable}<button onclick={append} title="Добавить"
                 ><i class="far fa-plus-square"></i></button
             >{/if}
-        <button onclick={() => (editable = !editable)}
+        <button onclick={() => (editable = !editable)} title="Редактировать"
             ><i class="fas fa-edit"></i></button
         >
     </div>
