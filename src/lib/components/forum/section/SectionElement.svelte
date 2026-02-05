@@ -53,8 +53,12 @@
 <div class="section">
     <a href={route.Forum.Section.Id(section.id)}>{section.name}</a>
     {#if editable}
-        <button onclick={editSection}><i class="fas fa-edit"></i></button>
-        <button onclick={removeSection}><i class="fas fa-trash-alt"></i></button>
+        <button onclick={editSection} title="Добавить"
+            ><i class="fas fa-edit"></i></button
+        >
+        <button onclick={removeSection} title="Удалить"
+            ><i class="fas fa-trash-alt"></i></button
+        >
     {/if}
     <div class="info">
         Тем: {section.topic_count} · Постов: {section.post_count}
