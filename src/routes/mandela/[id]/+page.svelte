@@ -13,6 +13,7 @@
     import Frame from "$lib/components/Frame.svelte";
     import Rectangle from "$lib/components/Rectangle.svelte";
     import WaitButton from "$lib/components/WaitButton.svelte";
+    import ClipboardButton from "$lib/components/ClipboardButton.svelte";
     import Check from "$lib/components/Check.svelte";
 
     let { data }: PageProps = $props();
@@ -131,10 +132,6 @@
         }
 
         return 0;
-    }
-
-    function copyLink(value: string) {
-        navigator.clipboard.writeText(value);
     }
 
     async function reloadComments() {
@@ -272,17 +269,11 @@
             <summary>Ссылка на манделу</summary>
             <div class="mandela-link-grid">
                 <input readonly value={data.url} />
-                <button onclick={() => copyLink(data.url)}
-                    ><i class="far fa-copy"></i></button
-                >
+                <ClipboardButton text={data.url} />
                 <input readonly value={htmlUrl} />
-                <button onclick={() => copyLink(htmlUrl)}
-                    ><i class="far fa-copy"></i></button
-                >
+                <ClipboardButton text={htmlUrl} />
                 <input readonly value={bbCodeUrl} />
-                <button onclick={() => copyLink(bbCodeUrl)}
-                    ><i class="far fa-copy"></i></button
-                >
+                <ClipboardButton text={bbCodeUrl} />
             </div>
         </details>
     </div></Frame
