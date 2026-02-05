@@ -1,42 +1,22 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(_page: Page, _session: Session) {
-        const getAllResponse = await api.Forum.GetAll.exec();
-
-        return {
-            getAllResponse,
-        };
-    }
-</script>
-
 <script lang="ts">
+    import * as api from "$lib/api";
     import * as route from "$lib/route";
-    import type { User } from "$lib/types";
     import { goto } from "$app/navigation";
+    import type { PageProps } from "./$types";
+    import { userSession } from "$lib/stores";
     import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import CategoryElement from "$lib/components/forum/category/CategoryElement.svelte";
 
-    interface Props {
-        getAllResponse: api.Forum.GetAll.Response;
-    }
+    let { data }: PageProps = $props();
 
-    let { getAllResponse = $bindable() }: Props = $props();
-
-    let isAdmin = $state(false);
     let editable = $state(false);
-    let user: User = $state();
-    let categories: api.Forum.GetAll.Category[] = $state([]);
+    let categories: api.Forum.GetAll.Category[] = $derived.by(() => {
+        let categories = [];
 
-    $effect(() => {
-        categories = [];
-
-        for (let category of getAllResponse.categories) {
+        for (let category of data.getAllResponse.categories) {
             let sections: api.Forum.GetAll.Section[] = [];
 
-            for (let section of getAllResponse.sections) {
+            for (let section of data.getAllResponse.sections) {
                 if (section.category_id === category.id) {
                     sections.push(section);
                 }
@@ -46,11 +26,11 @@
             categories.push(category);
         }
 
-        categories = categories;
+        return categories;
     });
 
     async function reload() {
-        getAllResponse = await api.Forum.GetAll.exec();
+        goto(route.Forum.Root);
     }
 
     function append() {
@@ -69,8 +49,6 @@
     }
 </style>
 
-<SessionHub bind:user bind:isAdmin />
-
 <div class="new"><a href={route.Forum.New}>Новые сообщения</a></div>
 
 <FramePage title="Форум" showHeader={false}>
@@ -85,7 +63,7 @@
     </div>
 </FramePage>
 
-{#if isAdmin}
+{#if $userSession.isAdmin}
     <div style="margin-left: 1em">
         {#if editable}<button onclick={append}
                 ><i class="far fa-plus-square"></i></button
