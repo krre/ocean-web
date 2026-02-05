@@ -1,64 +1,47 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    const PAGE_LIMIT = 20;
-
-    export async function preload(page: Page, _session: Session) {
-        const pageNo = +page.query.page || 1;
-
-        const params: api.Feed.GetAll.Request = {
-            limit: PAGE_LIMIT,
-            offset: (pageNo - 1) * PAGE_LIMIT,
-        };
-        const getAllResponse = await api.Feed.GetAll.exec(params);
-        return { getAllResponse, pageNo };
-    }
-</script>
-
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
+    import * as api from "$lib/api";
     import { userUrl, dateUrl, formatDateTime } from "$lib/utils";
+    import { PageLimit } from "./local";
+    import type { PageProps } from "./$types";
     import Frame from "$lib/components/Frame.svelte";
     import Rectangle from "$lib/components/Rectangle.svelte";
     import Pagination from "$lib/components/Pagination.svelte";
 
-    interface Props {
-        getAllResponse: api.Feed.GetAll.Response;
-        pageNo?: number;
-    }
-
-    let { getAllResponse, pageNo = 1 }: Props = $props();
-
     const title = "Лента новостей";
 
-    let feeds: api.Feed.Feed[] = $state([]);
-    let total_count = $state(0);
+    let { data }: PageProps = $props();
 
-    $effect(() => {
-        if (getAllResponse) {
-            feeds = getAllResponse.feeds;
-            total_count = getAllResponse.total_count;
-        }
-    });
+    const feeds = $derived(data.getAllResponse.feeds);
+    const totalCount = $derived(data.getAllResponse.total_count);
+    const pageNo = $derived(data.pageNo);
 
     function description(type: string): string {
         if (type == api.Feed.TitleType.Mandela) return "Мандела";
         if (type == api.Feed.TitleType.Comment) return "Комментарий к манделе";
         if (type == api.Feed.TitleType.Topic) return "Тема на форуме";
         if (type == api.Feed.TitleType.Post) return "Пост на форуме";
+        return "";
     }
 
     function titleRoute(id: number, type: string): string {
         if (
             type == api.Feed.TitleType.Mandela ||
             type == api.Feed.TitleType.Comment
-        )
+        ) {
             return route.Mandela.Id(id);
-        if (type == api.Feed.TitleType.Topic || type == api.Feed.TitleType.Post)
+        }
+
+        if (
+            type == api.Feed.TitleType.Topic ||
+            type == api.Feed.TitleType.Post
+        ) {
             return route.Forum.Topic.Id(id);
+        }
+
+        return "";
     }
 
     function dateRoute(
@@ -126,8 +109,8 @@
 {/each}
 
 <Pagination
-    count={total_count}
-    limit={PAGE_LIMIT}
+    count={totalCount}
+    limit={PageLimit}
     offset={pageNo}
     baseRoute={route.Feed.Root}
 />
