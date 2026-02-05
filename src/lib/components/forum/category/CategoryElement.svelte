@@ -3,7 +3,6 @@
     import * as api from "$lib/api";
     import * as dialog from "$lib/dialog";
     import { goto } from "$app/navigation";
-
     import { createEventDispatcher } from "svelte";
     import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
 
@@ -55,11 +54,13 @@
 <div class="header">
     <h3>{category.name}</h3>
     {#if editable}
-        <button onclick={appendSection}
+        <button onclick={appendSection} title="Добавить"
             ><i class="far fa-plus-square"></i></button
         >
-        <button onclick={editCategory}><i class="fas fa-edit"></i></button>
-        <button onclick={removeCategory}
+        <button onclick={editCategory} title="Редактировать"
+            ><i class="fas fa-edit"></i></button
+        >
+        <button onclick={removeCategory} title="Удалить"
             ><i class="fas fa-trash-alt"></i></button
         >
     {/if}
