@@ -1,57 +1,23 @@
-<script module lang="ts">
-    import * as api from "$lib/api";
-    import type { Session, Page } from "$lib/types";
-
-    export async function preload(page: Page, _session: Session) {
-        const categoryId = +page.params.id;
-        const getAllResponse = await load(categoryId);
-        return { getAllResponse, categoryId };
-    }
-
-    async function load(
-        categoryId: number,
-    ): Promise<api.Forum.Section.GetAll.Response> {
-        const params: api.Forum.Section.GetAll.Request = {
-            category_id: categoryId,
-        };
-
-        return await api.Forum.Section.GetAll.exec(params);
-    }
-</script>
-
 <script lang="ts">
     import * as route from "$lib/route";
-    import type { User } from "$lib/types";
-    import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
+    import { goto, invalidateAll } from "$app/navigation";
     import FramePage from "$lib/components/forum/main/ForumFrame.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
     import Navigator from "$lib/components/forum/main/Navigator.svelte";
+    import type { PageProps } from "./$types";
 
-    interface Props {
-        getAllResponse: api.Forum.Section.GetAll.Response;
-        categoryId?: number;
-    }
+    const { data }: PageProps = $props();
 
-    let { getAllResponse = $bindable(), categoryId = 0 }: Props = $props();
-
-    let categoryName: string = $state();
-
-    let isAdmin = $state(false);
-    let user: User = $state();
-    let sections: api.Forum.Section.GetAll.Section[] = $state([]);
-
-    $effect(() => {
-        categoryName = getAllResponse.category_name;
-        sections = getAllResponse.sections;
-    });
+    const categoryName = $derived(data.getAllResponse.category_name);
+    const sections = $derived(data.getAllResponse.sections);
 
     function append() {
-        goto(route.Forum.Section.Append(categoryId));
+        goto(route.Forum.Section.Append(data.categoryId));
     }
 
     async function reload() {
-        getAllResponse = await load(categoryId);
+        invalidateAll();
     }
 </script>
 
@@ -62,7 +28,6 @@
     }
 </style>
 
-<SessionHub bind:user bind:isAdmin />
 <Navigator />
 
 <FramePage title={categoryName}>
@@ -71,6 +36,8 @@
     {/each}
 </FramePage>
 
-{#if isAdmin}
-    <button onclick={append}><i class="far fa-plus-square"></i></button>
+{#if $userSession.isAdmin}
+    <button onclick={append} title="Добавить"
+        ><i class="far fa-plus-square"></i></button
+    >
 {/if}
