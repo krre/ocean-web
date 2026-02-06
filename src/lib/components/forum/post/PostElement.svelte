@@ -3,10 +3,9 @@
     import * as api from "$lib/api";
     import * as consts from "$lib/consts";
     import { LikeAction, LikeSelection } from "$lib/types";
+    import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
-    import type { User } from "$lib/types";
     import { createEventDispatcher } from "svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import PostTitle from "$lib/components/PostTitle.svelte";
     import EditComment from "$lib/components/comment/EditComment.svelte";
 
@@ -34,16 +33,17 @@
         pageNo,
     }: Props = $props();
 
-    let isAdmin = $state(false);
-    let isAnonym = $state(true);
-    let user: User = $state();
-    let likeUsers: api.Like.GetUsers.Response[] = $state();
+    let likeUsers: api.Like.GetUsers.Response[] = $state([]);
 
     $effect(() => {
-        editable = isAdmin || (user && !isAnonym && user.id === post.user_id);
+        editable =
+            $userSession.isAdmin ||
+            (!$userSession.isAnonym && $userSession.id === post.user_id);
     });
+
     let removable = $derived(
-        isAdmin || (user && !isAnonym && user.id === post.user_id),
+        $userSession.isAdmin ||
+            (!$userSession.isAnonym && $userSession.id === post.user_id),
     );
 
     async function likePost(row: number, action: LikeAction) {
@@ -124,8 +124,6 @@
     }
 </style>
 
-<SessionHub bind:user bind:isAdmin bind:isAnonym />
-
 <div class="post">
     <PostTitle
         {id}
@@ -135,9 +133,9 @@
         userName={post.user_name}
         userId={post.user_id}
         date={post.create_ts}
-        likeSelection={!user ||
-        post.user_id === user.id ||
-        user.code === consts.Account.Anonym
+        likeSelection={$userSession.isAnonym ||
+        post.user_id === $userSession.id ||
+        $userSession.code === consts.Account.Anonym
             ? LikeSelection.Disabled
             : post.like == null
               ? LikeSelection.None
@@ -146,11 +144,11 @@
                 : LikeSelection.Dislike}
         likeCount={post.like_count}
         dislikeCount={post.dislike_count}
-        likeQuestion={isAdmin}
+        likeQuestion={$userSession.isAdmin}
         {likeUsers}
         {editable}
         {removable}
-        replyable={user !== undefined || isAnonymAllowed()}
+        replyable={!$userSession.isAnonym || isAnonymAllowed()}
         on:like={(event) => likePost(event.detail.row, event.detail.action)}
         on:getLikeUsers={(event) => getLikeUsers(event.detail.row)}
         on:edit={() => (post.edit = true)}
@@ -161,7 +159,7 @@
     {#if post.edit}
         <EditComment
             text={post.post}
-            sendAction={(text) => editPost(text)}
+            sendAction={(text: string) => editPost(text)}
             on:cancel={() => (post.edit = false)}
         />
     {:else}
