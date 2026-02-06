@@ -9,10 +9,8 @@
     }
 
     let { category, section, topic }: Props = $props();
-    let path: PathPart[] = $state([]);
-
-    $effect(() => {
-        path = [];
+    let path: PathPart[] = $derived.by(() => {
+        const path = [];
         path.push({ name: "Форум", route: route.Forum.Root });
 
         if (category) {
@@ -29,6 +27,8 @@
             topic.route = route.Forum.Topic.Id(topic.id ?? 0);
             path.push(topic);
         }
+
+        return path;
     });
 </script>
 
