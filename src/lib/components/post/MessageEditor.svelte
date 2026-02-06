@@ -1,7 +1,7 @@
 <script lang="ts">
+    import { userSession } from "$lib/stores";
     import PostEditor from "./PostEditor.svelte";
     import Rectangle from "$lib/components/Rectangle.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import WaitButton from "$lib/components/WaitButton.svelte";
 
     interface Props {
@@ -16,8 +16,7 @@
         sendAction = async () => {},
     }: Props = $props();
 
-    let userName: string = $state();
-    let postEditorRef: PostEditor = $state();
+    let postEditorRef: PostEditor | undefined = $state(undefined);
 
     export function appendReply(userName: string, text: string) {
         postEditorRef.appendReply(userName, text);
@@ -35,12 +34,10 @@
     }
 </style>
 
-<SessionHub bind:userName />
-
 <Rectangle padding={false} solid={false}>
     <PostEditor bind:post={message} bind:this={postEditorRef} />
 
-    <div>Пользователь: {userName}</div>
+    <div>Пользователь: {$userSession.name}</div>
 
     <div class="wait-button">
         <WaitButton
