@@ -5,13 +5,11 @@
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
     import Frame from "$lib/components/Frame.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import MessageEditor from "$lib/components/post/MessageEditor.svelte";
 
-    const sectionId = +page.params.id;
+    const sectionId = +(page.params.id ?? 0);
     const title = "Создать тему";
 
-    let isAdmin = $state(false);
     let name = $state("");
 
     let type = $state(types.ForumTopicType.Common);
@@ -72,8 +70,6 @@
     }
 </style>
 
-<SessionHub bind:isAdmin />
-
 <Frame {title}>
     <div class="form">
         Название: <input type="text" bind:value={name} />
@@ -105,7 +101,7 @@
 
             {#each answers as answer, i}
                 <div class="answer">
-                    <input bind:value={answer} />
+                    <input bind:value={answers[i]} />
                     <button
                         onclick={() => {
                             answers.splice(i, 1);
