@@ -3,19 +3,18 @@
     import * as api from "$lib/api";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
     import SectionEditor from "$lib/components/forum/section/SectionEditor.svelte";
 
     const title = "Добавить раздел";
 
-    let isAdmin = $state(false);
-    let name: string = $state();
-    let order: number = $state();
+    let name = $state("");
+    let order = $state(0);
 
     const action = async () => {
         const params: api.Forum.Section.Create.Request = {
-            category_id: +page.params.id,
+            category_id: +(page.params.id ?? ""),
             name: name,
             order_index: order,
         };
@@ -25,10 +24,8 @@
     };
 </script>
 
-<SessionHub bind:isAdmin />
-
 <Frame {title}>
-    {#if !isAdmin}
+    {#if !$userSession.isAdmin}
         Доступ запрещён
     {:else}
         <SectionEditor bind:name bind:order {action} />
