@@ -4,11 +4,10 @@
     import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import * as types from "$lib/types";
-    import type { User } from "$lib/types";
+    import { userSession } from "$lib/stores";
     import { formatDateTime, userUrl, dateUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
     import { createEventDispatcher } from "svelte";
-    import SessionHub from "$lib/components/SessionHub.svelte";
 
     const dispatch = createEventDispatcher();
 
@@ -19,12 +18,10 @@
 
     let { topic, editable = $bindable(false) }: Props = $props();
 
-    let isAdmin = $state(false);
-    let isAnonym = $state(true);
-    let user: User = $state();
-
     $effect(() => {
-        editable = isAdmin || (user && user.id === topic.user_id && !isAnonym);
+        editable =
+            $userSession.isAdmin ||
+            (!$userSession.isAnonym && $userSession.id === topic.user_id);
     });
 
     function editTopic() {
@@ -63,8 +60,6 @@
     }
 </style>
 
-<SessionHub bind:user bind:isAdmin bind:isAnonym />
-
 <div class="topic">
     <a href={route.Forum.Topic.Id(topic.id)}>
         {#if topic.type == types.ForumTopicType.Poll}
@@ -74,8 +69,10 @@
     >
     {#if editable}
         <span>
-            <button onclick={editTopic}><i class="fas fa-edit"></i></button>
-            <button onclick={removeTopic}
+            <button onclick={editTopic} title="Редактировать"
+                ><i class="fas fa-edit"></i></button
+            >
+            <button onclick={removeTopic} title="Удалить"
                 ><i class="fas fa-trash-alt"></i></button
             >
         </span>
