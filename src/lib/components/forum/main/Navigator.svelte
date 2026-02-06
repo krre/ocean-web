@@ -8,30 +8,25 @@
         topic?: PathPart;
     }
 
-    let {
-        category = $bindable(null),
-        section = $bindable(null),
-        topic = $bindable(null),
-    }: Props = $props();
-
-    let path: PathPart[] = $state();
+    let { category, section, topic }: Props = $props();
+    let path: PathPart[] = $state([]);
 
     $effect(() => {
         path = [];
         path.push({ name: "Форум", route: route.Forum.Root });
 
         if (category) {
-            category.route = route.Forum.Category.Id(category.id);
+            category.route = route.Forum.Category.Id(category.id ?? 0);
             path.push(category);
         }
 
         if (section) {
-            section.route = route.Forum.Section.Id(section.id);
+            section.route = route.Forum.Section.Id(section.id ?? 0);
             path.push(section);
         }
 
         if (topic) {
-            topic.route = route.Forum.Topic.Id(topic.id);
+            topic.route = route.Forum.Topic.Id(topic.id ?? 0);
             path.push(topic);
         }
     });
