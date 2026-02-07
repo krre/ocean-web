@@ -198,15 +198,14 @@
 
         <div class="toolbar-spacing"></div>
 
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
         <div class="preview-button" onclick={() => (isPreview = !isPreview)}>
             {#if isPreview}Редактор{:else}Просмотр{/if}
         </div>
     </div>
     {#if isSmilePanelActive}
         <SmilePanel
-            on:selected={(event) => {
-                post += event.detail.smile;
+            onselect={(smile) => {
+                post += smile;
             }}
         />
     {/if}

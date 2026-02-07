@@ -186,7 +186,7 @@
                 title="Всего"
                 count={totalCount}
                 active={filter == Filter.All}
-                on:clicked={() => (filter = Filter.All)}
+                onclick={() => (filter = Filter.All)}
             />
             {#if !$userSession.isAnonym}
                 <Indicator
@@ -194,14 +194,14 @@
                     count={newCount}
                     active={filter == Filter.New}
                     highlightNew={true}
-                    on:clicked={() => (filter = Filter.New)}
+                    onclick={() => (filter = Filter.New)}
                 />
 
                 <Indicator
                     title="Мои"
                     count={mineCount}
                     active={filter == Filter.Mine}
-                    on:clicked={() => (filter = Filter.Mine)}
+                    onclick={() => (filter = Filter.Mine)}
                 />
 
                 <Indicator
@@ -209,7 +209,7 @@
                     count={pollCount}
                     highlightNew={true}
                     active={filter == Filter.Poll}
-                    on:clicked={() => (filter = Filter.Poll)}
+                    onclick={() => (filter = Filter.Poll)}
                 />
             {/if}
 
@@ -217,7 +217,7 @@
                 title="Хлам"
                 count={trashCount}
                 active={filter == Filter.Trash}
-                on:clicked={() => (filter = Filter.Trash)}
+                onclick={() => (filter = Filter.Trash)}
             />
         {/if}
 

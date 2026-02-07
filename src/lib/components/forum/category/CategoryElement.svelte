@@ -3,17 +3,15 @@
     import * as api from "$lib/api";
     import * as dialog from "$lib/dialog";
     import { goto } from "$app/navigation";
-    import { createEventDispatcher } from "svelte";
     import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
-
-    const dispatch = createEventDispatcher();
 
     interface Props {
         category: api.Forum.GetAll.Category;
         editable?: boolean;
+        onremove: () => void;
     }
 
-    let { category, editable = false }: Props = $props();
+    let { category, editable = false, onremove }: Props = $props();
 
     function editCategory() {
         goto(route.Forum.Category.Edit(category.id));
@@ -26,7 +24,7 @@
             id: +category.id,
         };
         await api.Forum.Category.Delete.exec(params);
-        dispatch("removed");
+        onremove();
     }
 
     function appendSection() {
@@ -67,5 +65,5 @@
 </div>
 
 {#each category.sections as section}
-    <SectionElement {section} {editable} on:removed />
+    <SectionElement {section} {editable} {onremove} />
 {/each}

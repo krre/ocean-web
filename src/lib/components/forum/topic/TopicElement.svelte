@@ -7,16 +7,14 @@
     import { userSession } from "$lib/stores";
     import { formatDateTime, userUrl, dateUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
-    import { createEventDispatcher } from "svelte";
-
-    const dispatch = createEventDispatcher();
 
     interface Props {
         topic: api.Forum.Topic.GetAll.Topic;
         editable?: boolean;
+        onremoved: () => void;
     }
 
-    let { topic, editable = $bindable(false) }: Props = $props();
+    let { topic, editable = $bindable(false), onremoved }: Props = $props();
 
     $effect(() => {
         editable =
@@ -35,7 +33,7 @@
             id: +topic.id,
         };
         await api.Forum.Topic.Delete.exec(params);
-        dispatch("removed");
+        onremoved();
     }
 </script>
 

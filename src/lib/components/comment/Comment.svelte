@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
     import { LikeAction, LikeSelection } from "$lib/types";
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
@@ -11,8 +10,6 @@
     import MessageEditor from "$lib/components/post/MessageEditor.svelte";
     import EditComment from "./EditComment.svelte";
     import Pagination from "$lib/components/Pagination.svelte";
-
-    const dispatch = createEventDispatcher();
 
     interface EditedComment extends api.Comment.GetAll.Comment {
         edit?: boolean;
@@ -26,6 +23,7 @@
         pageNo?: number;
         commentCount?: number;
         pageLimit?: number;
+        onappended: () => void;
     }
 
     let {
@@ -34,6 +32,7 @@
         pageNo = 1,
         commentCount = 0,
         pageLimit = 1,
+        onappended,
     }: Props = $props();
 
     let message: string = $state("");
@@ -48,7 +47,7 @@
         };
 
         await api.Comment.Create.exec(params);
-        dispatch("appended");
+        onappended();
     }
 
     async function likeComment(row: number, action: LikeAction) {
@@ -171,12 +170,11 @@
                     removable={$userSession.id === comment.user_id ||
                         $userSession.isAdmin}
                     replyable={isAnonymAllowed()}
-                    on:like={(event) =>
-                        likeComment(event.detail.row, event.detail.action)}
-                    on:getLikeUsers={(event) => getLikeUsers(event.detail.row)}
-                    on:edit={(event) => openEditor(event.detail.row)}
-                    on:remove={(event) => deleteComment(event.detail.row)}
-                    on:reply={(event) => replyComment(event.detail.row)}
+                    onlike={(row, action) => likeComment(row, action)}
+                    ongetLikeUsers={(row) => getLikeUsers(row)}
+                    onedit={(row) => openEditor(row)}
+                    onremove={(row) => deleteComment(row)}
+                    onreply={(row) => replyComment(row)}
                 />
                 <div></div>
 
@@ -184,7 +182,7 @@
                     <EditComment
                         text={comment.message}
                         sendAction={(text: string) => editComment(i, text)}
-                        on:cancel={() => (comment.edit = false)}
+                        oncancel={() => (comment.edit = false)}
                     />
                 {:else}
                     <div class="message">

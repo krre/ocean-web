@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
     import { isAnonymAllowed } from "$lib/utils";
     import * as route from "$lib/route";
     import * as consts from "$lib/consts";
@@ -12,7 +11,6 @@
     let { ...props }: Props = $props();
 
     const isAnonymUser = $derived($userSession.code == consts.Account.Anonym);
-    const dispatch = createEventDispatcher();
 </script>
 
 <style>
@@ -33,8 +31,7 @@
     }
 </style>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<nav class={props.class} onclick={() => dispatch("itemClicked")}>
+<nav class={props.class}>
     <a href="/">Каталог</a>
     {#if isAnonymAllowed() || !isAnonymUser}
         <a href={route.Mandela.Append}>Добавить</a>

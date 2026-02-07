@@ -32,7 +32,7 @@
 
 <FramePage title={categoryName}>
     {#each sections as section}
-        <SectionElement {section} on:removed={() => reload()} />
+        <SectionElement {section} onremove={() => reload()} />
     {/each}
 </FramePage>
 

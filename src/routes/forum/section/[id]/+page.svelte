@@ -40,7 +40,7 @@
     {/snippet}
 
     {#each topics as topic}
-        <TopicElement {topic} on:removed={() => reload()} />
+        <TopicElement {topic} onremoved={() => reload()} />
     {/each}
 </FramePage>
 

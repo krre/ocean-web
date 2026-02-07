@@ -3,16 +3,14 @@
     import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
-    import { createEventDispatcher } from "svelte";
-
-    const dispatch = createEventDispatcher();
 
     interface Props {
         section: api.Forum.Section.GetAll.Section;
         editable?: boolean;
+        onremove: () => void;
     }
 
-    let { section, editable = false }: Props = $props();
+    let { section, editable = false, onremove }: Props = $props();
 
     function editSection() {
         goto(route.Forum.Section.Edit(section.id));
@@ -25,7 +23,7 @@
             id: +section.id,
         };
         await api.Forum.Section.Delete.exec(params);
-        dispatch("removed");
+        onremove();
     }
 </script>
 

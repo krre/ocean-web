@@ -5,11 +5,8 @@
     import { LikeAction, LikeSelection } from "$lib/types";
     import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
-    import { createEventDispatcher } from "svelte";
     import PostTitle from "$lib/components/PostTitle.svelte";
     import EditComment from "$lib/components/comment/EditComment.svelte";
-
-    const dispatch = createEventDispatcher();
 
     interface EditedPost extends api.Forum.Post.GetAll.Post {
         edit: boolean;
@@ -22,6 +19,8 @@
         id?: number;
         baseUrl?: string;
         pageNo: number;
+        onremove: () => void;
+        onreply: (row: number) => void;
     }
 
     let {
@@ -31,6 +30,8 @@
         id = 0,
         baseUrl = "",
         pageNo,
+        onremove,
+        onreply,
     }: Props = $props();
 
     let likeUsers: api.Like.GetUsers.Response[] = $state([]);
@@ -103,7 +104,7 @@
             id: +post.id,
         };
         await api.Forum.Post.Delete.exec(params);
-        dispatch("removed");
+        onremove();
     }
 </script>
 
@@ -149,18 +150,18 @@
         {editable}
         {removable}
         replyable={!$userSession.isAnonym || isAnonymAllowed()}
-        on:like={(event) => likePost(event.detail.row, event.detail.action)}
-        on:getLikeUsers={(event) => getLikeUsers(event.detail.row)}
-        on:edit={() => (post.edit = true)}
-        on:remove={() => removePost()}
-        on:reply
+        onlike={(row, action) => likePost(row, action)}
+        ongetLikeUsers={(row) => getLikeUsers(row)}
+        onedit={() => (post.edit = true)}
+        onremove={() => removePost()}
+        {onreply}
     />
 
     {#if post.edit}
         <EditComment
             text={post.post}
             sendAction={(text: string) => editPost(text)}
-            on:cancel={() => (post.edit = false)}
+            oncancel={() => (post.edit = false)}
         />
     {:else}
         <div class="text">

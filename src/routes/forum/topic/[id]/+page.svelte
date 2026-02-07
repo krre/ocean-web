@@ -236,8 +236,8 @@
             baseUrl={route.Forum.Topic.Id(data.topicId)}
             pageNo={data.pageNo}
             {post}
-            on:removed={() => reload()}
-            on:reply={(event) => replyPost(event.detail.row)}
+            onremove={() => reload()}
+            onreply={(row) => replyPost(row)}
         />
     {/each}
 </FramePage>

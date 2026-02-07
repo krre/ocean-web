@@ -343,6 +343,6 @@
         mandelaId={id}
         pageLimit={consts.Mandela.Comment.PageLimit}
         commentCount={data.commentGetAllResponse.total_count}
-        on:appended={() => reloadComments()}
+        onappended={() => reloadComments()}
     />
 </div>

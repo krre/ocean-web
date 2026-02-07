@@ -1,11 +1,8 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
     import { userUrl, dateUrl } from "$lib/utils";
     import { LikeSelection, LikeAction } from "$lib/types";
     import * as dialog from "$lib/dialog";
     import type * as api from "$lib/api";
-
-    const dispatch = createEventDispatcher();
 
     interface Props {
         baseUrl: string;
@@ -24,6 +21,11 @@
         editable?: boolean;
         removable?: boolean;
         replyable?: boolean;
+        ongetLikeUsers?: (row: number) => void;
+        onlike?: (row: number, action: LikeAction) => void;
+        onedit?: (row: number) => void;
+        onremove?: (row: number) => void;
+        onreply?: (row: number) => void;
     }
 
     let {
@@ -43,15 +45,18 @@
         editable = false,
         removable = false,
         replyable = true,
+        ongetLikeUsers,
+        onlike,
+        onedit,
+        onremove,
+        onreply,
     }: Props = $props();
 
     let likeUsersVisible = $state(false);
 
     function showLikeUsers() {
         if (!likeUsersVisible) {
-            dispatch("getLikeUsers", {
-                row: row,
-            });
+            ongetLikeUsers?.(row);
         }
 
         likeUsersVisible = !likeUsersVisible;
@@ -78,30 +83,20 @@
     }
 
     function like(action: LikeAction) {
-        dispatch("like", {
-            row: row,
-            action: action,
-        });
+        onlike?.(row, action);
     }
 
     function edit() {
-        dispatch("edit", {
-            row: row,
-        });
+        onedit?.(row);
     }
 
     function remove() {
         if (!dialog.remove("Удалить сообщение?")) return;
-
-        dispatch("remove", {
-            row: row,
-        });
+        onremove?.(row);
     }
 
     function reply() {
-        dispatch("reply", {
-            row: row,
-        });
+        onreply?.(row);
     }
 </script>
 

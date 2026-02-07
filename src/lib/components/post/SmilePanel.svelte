@@ -1,7 +1,9 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
+    interface Props {
+        onselect: (smile: string) => void;
+    }
 
-    const dispatch = createEventDispatcher();
+    let { onselect }: Props = $props();
     const smiles: String[] = [];
 
     // Chars from Unicode table
@@ -44,13 +46,6 @@
 
 <div class="container">
     {#each smiles as smile}
-        <!-- svelte-ignore a11y_click_events_have_key_events -->
-        <span
-            class="smile"
-            onclick={() =>
-                dispatch("selected", {
-                    smile: smile,
-                })}>{smile}</span
-        >
+        <span class="smile" onclick={() => onselect(smile)}>{smile}</span>
     {/each}
 </div>

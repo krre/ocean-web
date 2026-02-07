@@ -54,11 +54,7 @@
 <FramePage title="Форум" showHeader={false}>
     <div>
         {#each categories as category}
-            <CategoryElement
-                {category}
-                {editable}
-                on:removed={() => reload()}
-            />
+            <CategoryElement {category} {editable} onremove={() => reload()} />
         {/each}
     </div>
 </FramePage>

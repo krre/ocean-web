@@ -1,22 +1,18 @@
 <script lang="ts">
-    import { createEventDispatcher } from "svelte";
     import PostEditor from "$lib/components/post/PostEditor.svelte";
     import WaitButton from "$lib/components/WaitButton.svelte";
 
-    const dispatch = createEventDispatcher();
     interface Props {
         text: string;
         sendAction?: any;
+        oncancel: () => void;
     }
 
     let {
         text = $bindable(),
         sendAction = async (_text: string) => {},
+        oncancel,
     }: Props = $props();
-
-    function cancel() {
-        dispatch("cancel");
-    }
 </script>
 
 <style>
@@ -39,5 +35,5 @@
         enabled={text.length > 0}
         sendAction={() => sendAction(text)}
     />
-    <button onclick={cancel}>Отменить</button>
+    <button onclick={oncancel}>Отменить</button>
 </div>
