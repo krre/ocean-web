@@ -16,16 +16,10 @@
     import type { PageProps } from "./$types";
     import { invalidateAll } from "$app/navigation";
 
-    interface EditedPost extends api.Forum.Post.GetAll.Post {
-        edit: boolean;
-    }
-
     const { data }: PageProps = $props();
 
     let topicName: string = $derived(data.getAllResponse.topic_name);
-    let posts: EditedPost[] = $derived(
-        data.getAllResponse.posts as EditedPost[],
-    );
+    let posts = $derived(data.getAllResponse.posts);
     let poll = $derived(data.getAllResponse.poll as ForumTopicPoll[]);
     let post = $state("");
     let messageEditorRef: MessageEditor | undefined = $state(undefined);

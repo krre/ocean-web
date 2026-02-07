@@ -8,12 +8,8 @@
     import PostTitle from "$lib/components/PostTitle.svelte";
     import EditComment from "$lib/components/comment/EditComment.svelte";
 
-    interface EditedPost extends api.Forum.Post.GetAll.Post {
-        edit: boolean;
-    }
-
     interface Props {
-        post: EditedPost;
+        post: api.Forum.Post.GetAll.Post;
         editable?: boolean;
         row?: number;
         id?: number;
@@ -24,7 +20,7 @@
     }
 
     let {
-        post = $bindable(),
+        post,
         editable = $bindable(false),
         row = 0,
         id = 0,
@@ -35,6 +31,7 @@
     }: Props = $props();
 
     let likeUsers: api.Like.GetUsers.Response[] = $state([]);
+    let editMode = $state(false);
 
     $effect(() => {
         editable =
@@ -96,7 +93,7 @@
 
         await api.Forum.Post.Update.exec(params);
         post.post = message;
-        post.edit = false;
+        editMode = false;
     }
 
     async function removePost() {
@@ -152,16 +149,18 @@
         replyable={!$userSession.isAnonym || isAnonymAllowed()}
         onlike={(row, action) => likePost(row, action)}
         ongetLikeUsers={(row) => getLikeUsers(row)}
-        onedit={() => (post.edit = true)}
+        onedit={() => {
+            editMode = true;
+        }}
         onremove={() => removePost()}
         {onreply}
     />
 
-    {#if post.edit}
+    {#if editMode}
         <EditComment
             text={post.post}
             sendAction={(text: string) => editPost(text)}
-            oncancel={() => (post.edit = false)}
+            oncancel={() => (editMode = false)}
         />
     {:else}
         <div class="text">
