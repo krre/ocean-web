@@ -2,7 +2,7 @@
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
-    import type { PageProps } from "../$types";
+    import type { PageProps } from "./$types";
     import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
 

@@ -5,7 +5,7 @@
     import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import SectionEditor from "$lib/components/forum/section/SectionEditor.svelte";
-    import type { PageProps } from "../$types";
+    import type { PageProps } from "./$types";
 
     const title = "Редактировать раздел";
 
