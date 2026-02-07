@@ -26,6 +26,7 @@ export class RequestCreator<T> implements Request<T> {
     constructor(method: string, params?: T) {
         this.method = method;
         this.params = params;
+        this.id = '';
     }
 
     toString(): string {
