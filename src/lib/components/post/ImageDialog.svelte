@@ -21,9 +21,6 @@
     }
 </script>
 
-<style>
-</style>
-
 <Dialog title="Добавление изображения">
     <input
         bind:value={link}

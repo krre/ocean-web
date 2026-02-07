@@ -18,9 +18,6 @@
     }
 </script>
 
-<style>
-</style>
-
 <Dialog title="Добавление видео YouTube">
     <input
         bind:value={link}

@@ -20,9 +20,6 @@
     }
 </script>
 
-<style>
-</style>
-
 <Dialog title="Добавление ссылки">
     <input
         bind:value={link}

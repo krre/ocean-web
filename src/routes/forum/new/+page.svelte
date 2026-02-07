@@ -12,9 +12,6 @@
     const topicCount = $derived(data.getNewResponse.topic_count);
 </script>
 
-<style>
-</style>
-
 <FramePage title="Последние сообщения форума">
     {#each topics as topic}
         <NewPost {topic} />

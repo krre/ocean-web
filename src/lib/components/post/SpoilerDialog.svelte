@@ -20,9 +20,6 @@
     }
 </script>
 
-<style>
-</style>
-
 <Dialog title="Добавление спойлера">
     <input
         bind:value={description}

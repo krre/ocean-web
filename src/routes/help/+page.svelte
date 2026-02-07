@@ -7,9 +7,6 @@
     const title = "Справка";
 </script>
 
-<style>
-</style>
-
 <Frame {title}>
     <div><a href="{page.path}#about">О сайте</a></div>
 

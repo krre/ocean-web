@@ -9,12 +9,9 @@
     let { title, text }: Props = $props();
 </script>
 
-<style>
-</style>
-
 <Dialog {title}>
     <div>{text}</div>
     {#snippet buttons()}
-        <button  onclick={() => dialog.close()}>Закрыть</button>
+        <button onclick={() => dialog.close()}>Закрыть</button>
     {/snippet}
 </Dialog>
