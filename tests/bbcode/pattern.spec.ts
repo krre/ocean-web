@@ -1,4 +1,4 @@
-import { txt, rgx, opt, exc, any, seq, rep } from "../../src/node_modules/bbcode/pattern"
+import { txt, rgx, opt, exc, any, seq, rep } from "$lib/bbcode/pattern"
 
 describe("BBCode pattern", () => {
     describe("txt", () => {

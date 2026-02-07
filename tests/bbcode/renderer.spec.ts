@@ -1,4 +1,4 @@
-import { render } from "../../src/node_modules/bbcode/renderer"
+import { render } from "$lib/bbcode/renderer"
 
 describe("BBCode renderer", () => {
     test("bold", () => {
