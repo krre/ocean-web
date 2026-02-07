@@ -1,18 +1,16 @@
 <script lang="ts">
-    import { onMount } from "svelte";
     import type { Input } from "$lib/types";
     import Dialog from "$lib/components/dialog/Dialog.svelte";
     import * as dialog from "$lib/dialog";
 
-    onMount(() => {
-        inputRef.focus();
-    });
-
     let { onOk = (_description: string) => {} } = $props();
 
     let description = $state("Спойлер");
+    let inputRef = $state<Input | undefined>(undefined);
 
-    let inputRef: Input = $state();
+    $effect(() => {
+        inputRef?.focus();
+    });
 
     function pressOk() {
         onOk(description);
