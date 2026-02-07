@@ -59,7 +59,7 @@ export function insertText(source: string, position: number, text: string): stri
 }
 
 export function userUrl(name: string, id: number) {
-    return `<a href="user/${id}">${name}</a>`
+    return `<a href="/user/${id}">${name}</a>`
 }
 
 export function pageUrl(baseUrl: string, title: string, id: number, page: number, blank?: boolean) {
