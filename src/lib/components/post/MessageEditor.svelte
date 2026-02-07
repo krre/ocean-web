@@ -19,7 +19,7 @@
     let postEditorRef: PostEditor | undefined = $state(undefined);
 
     export function appendReply(userName: string, text: string) {
-        postEditorRef.appendReply(userName, text);
+        postEditorRef?.appendReply(userName, text);
     }
 
     async function action() {
