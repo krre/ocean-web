@@ -82,7 +82,7 @@
     </div>
     <div class="info">
         Постов: {topic.post_count} · Последний:
-        {#if topic.last_post_create_ts}
+        {#if topic.last_post_create_ts && topic.last_post_id}
             {@html dateUrl(
                 route.Forum.Topic.Id(topic.id),
                 topic.last_post_create_ts,
