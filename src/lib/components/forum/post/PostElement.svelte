@@ -76,7 +76,7 @@
                 post.dislike_count -= 1;
             }
 
-            post.like = null;
+            post.like = undefined;
         }
     }
 
