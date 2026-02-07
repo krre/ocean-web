@@ -1,6 +1,5 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
-    import { page } from "$app/state";
     import Frame from "$lib/components/Frame.svelte";
     import { Vote } from "$lib/types";
 
@@ -8,21 +7,21 @@
 </script>
 
 <Frame {title}>
-    <div><a href="{page.path}#about">О сайте</a></div>
+    <div><a href="#about">О сайте</a></div>
 
-    <div><a href="{page.path}#termins">Термины</a></div>
+    <div><a href="#termins">Термины</a></div>
 
-    <div><a href="{page.path}#colors">Цветовая маркировка мандел</a></div>
+    <div><a href="#colors">Цветовая маркировка мандел</a></div>
 
-    <div><a href="{page.path}#research">Исследования наших участников</a></div>
+    <div><a href="#research">Исследования наших участников</a></div>
 
     <div>
-        <a href="{page.path}#rules">Рекомендуемые правила оформления мандел</a>
+        <a href="#rules">Рекомендуемые правила оформления мандел</a>
     </div>
 
-    <div><a href="{page.path}#trash">Манделы в хламе</a></div>
+    <div><a href="#trash">Манделы в хламе</a></div>
 
-    <div><a href="{page.path}#links">Полезные ссылки</a></div>
+    <div><a href="#links">Полезные ссылки</a></div>
 
     <div>
         <a href="https://t.me/OceanMandela">
