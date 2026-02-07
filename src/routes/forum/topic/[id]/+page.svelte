@@ -20,7 +20,7 @@
 
     let topicName: string = $derived(data.getAllResponse.topic_name);
     let posts = $derived(data.getAllResponse.posts);
-    let poll = $derived(data.getAllResponse.poll as ForumTopicPoll[]);
+    let topicPoll = $derived(data.getAllResponse.poll as ForumTopicPoll[]);
     let post = $state("");
     let messageEditorRef: MessageEditor | undefined = $state(undefined);
     let pollSelectionType = $derived(data.getAllResponse.poll_selection_type);
@@ -44,8 +44,8 @@
     });
 
     $effect(() => {
-        if (poll) {
-            for (const answer of poll) {
+        if (topicPoll) {
+            for (const answer of topicPoll) {
                 if (answer.voted) {
                     isVoted = true;
                     break;
@@ -88,7 +88,7 @@
         };
 
         const result = await api.Forum.Topic.Vote.exec(params);
-        poll = result.poll;
+        topicPoll = result.poll;
         editVote = false;
     }
 
@@ -145,14 +145,14 @@
 
 <FramePage
     title={topicName}
-    showPoll={poll && poll.length > 0}
+    showPoll={topicPoll && topicPoll.length > 0}
     showContent={posts.length > 0}
 >
-    <div>
-        {#if poll}
+    {#snippet poll()}
+        {#if topicPoll}
             {#if ($userSession.isAnonym || isVoted) && !editVote}
                 <div class="poll">
-                    {#each poll as answer}
+                    {#each topicPoll as answer}
                         <div>{answer.answer}:</div>
                         <div>{answer.count}</div>
                         <div>
@@ -187,7 +187,7 @@
                     Голосовать могут только зарегистрированные пользователи.
                 {/if}
             {:else}
-                {#each poll as answer}
+                {#each topicPoll as answer}
                     {#if pollSelectionType === types.ForumPollAnswerSelection.One}
                         <label class="vote">
                             <input
@@ -220,7 +220,7 @@
                 >
             {/if}
         {/if}
-    </div>
+    {/snippet}
 
     {#each posts as post, i}
         <div id={post.id.toString()}></div>
