@@ -76,7 +76,7 @@
 
     function replyPost(row: number) {
         const post = posts[row];
-        messageEditorRef.appendReply(post.user_name, post.post);
+        messageEditorRef?.appendReply(post.user_name, post.post);
     }
 
     async function castVote() {

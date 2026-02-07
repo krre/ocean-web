@@ -120,7 +120,7 @@
 
     function replyComment(row: number) {
         const comment = comments[row];
-        messageEditorRef.appendReply(comment.user_name, comment.message);
+        messageEditorRef?.appendReply(comment.user_name, comment.message);
     }
 </script>
 
