@@ -3,9 +3,10 @@
 
     interface Props {
         open?: boolean;
+        onclick: () => void;
     }
 
-    let { open = $bindable(false) }: Props = $props();
+    let { open = $bindable(false), onclick }: Props = $props();
 </script>
 
 <style>
@@ -29,5 +30,5 @@
 </style>
 
 <aside class:open>
-    <Menu class="menu" />
+    <Menu class="menu" {onclick} />
 </aside>

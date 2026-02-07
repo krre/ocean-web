@@ -64,7 +64,7 @@
     }
 </style>
 
-<Sidebar bind:open on:itemClicked={() => (open = false)} />
+<Sidebar bind:open onclick={() => (open = false)} />
 <Navbar bind:sidebar={open} />
 
 <main>
