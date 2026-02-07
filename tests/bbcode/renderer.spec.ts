@@ -1,4 +1,5 @@
 import { render } from "$lib/bbcode/renderer"
+import { describe, test, expect } from "vitest";
 
 describe("BBCode renderer", () => {
     test("bold", () => {

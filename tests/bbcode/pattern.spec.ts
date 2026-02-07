@@ -1,4 +1,5 @@
 import { txt, rgx, opt, exc, any, seq, rep } from "$lib/bbcode/pattern"
+import { describe, test, expect } from "vitest";
 
 describe("BBCode pattern", () => {
     describe("txt", () => {

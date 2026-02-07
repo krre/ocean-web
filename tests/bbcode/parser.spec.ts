@@ -1,5 +1,7 @@
 import { name, char, wsp, text, quoted, attr, attrs, open, close, node, doc } from "$lib/bbcode/parser"
 
+import { describe, test, expect } from "vitest";
+
 describe("BBCode parser", () => {
     test("name", () => {
         expect(name.exec("Width", 0)).toStrictEqual({ res: "width", end: 5 })
