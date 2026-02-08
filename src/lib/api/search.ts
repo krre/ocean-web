@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery } from "$lib/network";
 
 export namespace GetAll {
     export interface Request {
@@ -22,6 +22,6 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("search.getAll", params);
+        return await sendQuery("search.getAll", params);
     }
 }

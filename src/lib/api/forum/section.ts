@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 
 export namespace GetAll {
     export interface Request {
@@ -18,7 +18,7 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.section.getAll", params)
+        return await sendQuery("forum.section.getAll", params)
     }
 }
 
@@ -37,7 +37,7 @@ export namespace GetOne {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.section.getOne", params)
+        return await sendQuery("forum.section.getOne", params)
     }
 }
 
@@ -46,8 +46,8 @@ export namespace Create {
         category_id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.section.create", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.section.create", params)
     }
 }
 
@@ -56,8 +56,8 @@ export namespace Update {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.section.update", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.section.update", params)
     }
 }
 
@@ -66,7 +66,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.section.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.section.delete", params)
     }
 }

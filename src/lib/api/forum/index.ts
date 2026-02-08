@@ -2,7 +2,7 @@ import * as category from "./category"
 import * as section from "./section"
 import * as topic from "./topic"
 import * as post from "./post"
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 
 export import Category = category;
 export import Section = section;
@@ -30,7 +30,7 @@ export namespace GetAll {
     }
 
     export async function exec(): Promise<Response> {
-        return await send("forum.getAll")
+        return await sendQuery("forum.getAll")
     }
 }
 
@@ -57,6 +57,6 @@ export namespace GetNew {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.getNew", params)
+        return await sendQuery("forum.getNew", params)
     }
 }

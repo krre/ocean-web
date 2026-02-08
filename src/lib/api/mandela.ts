@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 
 export interface Vote {
     count: number;
@@ -42,7 +42,7 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("mandela.getAll", params)
+        return await sendQuery("mandela.getAll", params)
     }
 }
 
@@ -51,8 +51,8 @@ export namespace Delete {
         id: number[];
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("mandela.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("mandela.delete", params)
     }
 }
 
@@ -72,7 +72,7 @@ export namespace Create {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("mandela.create", params)
+        return await sendQuery("mandela.create", params)
     }
 }
 
@@ -93,7 +93,7 @@ export namespace Update {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("mandela.update", params)
+        return await sendQuery("mandela.update", params)
     }
 }
 
@@ -128,7 +128,7 @@ export namespace GetOne {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("mandela.getOne", params)
+        return await sendQuery("mandela.getOne", params)
     }
 }
 
@@ -137,8 +137,8 @@ export namespace Mark {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("mandela.mark", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("mandela.mark", params)
     }
 }
 
@@ -154,7 +154,7 @@ export namespace Vote {
     }
 
     export async function exec(params: Request): Promise<Response[]> {
-        return await send("mandela.vote", params)
+        return await sendQuery("mandela.vote", params)
     }
 }
 
@@ -170,7 +170,7 @@ export namespace GetVoteUsers {
     }
 
     export async function exec(params: Request): Promise<Response[]> {
-        return await send("mandela.getVoteUsers", params)
+        return await sendQuery("mandela.getVoteUsers", params)
     }
 }
 
@@ -181,7 +181,7 @@ export namespace UpdateTrash {
         automatic_trash: boolean;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("mandela.updateTrash", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("mandela.updateTrash", params)
     }
 }

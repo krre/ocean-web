@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 
 export namespace GetOne {
     export interface Request {
@@ -21,7 +21,7 @@ export namespace GetOne {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("user.getOne", params);
+        return await sendQuery("user.getOne", params);
     }
 }
 
@@ -33,8 +33,8 @@ export namespace Create {
         token: string,
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("user.create", params);
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("user.create", params);
     }
 }
 
@@ -43,8 +43,8 @@ export namespace Delete {
         id: number,
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("user.delete", params);
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("user.delete", params);
     }
 }
 
@@ -57,8 +57,8 @@ export namespace Update {
         blocked: boolean;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("user.update", params);
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("user.update", params);
     }
 }
 
@@ -68,8 +68,8 @@ export namespace UpdateProfile {
         gender: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("user.updateProfile", params);
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("user.updateProfile", params);
     }
 }
 
@@ -78,8 +78,8 @@ export namespace UpdateToken {
         token: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("user.updateToken", params);
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("user.updateToken", params);
     }
 }
 
@@ -89,7 +89,7 @@ export namespace GetNextId {
     }
 
     export async function exec(): Promise<Response> {
-        return await send("user.getNextId")
+        return await sendQuery("user.getNextId")
     }
 }
 
@@ -104,12 +104,12 @@ export namespace Auth {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("user.auth", params);
+        return await sendQuery("user.auth", params);
     }
 }
 
 export namespace Logout {
-    export async function exec(): Promise<{}> {
-        return await send("user.logout");
+    export async function exec(): Promise<void> {
+        return await sendCommand("user.logout");
     }
 }

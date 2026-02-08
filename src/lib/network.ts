@@ -4,7 +4,7 @@ import { session } from "./stores";
 import { PUBLIC_OCEAN_API_URL } from '$env/static/public';
 import type { UserSession } from "./types";
 
-export async function send<Req, Res>(method: string, params?: Req): Promise<Res | undefined> {
+async function send<Req, Res>(method: string, params?: Req): Promise<Res | void> {
     const rc = new RequestCreator(method, params);
 
     const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${session().token}`, {
@@ -20,6 +20,20 @@ export async function send<Req, Res>(method: string, params?: Req): Promise<Res 
     }
 
     return response.result;
+}
+
+export async function sendQuery<Req, Res>(method: string, params?: Req): Promise<Res> {
+    const result = send<Req, Res>(method, params);
+
+    if (result === undefined) {
+        throw new Error(`Method ${method} expected data, but received undefined`);
+    }
+
+    return result as Res;
+}
+
+export async function sendCommand<Req>(method: string, params?: Req): Promise<void> {
+    send<Req, void>(method, params);
 }
 
 export function errorMessage(error: Error): string {

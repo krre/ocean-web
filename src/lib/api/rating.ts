@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery } from "$lib/network";
 
 export namespace GetMandels {
     export interface Request {
@@ -23,7 +23,7 @@ export namespace GetMandels {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("rating.getMandels", params)
+        return await sendQuery("rating.getMandels", params)
     }
 }
 
@@ -45,6 +45,6 @@ export namespace GetUsers {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("rating.getUsers", params)
+        return await sendQuery("rating.getUsers", params)
     }
 }

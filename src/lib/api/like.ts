@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 import type { LikeAction } from "$lib/types"
 
 export namespace Create {
@@ -8,8 +8,8 @@ export namespace Create {
         action: LikeAction;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("like.create", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("like.create", params)
     }
 }
 
@@ -19,8 +19,8 @@ export namespace Delete {
         post_id?: number
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("like.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("like.delete", params)
     }
 }
 
@@ -37,6 +37,6 @@ export namespace GetUsers {
     }
 
     export async function exec(params: Request): Promise<Response[]> {
-        return await send("like.getUsers", params)
+        return await sendQuery("like.getUsers", params)
     }
 }

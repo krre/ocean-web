@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 import type { ForumTopicPoll } from "$lib/types";
 
 export namespace GetAll {
@@ -34,7 +34,7 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.post.getAll", params)
+        return await sendQuery("forum.post.getAll", params)
     }
 }
 
@@ -44,8 +44,8 @@ export namespace Create {
         post: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.post.create", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.post.create", params)
     }
 }
 
@@ -55,8 +55,8 @@ export namespace Update {
         post: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.post.update", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.post.update", params)
     }
 }
 
@@ -65,7 +65,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.post.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.post.delete", params)
     }
 }

@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery } from "$lib/network";
 
 export enum TitleType {
     Mandela = "mandela",
@@ -31,6 +31,6 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("feed.getAll", params);
+        return await sendQuery("feed.getAll", params);
     }
 }

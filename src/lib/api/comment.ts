@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 
 export namespace GetAll {
     export interface Request {
@@ -25,7 +25,7 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("comment.getAll", params)
+        return await sendQuery("comment.getAll", params)
     }
 }
 
@@ -35,8 +35,8 @@ export namespace Create {
         message: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("comment.create", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("comment.create", params)
     }
 }
 
@@ -46,8 +46,8 @@ export namespace Update {
         message: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("comment.update", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("comment.update", params)
     }
 }
 
@@ -56,7 +56,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("comment.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("comment.delete", params)
     }
 }

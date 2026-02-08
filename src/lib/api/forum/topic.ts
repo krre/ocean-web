@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery, sendCommand } from "$lib/network";
 import type { ForumTopicType, ForumPollAnswerSelection, ForumTopicPoll } from "$lib/types"
 
 export namespace GetAll {
@@ -29,7 +29,7 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.topic.getAll", params)
+        return await sendQuery("forum.topic.getAll", params)
     }
 }
 
@@ -45,7 +45,7 @@ export namespace GetOne {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.topic.getOne", params)
+        return await sendQuery("forum.topic.getOne", params)
     }
 }
 
@@ -63,7 +63,7 @@ export namespace Create {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.topic.create", params)
+        return await sendQuery("forum.topic.create", params)
     }
 }
 
@@ -73,8 +73,8 @@ export namespace Update {
         name: string;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.topic.update", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.topic.update", params)
     }
 }
 
@@ -83,8 +83,8 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<{}> {
-        return await send("forum.topic.delete", params)
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand("forum.topic.delete", params)
     }
 }
 
@@ -99,7 +99,7 @@ export namespace Vote {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("forum.topic.vote", params)
+        return await sendQuery("forum.topic.vote", params)
     }
 }
 
@@ -115,6 +115,6 @@ export namespace GetVoteUsers {
     }
 
     export async function exec(params: Request): Promise<Response[]> {
-        return await send("forum.topic.getVoteUsers", params)
+        return await sendQuery("forum.topic.getVoteUsers", params)
     }
 }

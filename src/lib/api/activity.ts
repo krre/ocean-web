@@ -1,4 +1,4 @@
-import { send } from "$lib/network";
+import { sendQuery } from "$lib/network";
 
 export interface Comment {
     id: number;
@@ -37,6 +37,6 @@ export namespace GetAll {
     }
 
     export async function exec(params: Request): Promise<Response> {
-        return await send("activity.getAll", params);
+        return await sendQuery("activity.getAll", params);
     }
 }
