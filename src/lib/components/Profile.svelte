@@ -12,7 +12,7 @@
     function openUrl() {
         const params = new URLSearchParams();
         params.append("user", user.id.toString());
-        return "?" + params.toString();
+        return "/?" + params.toString();
     }
 </script>
 
