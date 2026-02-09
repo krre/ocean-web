@@ -146,10 +146,10 @@
                 <button
                     onclick={() => {
                         like(LikeAction.Like);
-                    }}><i class="far fa-thumbs-up"></i></button
+                    }}
+                    title="Нравится"><i class="far fa-thumbs-up"></i></button
                 >
             {:else}
-                <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <i
                     class="far fa-thumbs-up {likeSelection == LikeSelection.Like
                         ? 'like up'
@@ -172,11 +172,12 @@
                 <button
                     onclick={() => {
                         like(LikeAction.Dislike);
-                    }}><i class="far fa-thumbs-down"></i></button
+                    }}
+                    title="Не нравится"
+                    ><i class="far fa-thumbs-down"></i></button
                 >
             {:else}
                 &nbsp;
-                <!-- svelte-ignore a11y_click_events_have_key_events -->
                 <i
                     class="far fa-thumbs-down {likeSelection ==
                     LikeSelection.Dislike
@@ -200,7 +201,9 @@
                 <button
                     onclick={() => {
                         showLikeUsers();
-                    }}><i class="fas fa-question"></i></button
+                    }}
+                    title="Пользователи, поставившие оценку"
+                    ><i class="fas fa-question"></i></button
                 >
             {/if}
 
@@ -208,15 +211,21 @@
         {/if}
 
         {#if editable}
-            <button onclick={edit}><i class="fas fa-edit"></i></button>
+            <button onclick={edit} title="Редактировать"
+                ><i class="fas fa-edit"></i></button
+            >
         {/if}
 
         {#if removable}
-            <button onclick={remove}><i class="fas fa-trash-alt"></i></button>
+            <button onclick={remove} title="Удалить"
+                ><i class="fas fa-trash-alt"></i></button
+            >
         {/if}
 
         {#if replyable}
-            <button onclick={reply}><i class="fas fa-reply"></i></button>
+            <button onclick={reply} title="Ответить"
+                ><i class="fas fa-reply"></i></button
+            >
         {/if}
     </span>
 </div>

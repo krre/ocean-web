@@ -154,45 +154,52 @@
 <div class="container">
     <div class="toolbar">
         <div>
-            <button onclick={appendBold}><i class="fas fa-bold"></i></button>
-
-            <button onclick={appendItalic}><i class="fas fa-italic"></i></button
+            <button onclick={appendBold} title="Жирный"
+                ><i class="fas fa-bold"></i></button
             >
 
-            <button onclick={appendUnderline}
+            <button onclick={appendItalic} title="Курсив"
+                ><i class="fas fa-italic"></i></button
+            >
+
+            <button onclick={appendUnderline} title="Подчёркнутый"
                 ><i class="fas fa-underline"></i></button
             >
 
-            <button onclick={appendStrikethrough}
+            <button onclick={appendStrikethrough} title="Зачёркнутый"
                 ><i class="fas fa-strikethrough"></i></button
             >
 
-            <button onclick={() => dialog.open(LinkDialog, { onOk: onOkLink })}
-                ><i class="fas fa-link"></i></button
+            <button
+                onclick={() => dialog.open(LinkDialog, { onOk: onOkLink })}
+                title="Ссылка"><i class="fas fa-link"></i></button
             >
 
             <button
                 onclick={() =>
                     dialog.open(ImageDialog, {
                         onOk: onOkImage,
-                    })}><i class="fas fa-image"></i></button
+                    })}
+                title="Изображение"><i class="fas fa-image"></i></button
             >
 
             <button
                 onclick={() =>
                     dialog.open(VideoDialog, {
                         onOk: onOkVideo,
-                    })}><i class="fab fa-youtube"></i></button
+                    })}
+                title="Видео"><i class="fab fa-youtube"></i></button
             >
 
             <button
                 onclick={() =>
                     dialog.open(SpoilerDialog, { onOk: onOkSpoiler })}
-                ><i class="fas fa-eye-slash"></i></button
+                title="Спойлер"><i class="fas fa-eye-slash"></i></button
             >
 
-            <button onclick={() => (isSmilePanelActive = !isSmilePanelActive)}
-                ><i class="far fa-smile"></i></button
+            <button
+                onclick={() => (isSmilePanelActive = !isSmilePanelActive)}
+                title="Смайл"><i class="far fa-smile"></i></button
             >
         </div>
 
