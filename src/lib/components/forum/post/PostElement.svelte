@@ -33,6 +33,16 @@
     let likeUsers: api.Like.GetUsers.Response[] = $state([]);
     let editMode = $state(false);
 
+    let like: LikeAction | undefined = $state();
+    let likeCount = $state(0);
+    let dislikeCount = $state(0);
+
+    $effect(() => {
+        like = post.like;
+        likeCount = post.like_count;
+        dislikeCount = post.dislike_count;
+    });
+
     $effect(() => {
         editable =
             $userSession.isAdmin ||
@@ -53,12 +63,12 @@
 
             await api.Like.Create.exec(params);
 
-            post.like = action;
+            like = action;
 
             if (action === LikeAction.Like) {
-                post.like_count += 1;
+                likeCount += 1;
             } else if (action === LikeAction.Dislike) {
-                post.dislike_count += 1;
+                dislikeCount += 1;
             }
         } else {
             const params: api.Like.Delete.Request = {
@@ -67,13 +77,13 @@
 
             await api.Like.Delete.exec(params);
 
-            if (post.like === LikeAction.Like) {
-                post.like_count -= 1;
-            } else if (post.like === LikeAction.Dislike) {
-                post.dislike_count -= 1;
+            if (like === LikeAction.Like) {
+                likeCount -= 1;
+            } else if (like === LikeAction.Dislike) {
+                dislikeCount -= 1;
             }
 
-            post.like = undefined;
+            like = undefined;
         }
     }
 
@@ -135,13 +145,13 @@
         post.user_id === $userSession.id ||
         $userSession.code === consts.Account.Anonym
             ? LikeSelection.Disabled
-            : post.like == null
+            : like == null
               ? LikeSelection.None
-              : post.like == LikeAction.Like
+              : like == LikeAction.Like
                 ? LikeSelection.Like
                 : LikeSelection.Dislike}
-        likeCount={post.like_count}
-        dislikeCount={post.dislike_count}
+        {likeCount}
+        {dislikeCount}
         likeQuestion={$userSession.isAdmin}
         {likeUsers}
         {editable}
