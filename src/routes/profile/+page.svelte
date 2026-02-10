@@ -8,11 +8,9 @@
     import Profile from "$lib/components/Profile.svelte";
     import type { PageProps } from "./$types";
     import { createToken } from "$lib/utils";
-    import { session, setSession } from "$lib/stores";
+    import { setSession, userSession } from "$lib/stores";
 
     let { data }: PageProps = $props();
-
-    let userSession = session();
 
     const title = "Профиль";
 
@@ -42,9 +40,9 @@
         try {
             await api.User.UpdateProfile.exec(params);
 
-            userSession.name = userName;
-            setSession(userSession);
-            login(userSession);
+            $userSession.name = userName;
+            setSession($userSession);
+            login($userSession);
 
             successProfile = "Профиль успешно обновлён";
         } catch (e) {
@@ -72,9 +70,9 @@
         try {
             await api.User.UpdateToken.exec(params);
 
-            userSession.token = token;
-            setSession(userSession);
-            login(userSession);
+            $userSession.token = token;
+            setSession($userSession);
+            login($userSession);
 
             password1 = "";
             password2 = "";
