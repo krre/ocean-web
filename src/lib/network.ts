@@ -9,7 +9,10 @@ async function send<Req, Res>(method: string, params?: Req): Promise<Res | void>
 
     const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${session().token}`, {
         method: "POST",
-        body: rc.toString()
+        body: rc.toString(),
+        headers: {
+            "content-type": "application/json",
+        },
     })
 
     const text = await answer.text();
