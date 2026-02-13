@@ -40,7 +40,7 @@ describe("BBCode pattern", () => {
         })
 
         test("failure", () => {
-            expect(p.exec("H", 0)).toBe(false);
+            expect(p.exec("H", 0)).toBe(undefined);
         })
     })
 

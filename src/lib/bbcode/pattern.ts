@@ -1,16 +1,14 @@
 const IS_DEBUG = false;
 
-export interface PatternResult {
-    res: any,
+export interface PatternResult<T> {
+    res: T,
     end: number
 }
 
-export class Pattern {
-    name: string;
+type ExecFn<T> = (str: string, pos: number) => PatternResult<T> | undefined;
 
-    constructor(name: string, exec: (str: string, pos: number) => PatternResult) {
-        this.name = name;
-
+export class Pattern<T = any> {
+    constructor(public name: string, exec: ExecFn<T>) {
         if (IS_DEBUG) {
             this.exec = (str: string, pos: number) => {
                 console.debug(`Exec ${name}: str: ${str}, pos: ${pos}`);
@@ -23,26 +21,26 @@ export class Pattern {
         }
     }
 
-    exec: (str: string, pos: number) => PatternResult;
+    exec: ExecFn<T>;
 
-    then(transform: any): Pattern {
-        return new Pattern(this.name, (str: string, pos: number) => {
+    then<U>(transform: (arg: T) => U): Pattern<U> {
+        return new Pattern(this.name, (str, pos) => {
             const r = this.exec(str, pos);
-            return r && { res: transform(r.res), end: r.end };
+            return r ? { res: transform(r.res), end: r.end } : undefined;
         });
     }
 }
 
-export function txt(text: string): Pattern {
-    return new Pattern("txt", (str: string, pos: number) => {
+export function txt(text: string): Pattern<string> {
+    return new Pattern("txt", (str, pos) => {
         if (str.substring(pos, pos + text.length) == text) {
             return { res: text, end: pos + text.length }
         }
     });
 }
 
-export function rgx(regexp: RegExp): Pattern {
-    return new Pattern("rgx", (str: string, pos: number) => {
+export function rgx(regexp: RegExp): Pattern<string> {
+    return new Pattern("rgx", (str, pos) => {
         const m = regexp.exec(str.slice(pos));
 
         if (m && m.index == 0) {
@@ -51,22 +49,23 @@ export function rgx(regexp: RegExp): Pattern {
     });
 }
 
-export function opt(pattern: Pattern): Pattern {
-    return new Pattern("opt", (str: string, pos: number) => {
-        return pattern.exec(str, pos) || { res: void 0, end: pos };
+export function opt<T>(pattern: Pattern<T>): Pattern<T | undefined> {
+    return new Pattern<T | undefined>("opt", (str, pos) =>
+        pattern.exec(str, pos) ?? {
+            res: undefined, end: pos,
+        });
+}
+
+export function exc<T>(pattern: Pattern<T>, except: Pattern<T>): Pattern<T | undefined> {
+    return new Pattern<T | undefined>("exc", (str, pos) => {
+        return !except.exec(str, pos) ? pattern.exec(str, pos) : undefined;
     });
 }
 
-export function exc(pattern: Pattern, except: Pattern): Pattern {
-    return new Pattern("exc", (str: string, pos: number) => {
-        return !except.exec(str, pos) && pattern.exec(str, pos);
-    });
-}
-
-export function any(...patterns: Pattern[]): Pattern {
-    return new Pattern("any", (str: string, pos: number) => {
-        for (let r: PatternResult, i = 0; i < patterns.length; i++) {
-            const r = patterns[i].exec(str, pos);
+export function any<T>(...patterns: Pattern<T>[]): Pattern<T | undefined> {
+    return new Pattern("any", (str, pos) => {
+        for (const pattern of patterns) {
+            const r = pattern.exec(str, pos);
 
             if (r && r.res) {
                 return r;
@@ -75,13 +74,13 @@ export function any(...patterns: Pattern[]): Pattern {
     });
 }
 
-export function seq(...patterns: Pattern[]): Pattern {
-    return new Pattern("seq", (str: string, pos: number) => {
+export function seq<T extends any[]>(...patterns: Pattern<any>[]): Pattern<T> {
+    return new Pattern<T>("seq", (str, pos) => {
         let res = [];
         let end = pos;
 
-        for (let i = 0; i < patterns.length; i++) {
-            let r = patterns[i].exec(str, end);
+        for (const pattern of patterns) {
+            let r = pattern.exec(str, end);
 
             if (!r) return;
 
@@ -89,14 +88,14 @@ export function seq(...patterns: Pattern[]): Pattern {
             end = r.end;
         }
 
-        return { res: res, end: end };
+        return { res: res as T, end: end };
     });
 }
 
-export function rep(pattern: Pattern, separator?: Pattern): Pattern {
+export function rep<T>(pattern: Pattern<T>, separator?: Pattern<any>): Pattern<T[]> {
     const separated = !separator ? pattern : seq(separator, pattern).then(r => r[1]);
 
-    return new Pattern("rep", (str: string, pos: number) => {
+    return new Pattern<T[]>("rep", (str: string, pos: number) => {
         const res = [];
         let end = pos;
         let r = pattern.exec(str, end);
