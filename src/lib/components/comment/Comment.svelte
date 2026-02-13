@@ -46,7 +46,7 @@
             message: message,
         };
 
-        await api.Comment.Create.exec(params);
+        await api.Comment.Create.exec(params, $userSession.token);
         onappended();
     }
 
@@ -57,7 +57,7 @@
                 action: action,
             };
 
-            await api.Like.Create.exec(params);
+            await api.Like.Create.exec(params, $userSession.token);
 
             comments[row].like = action;
 
@@ -71,7 +71,7 @@
                 comment_id: +comments[row].id,
             };
 
-            await api.Like.Delete.exec(params);
+            await api.Like.Delete.exec(params, $userSession.token);
 
             if (comments[row].like === LikeAction.Like) {
                 comments[row].like_count -= 1;
@@ -90,7 +90,10 @@
             comment_id: +comments[row].id,
         };
 
-        comments[row].likeUsers = await api.Like.GetUsers.exec(params);
+        comments[row].likeUsers = await api.Like.GetUsers.exec(
+            params,
+            $userSession.token,
+        );
     }
 
     function openEditor(row: number) {
@@ -103,7 +106,7 @@
             message: message,
         };
 
-        await api.Comment.Update.exec(params);
+        await api.Comment.Update.exec(params, $userSession.token);
         comments[row].message = message;
         comments[row].edit = false;
     }
@@ -113,7 +116,7 @@
             id: comments[row].id,
         };
 
-        await api.Comment.Delete.exec(params);
+        await api.Comment.Delete.exec(params, $userSession.token);
         comments[row].remove = false;
         comments.splice(row, 1);
     }

@@ -3,6 +3,7 @@
     import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
 
     interface Props {
         section: api.Forum.Section.GetAll.Section;
@@ -22,7 +23,7 @@
         const params: api.Forum.Section.Delete.Request = {
             id: +section.id,
         };
-        await api.Forum.Section.Delete.exec(params);
+        await api.Forum.Section.Delete.exec(params, $userSession.token);
         onremove();
     }
 </script>

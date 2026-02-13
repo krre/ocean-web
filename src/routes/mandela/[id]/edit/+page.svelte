@@ -4,6 +4,7 @@
     import * as route from "$lib/route";
     import type { PageProps } from "./$types";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
@@ -50,7 +51,7 @@
             categories: categories,
         };
 
-        await api.Mandela.Update.exec(params);
+        await api.Mandela.Update.exec(params, $userSession.token);
         goto(route.Mandela.Id(id));
     }
 </script>

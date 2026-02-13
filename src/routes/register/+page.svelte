@@ -4,6 +4,7 @@
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
     import { createToken } from "$lib/utils";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import BoxForm from "$lib/components/BoxForm.svelte";
     import OperationResult from "$lib/components/OperationResult.svelte";
@@ -24,7 +25,7 @@
             return;
         }
 
-        const result = await api.User.GetNextId.exec();
+        const result = await api.User.GetNextId.exec($userSession.token);
         const id = result.id;
 
         const params: api.User.Create.Request = {
@@ -34,7 +35,7 @@
             token: createToken(id, password1),
         };
 
-        await api.User.Create.exec(params);
+        await api.User.Create.exec(params, $userSession.token);
         goto(route.Register.UserId(id));
     }
 </script>

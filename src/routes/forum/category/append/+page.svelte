@@ -17,7 +17,7 @@
             order_index: order,
         };
 
-        await api.Forum.Category.Create.exec(params);
+        await api.Forum.Category.Create.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

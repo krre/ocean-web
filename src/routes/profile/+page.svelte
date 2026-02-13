@@ -38,7 +38,7 @@
         };
 
         try {
-            await api.User.UpdateProfile.exec(params);
+            await api.User.UpdateProfile.exec(params, $userSession.token);
 
             $userSession.name = userName;
             setSession($userSession);
@@ -68,7 +68,7 @@
         };
 
         try {
-            await api.User.UpdateToken.exec(params);
+            await api.User.UpdateToken.exec(params, $userSession.token);
 
             $userSession.token = token;
             setSession($userSession);

@@ -4,6 +4,7 @@
     import * as types from "$lib/types";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import MessageEditor from "$lib/components/post/MessageEditor.svelte";
 
@@ -43,14 +44,17 @@
             topicParams.poll_answer_selection = answerSelection;
         }
 
-        const result = await api.Forum.Topic.Create.exec(topicParams);
+        const result = await api.Forum.Topic.Create.exec(
+            topicParams,
+            $userSession.token,
+        );
 
         const postParams: api.Forum.Post.Create.Request = {
             topic_id: result.id,
             post: post,
         };
 
-        await api.Forum.Post.Create.exec(postParams);
+        await api.Forum.Post.Create.exec(postParams, $userSession.token);
 
         goto(route.Forum.Topic.Id(result.id));
     };

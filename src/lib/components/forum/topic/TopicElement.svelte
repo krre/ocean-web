@@ -32,7 +32,7 @@
         const params: api.Forum.Topic.Delete.Request = {
             id: +topic.id,
         };
-        await api.Forum.Topic.Delete.exec(params);
+        await api.Forum.Topic.Delete.exec(params, $userSession.token);
         onremoved();
     }
 </script>

@@ -3,6 +3,7 @@
     import * as api from "$lib/api";
     import * as dialog from "$lib/dialog";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
     import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
 
     interface Props {
@@ -23,7 +24,7 @@
         const params: api.Forum.Category.Delete.Request = {
             id: +category.id,
         };
-        await api.Forum.Category.Delete.exec(params);
+        await api.Forum.Category.Delete.exec(params, $userSession.token);
         onremove();
     }
 

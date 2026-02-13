@@ -28,7 +28,7 @@
             name: name,
         };
 
-        await api.Forum.Topic.Update.exec(params);
+        await api.Forum.Topic.Update.exec(params, $userSession.token);
         goto(route.Forum.Section.Id(data.getOneResponse.section_id));
     };
 </script>

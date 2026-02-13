@@ -26,7 +26,7 @@
             order_index: order,
         };
 
-        await api.Forum.Section.Update.exec(params);
+        await api.Forum.Section.Update.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

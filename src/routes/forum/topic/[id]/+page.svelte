@@ -64,7 +64,7 @@
             post: post,
         };
 
-        await api.Forum.Post.Create.exec(params);
+        await api.Forum.Post.Create.exec(params, $userSession.token);
         reload();
     }
 
@@ -87,7 +87,10 @@
             votes: votes,
         };
 
-        const result = await api.Forum.Topic.Vote.exec(params);
+        const result = await api.Forum.Topic.Vote.exec(
+            params,
+            $userSession.token,
+        );
         topicPoll = result.poll;
         editVote = false;
     }
@@ -98,7 +101,10 @@
                 id: data.topicId,
             };
 
-            voteUsers = await api.Forum.Topic.GetVoteUsers.exec(params);
+            voteUsers = await api.Forum.Topic.GetVoteUsers.exec(
+                params,
+                $userSession.token,
+            );
         }
 
         voteUserVisible = !voteUserVisible;

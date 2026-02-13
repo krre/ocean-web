@@ -6,7 +6,7 @@
     import { errorMessage, login } from "$lib/network";
     import { createToken } from "$lib/utils";
     import type { UserSession } from "$lib/types";
-    import { setSession } from "$lib/stores";
+    import { setSession, userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import BoxForm from "$lib/components/BoxForm.svelte";
     import OperationResult from "$lib/components/OperationResult.svelte";
@@ -27,7 +27,7 @@
         };
 
         try {
-            const result = await api.User.Auth.exec(params);
+            const result = await api.User.Auth.exec(params, $userSession.token);
 
             const session: UserSession = {
                 token: token,

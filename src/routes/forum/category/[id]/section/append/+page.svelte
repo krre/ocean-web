@@ -19,7 +19,7 @@
             order_index: order,
         };
 
-        await api.Forum.Section.Create.exec(params);
+        await api.Forum.Section.Create.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

@@ -19,7 +19,7 @@
             blocked: data.user.blocked,
         };
 
-        await api.User.Update.exec(params);
+        await api.User.Update.exec(params, $userSession.token);
     }
 
     async function deleteUser() {
@@ -29,7 +29,7 @@
             id: data.user.id,
         };
 
-        await api.User.Delete.exec(params);
+        await api.User.Delete.exec(params, $userSession.token);
         isUserExists = false;
     }
 </script>

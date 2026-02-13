@@ -3,6 +3,7 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
+    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import MandelaEditor from "$lib/components/MandelaEditor.svelte";
 
@@ -27,7 +28,10 @@
             categories: categories,
         };
 
-        const result = await api.Mandela.Create.exec(params);
+        const result = await api.Mandela.Create.exec(
+            params,
+            $userSession.token,
+        );
         goto(route.Mandela.Id(result.id));
     }
 </script>

@@ -57,7 +57,7 @@
             id: [id],
         };
 
-        await api.Mandela.Delete.exec(params);
+        await api.Mandela.Delete.exec(params, $userSession.token);
 
         alert("Мандела удалена!");
     }
@@ -68,7 +68,7 @@
             vote: voteValue,
         };
 
-        votes = await api.Mandela.Vote.exec(params);
+        votes = await api.Mandela.Vote.exec(params, $userSession.token);
         vote = voteValue;
         editVote = false;
     }
@@ -79,7 +79,10 @@
                 id: mandela.id,
             };
 
-            voteUsers = await api.Mandela.GetVoteUsers.exec(params);
+            voteUsers = await api.Mandela.GetVoteUsers.exec(
+                params,
+                $userSession.token,
+            );
         }
 
         voteUserVisible = !voteUserVisible;
@@ -109,7 +112,7 @@
             automatic_trash: automaticTrash,
         };
 
-        await api.Mandela.UpdateTrash.exec(params);
+        await api.Mandela.UpdateTrash.exec(params, $userSession.token);
     }
 
     async function updateAutmaticTrash() {
@@ -119,7 +122,7 @@
             automatic_trash: automaticTrash,
         };
 
-        await api.Mandela.UpdateTrash.exec(params);
+        await api.Mandela.UpdateTrash.exec(params, $userSession.token);
     }
 
     function getVoteCount(vote: number) {
@@ -135,7 +138,8 @@
     }
 
     async function reloadComments() {
-        comments = (await loadComments(id, data.pageNo)).comments;
+        comments = (await loadComments(id, data.pageNo, $userSession.token))
+            .comments;
     }
 </script>
 

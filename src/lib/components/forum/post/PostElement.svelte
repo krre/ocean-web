@@ -61,7 +61,7 @@
                 action: action,
             };
 
-            await api.Like.Create.exec(params);
+            await api.Like.Create.exec(params, $userSession.token);
 
             like = action;
 
@@ -75,7 +75,7 @@
                 post_id: +post.id,
             };
 
-            await api.Like.Delete.exec(params);
+            await api.Like.Delete.exec(params, $userSession.token);
 
             if (like === LikeAction.Like) {
                 likeCount -= 1;
@@ -92,7 +92,7 @@
             post_id: id,
         };
 
-        likeUsers = await api.Like.GetUsers.exec(params);
+        likeUsers = await api.Like.GetUsers.exec(params, $userSession.token);
     }
 
     async function editPost(message: string) {
@@ -101,7 +101,7 @@
             post: message,
         };
 
-        await api.Forum.Post.Update.exec(params);
+        await api.Forum.Post.Update.exec(params, $userSession.token);
         post.post = message;
         editMode = false;
     }
@@ -110,7 +110,7 @@
         const params: api.Forum.Post.Delete.Request = {
             id: +post.id,
         };
-        await api.Forum.Post.Delete.exec(params);
+        await api.Forum.Post.Delete.exec(params, $userSession.token);
         onremove();
     }
 </script>
