@@ -3,17 +3,6 @@ import type { MandelaTitle } from "$lib/types"
 import sha1 from "sha1";
 import { PUBLIC_ANONYM_ALLOWED } from '$env/static/public';
 
-export function post(endpoint: string, data?) {
-    return fetch(endpoint, {
-        method: 'POST',
-        credentials: 'include',
-        body: JSON.stringify(data),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    }).then(r => r.json());
-}
-
 export function formatDateTime(date): string {
     date += "Z"
     return formatDate(date) + " " + formatTime(date);
