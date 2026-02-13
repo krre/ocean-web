@@ -47,9 +47,7 @@ describe("BBCode renderer", () => {
 
     test("quote", () => {
         expect(render({ name: "quote", attrs: { quote: "Anonym" }, nodes: ["Message"] }))
-            .toBe(`<div class="quote">Anonym пишет:
-
-<em>Message</em></div>`);
+            .toBe(`<div class="quote">Anonym пишет:<br/><br/><em>Message</em></div>`);
     });
 
     test("complex", () => {

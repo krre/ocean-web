@@ -14,42 +14,18 @@ export function render(node: any): string {
 
 function renderBBCode(name: string, value: string, attrs: any): string {
     switch (name) {
-        case "b": return bold(value)
-        case "i": return italic(value);
-        case "u": return underline(value);
-        case "s": return strikethrough(value);
-        case "url": return link(value, attrs);
-        case "img": return image(value, attrs);
+        case "b": return `<strong>${value}</strong>`;
+        case "i": return `<em>${value}</em>`;
+        case "u": return `<ins>${value}</ins>`;
+        case "s": return `<del>${value}</del>`;
+        case "url": return `<a href="${attrs.url || value}">${value}</a>`;
+        case "img": return `<a href="${value}"><img src="${value}"${attrs.width ? " width=" + attrs.width : ""}></a>`;
         case "youtube": return youtube(value);
-        case "spoiler": return spoiler(value, attrs);
-        case "quote": return quote(value, attrs);
+        case "spoiler": return `<details><summary>${attrs.spoiler}</summary><br />${value}</details>`;
+        case "quote": return `<div class="quote">${attrs.quote} пишет:<br/><br/><em>${value}</em></div>`;
     }
 
     return value;
-}
-
-function bold(value: string): string {
-    return `<strong>${value}</strong>`
-}
-
-function italic(value: string): string {
-    return `<em>${value}</em>`
-}
-
-function underline(value: string): string {
-    return `<ins>${value}</ins>`
-}
-
-function strikethrough(value: string): string {
-    return `<del>${value}</del>`
-}
-
-function link(value: string, attrs: any) {
-    return `<a href="${attrs.url || value}">${value}</a>`
-}
-
-function image(value: string, attrs: any) {
-    return `<a href="${value}"><img src="${value}"${attrs.width ? " width=" + attrs.width : ""}></a>`
 }
 
 function youtube(value: string): string {
@@ -57,14 +33,4 @@ function youtube(value: string): string {
     const id = match ? match[7] : 0
     const time = (match && match[9]) ? "?start=" + match[9] : ""
     return `<iframe class="video" src="https://www.youtube.com/embed/${id}${time}" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>`
-}
-
-function spoiler(value: string, attrs: any) {
-    return `<details><summary>${attrs.spoiler}</summary><br />${value}</details>`
-}
-
-function quote(value: string, attrs: any) {
-    return `<div class="quote">${attrs.quote} пишет:
-
-<em>${value}</em></div>`
 }
