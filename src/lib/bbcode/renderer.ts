@@ -1,4 +1,6 @@
-export function render(node: any): string {
+import type { Node } from "./parser";
+
+export function render(node: Node): string {
     let result = "";
 
     node.nodes.forEach(n => {
@@ -12,7 +14,7 @@ export function render(node: any): string {
     return renderBBCode(node.name, result, node.attrs);
 }
 
-function renderBBCode(name: string, value: string, attrs: any): string {
+function renderBBCode(name: string, value: string, attrs: Record<string, string>): string {
     switch (name) {
         case "b": return `<strong>${value}</strong>`;
         case "i": return `<em>${value}</em>`;
