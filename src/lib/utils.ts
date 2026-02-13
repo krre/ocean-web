@@ -3,17 +3,16 @@ import type { MandelaTitle } from "$lib/types"
 import sha1 from "sha1";
 import { PUBLIC_ANONYM_ALLOWED } from '$env/static/public';
 
-export function formatDateTime(date): string {
-    date += "Z"
+export function formatDateTime(date: Date): string {
     return formatDate(date) + " " + formatTime(date);
 }
 
-export function formatDate(date): string {
+export function formatDate(date: Date): string {
     const d = new Date(date);
     return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + d.getFullYear();
 }
 
-export function formatTime(date): string {
+export function formatTime(date: Date): string {
     const d = new Date(date);
     return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
 }
