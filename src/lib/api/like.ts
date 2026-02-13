@@ -8,8 +8,8 @@ export namespace Create {
         action: LikeAction;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("like.create", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "like.create", params, token });
     }
 }
 
@@ -19,8 +19,8 @@ export namespace Delete {
         post_id?: number
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("like.delete", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "like.delete", params, token });
     }
 }
 
@@ -36,7 +36,7 @@ export namespace GetUsers {
         action: LikeAction;
     }
 
-    export async function exec(params: Request): Promise<Response[]> {
-        return await sendQuery("like.getUsers", params)
+    export async function exec(params: Request, token: string): Promise<Response[]> {
+        return await sendQuery({ method: "like.getUsers", params, token });
     }
 }

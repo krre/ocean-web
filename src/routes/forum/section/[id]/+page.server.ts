@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import { PageLimit } from './local';
 import * as api from "$lib/api";
 
-export const load: PageServerLoad = async ({ url, params }) => {
+export const load: PageServerLoad = async ({ url, params, locals }) => {
     const pageNo = Number(url.searchParams.get("page")) || 1;
     const sectionId = +params.id;
 
@@ -10,7 +10,7 @@ export const load: PageServerLoad = async ({ url, params }) => {
         section_id: sectionId,
         offset: (pageNo - 1) * PageLimit,
         limit: PageLimit,
-    });
+    }, locals.session.token);
 
     return {
         pageNo,

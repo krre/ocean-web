@@ -24,8 +24,8 @@ export namespace GetAll {
         total_count: number;
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("comment.getAll", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "comment.getAll", params, token });
     }
 }
 
@@ -35,8 +35,8 @@ export namespace Create {
         message: string;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("comment.create", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "comment.create", params, token });
     }
 }
 
@@ -46,8 +46,8 @@ export namespace Update {
         message: string;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("comment.update", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "comment.update", params, token });
     }
 }
 
@@ -56,7 +56,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("comment.delete", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "comment.delete", params, token });
     }
 }

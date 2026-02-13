@@ -41,8 +41,8 @@ export namespace GetAll {
         total_count: number;
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("mandela.getAll", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "mandela.getAll", params, token })
     }
 }
 
@@ -51,8 +51,8 @@ export namespace Delete {
         id: number[];
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("mandela.delete", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "mandela.delete", params, token })
     }
 }
 
@@ -71,8 +71,8 @@ export namespace Create {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("mandela.create", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "mandela.create", params, token })
     }
 }
 
@@ -92,8 +92,8 @@ export namespace Update {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("mandela.update", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "mandela.update", params, token })
     }
 }
 
@@ -127,8 +127,8 @@ export namespace GetOne {
         votes?: Vote[];
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("mandela.getOne", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "mandela.getOne", params, token })
     }
 }
 
@@ -137,8 +137,8 @@ export namespace Mark {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("mandela.mark", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "mandela.mark", params, token })
     }
 }
 
@@ -153,8 +153,8 @@ export namespace Vote {
         vote: number;
     }
 
-    export async function exec(params: Request): Promise<Response[]> {
-        return await sendQuery("mandela.vote", params)
+    export async function exec(params: Request, token: string): Promise<Response[]> {
+        return await sendQuery({ method: "mandela.vote", params, token })
     }
 }
 
@@ -169,8 +169,8 @@ export namespace GetVoteUsers {
         vote: number;
     }
 
-    export async function exec(params: Request): Promise<Response[]> {
-        return await sendQuery("mandela.getVoteUsers", params)
+    export async function exec(params: Request, token: string): Promise<Response[]> {
+        return await sendQuery({ method: "mandela.getVoteUsers", params, token })
     }
 }
 
@@ -181,7 +181,7 @@ export namespace UpdateTrash {
         automatic_trash: boolean;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("mandela.updateTrash", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "mandela.updateTrash", params, token })
     }
 }

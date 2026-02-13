@@ -17,8 +17,8 @@ export namespace GetAll {
         sections: Section[];
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("forum.section.getAll", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "forum.section.getAll", params, token });
     }
 }
 
@@ -36,8 +36,8 @@ export namespace GetOne {
         category_id: number;
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("forum.section.getOne", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "forum.section.getOne", params, token });
     }
 }
 
@@ -46,8 +46,8 @@ export namespace Create {
         category_id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.section.create", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.section.create", params, token });
     }
 }
 
@@ -56,8 +56,8 @@ export namespace Update {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.section.update", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.section.update", params, token });
     }
 }
 
@@ -66,7 +66,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.section.delete", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.section.delete", params, token });
     }
 }

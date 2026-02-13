@@ -1,13 +1,18 @@
 import { RequestCreator, type Response, type Error } from "$lib/json-rpc"
 import { printMessage } from "$lib/api-error"
-import { session } from "./stores";
 import { PUBLIC_OCEAN_API_URL } from '$env/static/public';
 import type { UserSession } from "./types";
 
-async function send<Req, Res>(method: string, params?: Req): Promise<Res | void> {
-    const rc = new RequestCreator(method, params);
+export interface RequestOptions<Req> {
+    method: string,
+    token: string,
+    params?: Req
+}
 
-    const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${session().token}`, {
+async function send<Req, Res>(options: RequestOptions<Req>): Promise<Res | void> {
+    const rc = new RequestCreator(options.method, options.params);
+
+    const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${options.token}`, {
         method: "POST",
         body: rc.toString(),
         headers: {
@@ -25,18 +30,18 @@ async function send<Req, Res>(method: string, params?: Req): Promise<Res | void>
     return response.result;
 }
 
-export async function sendQuery<Req, Res>(method: string, params?: Req): Promise<Res> {
-    const result = send<Req, Res>(method, params);
+export async function sendQuery<Req, Res>(options: RequestOptions<Req>): Promise<Res> {
+    const result = send<Req, Res>(options);
 
     if (result === undefined) {
-        throw new Error(`Method ${method} expected data, but received undefined`);
+        throw new Error(`Method ${options.method} expected data, but received undefined`);
     }
 
     return result as Res;
 }
 
-export async function sendCommand<Req>(method: string, params?: Req): Promise<void> {
-    send<Req, void>(method, params);
+export async function sendCommand<Req>(options: RequestOptions<Req>): Promise<void> {
+    send<Req, void>(options);
 }
 
 export function errorMessage(error: Error): string {

@@ -5,12 +5,13 @@ import * as route from "$lib/route";
 import type { ActivityMessage } from "$lib/types";
 import { makeTitle } from "$lib/utils";
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, locals }) => {
     const pageNo = Number(url.searchParams.get("page")) || 1;
     const filter = Number(url.searchParams.get("filter"));
     const category = Number(url.searchParams.get("category"));
     const sort = Number(url.searchParams.get("sort"));
     const userId = Number(url.searchParams.get("user"));
+    const token = locals.session.token;
 
     let params: api.Mandela.GetAll.Request = {
         sort: sort,
@@ -24,8 +25,8 @@ export const load: PageServerLoad = async ({ url }) => {
         params.user_id = userId;
     }
 
-    const getAllResponse = await api.Mandela.GetAll.exec(params);
-    const [topics, comments] = await loadActivity();
+    const getAllResponse = await api.Mandela.GetAll.exec(params, token);
+    const [topics, comments] = await loadActivity(token);
 
     return {
         getAllResponse,
@@ -39,13 +40,13 @@ export const load: PageServerLoad = async ({ url }) => {
     };
 };
 
-async function loadActivity(): Promise<
+async function loadActivity(token: string): Promise<
     [ActivityMessage[], ActivityMessage[]]
 > {
     const params: api.Activity.GetAll.Request = {
         limit: consts.Mandela.Activity.PageLimit,
     };
-    const result = await api.Activity.GetAll.exec(params);
+    const result = await api.Activity.GetAll.exec(params, token);
 
     const topics: ActivityMessage[] = [];
 

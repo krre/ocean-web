@@ -2,7 +2,7 @@ import type { PageServerLoad } from './$types';
 import { PageLimit } from './local'
 import * as api from "$lib/api";
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, locals }) => {
     const pageNo = Number(url.searchParams.get("page")) || 1;
 
     const params: api.Feed.GetAll.Request = {
@@ -10,6 +10,6 @@ export const load: PageServerLoad = async ({ url }) => {
         offset: (pageNo - 1) * PageLimit,
     };
 
-    const getAllResponse = await api.Feed.GetAll.exec(params);
+    const getAllResponse = await api.Feed.GetAll.exec(params, locals.session.token);
     return { getAllResponse, pageNo };
 }

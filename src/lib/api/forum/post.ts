@@ -33,8 +33,8 @@ export namespace GetAll {
         poll?: ForumTopicPoll[]
     }
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery("forum.post.getAll", params)
+    export async function exec(params: Request, token: string): Promise<Response> {
+        return await sendQuery({ method: "forum.post.getAll", params, token });
     }
 }
 
@@ -44,8 +44,8 @@ export namespace Create {
         post: string;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.post.create", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.post.create", params, token });
     }
 }
 
@@ -55,8 +55,8 @@ export namespace Update {
         post: string;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.post.update", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.post.update", params, token });
     }
 }
 
@@ -65,7 +65,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand("forum.post.delete", params)
+    export async function exec(params: Request, token: string): Promise<void> {
+        return await sendCommand({ method: "forum.post.delete", params, token });
     }
 }
