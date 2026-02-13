@@ -4,6 +4,5 @@ import { render } from "./renderer";
 
 export function parse(text: string): string {
     const ast = doc.exec(text, 0);
-    const res = render(ast.res);
-    return res;
+    return ast ? render(ast.res) : "";
 }
