@@ -4,5 +4,4 @@
 yarn-error.log
 /.vscode
 /.sessions
-build.sh
 .env

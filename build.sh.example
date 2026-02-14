@@ -1,4 +1,0 @@
-export OCEAN_API_URL=https://ocean-mandela.info:21000/api
-export ANONYM_TOKEN=e1241153dfcfc153a24d61b3fb356b0598fe0564
-export ANONYM_ALLOWED=1
-npm run build
