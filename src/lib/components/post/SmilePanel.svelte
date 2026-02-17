@@ -4,7 +4,7 @@
     }
 
     let { onselect }: Props = $props();
-    const smiles: String[] = [];
+    const smiles: string[] = [];
 
     // Chars from Unicode table
     for (let i = 0x1f600; i <= 0x1f637; i++) {
