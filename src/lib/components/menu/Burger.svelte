@@ -11,6 +11,10 @@
         z-index: 20;
         color: rgb(235, 246, 255);
         margin-left: 1em;
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
     }
 
     svg {
@@ -41,11 +45,10 @@
     }
 </style>
 
-<!-- svelte-ignore a11y_click_events_have_key_events -->
-<div class="lines" class:open onclick={() => (open = !open)}>
+<button class="lines" class:open onclick={() => (open = !open)} title="Меню">
     <svg width="32" height="24">
         <line id="top" x1="0" y1="2" x2="32" y2="2" />
         <line id="middle" x1="0" y1="12" x2="32" y2="12" />
         <line id="bottom" x1="0" y1="22" x2="32" y2="22" />
     </svg>
-</div>
+</button>

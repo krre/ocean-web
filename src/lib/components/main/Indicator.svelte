@@ -32,11 +32,11 @@
     }
 </style>
 
-<span
+<button
     class="cell"
     class:active
     class:hightlight={highlightNew && count}
     {onclick}
     >{title}:
-    {count}</span
+    {count}</button
 >

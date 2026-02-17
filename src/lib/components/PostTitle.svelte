@@ -121,6 +121,14 @@
         color: red;
     }
 
+    .like-button {
+        background: none;
+        border: none;
+        padding: 0;
+        cursor: pointer;
+        color: inherit;
+    }
+
     button {
         color: gray;
         margin-left: 0.2em;
@@ -149,16 +157,22 @@
                     title="Нравится"><i class="far fa-thumbs-up"></i></button
                 >
             {:else}
-                <i
-                    class="far fa-thumbs-up {likeSelection == LikeSelection.Like
-                        ? 'like up'
-                        : ''}"
+                <button
+                    class="like-button"
+                    aria-label="Нравится"
                     onclick={() => {
                         likeSelection == LikeSelection.Like
                             ? like(LikeAction.Unlike)
                             : {};
                     }}
-                ></i>
+                >
+                    <i
+                        class="far fa-thumbs-up {likeSelection ==
+                        LikeSelection.Like
+                            ? 'like up'
+                            : ''}"
+                    ></i>
+                </button>
             {/if}
 
             <span class={likeCount ? "up" : ""}>{likeCount}</span>
@@ -177,17 +191,22 @@
                 >
             {:else}
                 &nbsp;
-                <i
-                    class="far fa-thumbs-down {likeSelection ==
-                    LikeSelection.Dislike
-                        ? 'like down'
-                        : ''}"
+                <button
+                    class="like-button"
+                    aria-label="Не нравится"
                     onclick={() => {
                         likeSelection == LikeSelection.Dislike
                             ? like(LikeAction.Unlike)
                             : {};
                     }}
-                ></i>
+                >
+                    <i
+                        class="far fa-thumbs-down {likeSelection ==
+                        LikeSelection.Dislike
+                            ? 'like down'
+                            : ''}"
+                    ></i>
+                </button>
             {/if}
 
             <span class={dislikeCount ? "down" : ""}>{dislikeCount}</span>

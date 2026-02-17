@@ -41,11 +41,13 @@
 
     .smile {
         cursor: pointer;
+        border: none;
+        background: none;
     }
 </style>
 
 <div class="container">
     {#each smiles as smile}
-        <span class="smile" onclick={() => onselect(smile)}>{smile}</span>
+        <button class="smile" onclick={() => onselect(smile)}>{smile}</button>
     {/each}
 </div>

@@ -133,6 +133,9 @@
         padding: 0.5em;
         border-left: var(--border-1px);
         background-color: rgb(200, 219, 255);
+        border: none;
+        cursor: pointer;
+        color: inherit;
     }
 
     .preview-button:hover {
@@ -204,9 +207,9 @@
 
         <div class="toolbar-spacing"></div>
 
-        <div class="preview-button" onclick={() => (isPreview = !isPreview)}>
+        <button class="preview-button" onclick={() => (isPreview = !isPreview)}>
             {#if isPreview}Редактор{:else}Просмотр{/if}
-        </div>
+        </button>
     </div>
     {#if isSmilePanelActive}
         <SmilePanel
