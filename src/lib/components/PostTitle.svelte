@@ -91,7 +91,7 @@
     }
 
     function remove() {
-        if (!dialog.remove("Удалить сообщение?")) return;
+        if (!confirm("Удалить сообщение?")) return;
         onremove?.(row);
     }
 

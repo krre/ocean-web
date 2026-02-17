@@ -51,7 +51,7 @@
     }
 
     async function remove() {
-        if (!dialog.remove("Удалить манделу?")) return;
+        if (!confirm("Удалить манделу?")) return;
 
         const params: api.Mandela.Delete.Request = {
             id: [id],
@@ -104,7 +104,7 @@
     }
 
     async function updateTrash(trash: boolean) {
-        if (!dialog.remove("Переместить манделу?")) return;
+        if (!confirm("Переместить манделу?")) return;
 
         const params: api.Mandela.UpdateTrash.Request = {
             id: mandela.id,

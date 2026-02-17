@@ -23,7 +23,7 @@
     }
 
     async function deleteUser() {
-        if (!dialog.remove("Удалить пользователя?")) return;
+        if (!confirm("Удалить пользователя?")) return;
 
         const params: api.User.Delete.Request = {
             id: data.user.id,

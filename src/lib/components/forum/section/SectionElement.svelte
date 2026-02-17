@@ -18,7 +18,7 @@
     }
 
     async function removeSection() {
-        if (!dialog.remove("Удалить секцию?")) return;
+        if (!confirm("Удалить секцию?")) return;
 
         const params: api.Forum.Section.Delete.Request = {
             id: +section.id,

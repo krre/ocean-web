@@ -1,9 +1,5 @@
 import { modalDialog } from "$lib/stores"
 
-export function remove(message?: string): boolean {
-    return confirm(message || "Удалить")
-}
-
 export function open(component, params?: object) {
     modalDialog.set({ component: component, params: params });
 }

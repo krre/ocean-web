@@ -19,7 +19,7 @@
     }
 
     async function removeCategory() {
-        if (!dialog.remove("Удалить категорию?")) return;
+        if (!confirm("Удалить категорию?")) return;
 
         const params: api.Forum.Category.Delete.Request = {
             id: +category.id,

@@ -27,7 +27,7 @@
     }
 
     async function removeTopic() {
-        if (!dialog.remove("Удалить тему?")) return;
+        if (!confirm("Удалить тему?")) return;
 
         const params: api.Forum.Topic.Delete.Request = {
             id: +topic.id,
