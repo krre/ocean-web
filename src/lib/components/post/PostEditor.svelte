@@ -15,7 +15,7 @@
 
     let { post = $bindable("") }: Props = $props();
 
-    let areaRef: TextArea = $state();
+    let areaRef: TextArea = $state()!;
     let isPreview = $state(false);
     let isSmilePanelActive = $state(false);
 
