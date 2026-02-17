@@ -28,5 +28,5 @@ export function openDialog(component: any, params?: object) {
 }
 
 export function closeDialog() {
-    modalDialog.set({});
+    modalDialog.set({ component: null });
 }
