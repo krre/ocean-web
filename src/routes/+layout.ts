@@ -4,7 +4,6 @@ import { browser } from '$app/environment';
 
 export const load: LayoutLoad = async ({ data }) => {
 	if (browser) {
-		console.log("set session", JSON.stringify(data.session), browser);
 		setSession(data.session)
 	}
 
