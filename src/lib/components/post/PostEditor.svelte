@@ -20,7 +20,7 @@
     let isSmilePanelActive = $state(false);
 
     export function appendReply(userName: string, text: string) {
-        const selection = window.getSelection().toString();
+        const selection = window.getSelection()?.toString();
         const message =
             selection && text.includes(selection) ? selection : text;
         const reply = `⁅quote="${userName}"⁆${message}⁅/quote⁆`;
