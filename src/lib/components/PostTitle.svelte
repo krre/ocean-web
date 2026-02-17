@@ -39,7 +39,7 @@
         dislikeCount = 0,
         likeSelection = LikeSelection.None,
         likeQuestion = false,
-        likeUsers = null,
+        likeUsers = [],
         likable = true,
         editable = false,
         removable = false,
