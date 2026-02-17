@@ -1,8 +1,8 @@
 <script lang="ts">
     interface Props {
         title: string;
-        children?: import('svelte').Snippet;
-        buttons?: import('svelte').Snippet;
+        children?: import("svelte").Snippet;
+        buttons?: import("svelte").Snippet;
     }
 
     let { title, children, buttons }: Props = $props();
@@ -52,7 +52,11 @@
             {@render children?.()}
         </div>
         <div class="buttons">
-            {#if buttons}{@render buttons()}{:else}Кнопки не добавлены{/if}
+            {#if buttons}
+                {@render buttons()}
+            {:else}
+                Кнопки не добавлены
+            {/if}
         </div>
     </div>
 </div>
