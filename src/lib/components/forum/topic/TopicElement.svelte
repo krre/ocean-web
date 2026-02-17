@@ -1,7 +1,6 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
-    import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import * as types from "$lib/types";
     import { userSession } from "$lib/stores";

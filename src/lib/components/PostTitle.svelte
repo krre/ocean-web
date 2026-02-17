@@ -1,7 +1,6 @@
 <script lang="ts">
     import { userUrl, dateUrl } from "$lib/utils";
     import { LikeSelection, LikeAction } from "$lib/types";
-    import * as dialog from "$lib/dialog";
     import type * as api from "$lib/api";
 
     interface Props {

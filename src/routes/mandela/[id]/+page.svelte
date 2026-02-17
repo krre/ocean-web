@@ -1,7 +1,6 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as bbcode from "$lib/bbcode";
-    import * as dialog from "$lib/dialog";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import type { PageProps } from "./$types";

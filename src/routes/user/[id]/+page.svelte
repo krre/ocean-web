@@ -1,6 +1,5 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
-    import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import type { PageProps } from "./$types";
     import { userSession } from "$lib/stores";

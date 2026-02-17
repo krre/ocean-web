@@ -5,8 +5,8 @@
     import SpoilerDialog from "./SpoilerDialog.svelte";
     import SmilePanel from "./SmilePanel.svelte";
     import { insertText } from "$lib/utils";
+    import { openDialog } from "$lib/stores";
     import type { TextArea } from "$lib/types";
-    import * as dialog from "$lib/dialog";
     import * as bbcode from "$lib/bbcode";
 
     interface Props {
@@ -171,13 +171,13 @@
             >
 
             <button
-                onclick={() => dialog.open(LinkDialog, { onOk: onOkLink })}
+                onclick={() => openDialog(LinkDialog, { onOk: onOkLink })}
                 title="Ссылка"><i class="fas fa-link"></i></button
             >
 
             <button
                 onclick={() =>
-                    dialog.open(ImageDialog, {
+                    openDialog(ImageDialog, {
                         onOk: onOkImage,
                     })}
                 title="Изображение"><i class="fas fa-image"></i></button
@@ -185,15 +185,14 @@
 
             <button
                 onclick={() =>
-                    dialog.open(VideoDialog, {
+                    openDialog(VideoDialog, {
                         onOk: onOkVideo,
                     })}
                 title="Видео"><i class="fab fa-youtube"></i></button
             >
 
             <button
-                onclick={() =>
-                    dialog.open(SpoilerDialog, { onOk: onOkSpoiler })}
+                onclick={() => openDialog(SpoilerDialog, { onOk: onOkSpoiler })}
                 title="Спойлер"><i class="fas fa-eye-slash"></i></button
             >
 

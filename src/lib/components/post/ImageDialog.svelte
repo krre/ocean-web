@@ -1,7 +1,7 @@
 <script lang="ts">
     import type { Input } from "$lib/types";
     import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import * as dialog from "$lib/dialog";
+    import { closeDialog } from "$lib/stores";
 
     let { onOk = (_link: string, _width?: number) => {} } = $props();
 
@@ -15,7 +15,7 @@
 
     function pressOk() {
         onOk(link, width);
-        dialog.close();
+        closeDialog();
     }
 </script>
 
@@ -29,7 +29,7 @@
     {#snippet buttons()}
         <div>
             <button disabled={!link} onclick={pressOk}>ОК</button>
-            <button onclick={() => dialog.close()}>Отменить</button>
+            <button onclick={() => closeDialog()}>Отменить</button>
         </div>
     {/snippet}
 </Dialog>

@@ -17,7 +17,7 @@
     }
 </style>
 
-{#if $modalDialog}
+{#if $modalDialog.component}
     {@const SvelteComponent = $modalDialog.component}
     <div class="bg">
         <SvelteComponent

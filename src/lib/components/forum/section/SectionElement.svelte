@@ -1,6 +1,5 @@
 <script lang="ts">
     import * as route from "$lib/route";
-    import * as dialog from "$lib/dialog";
     import * as api from "$lib/api";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
