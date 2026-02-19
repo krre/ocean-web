@@ -1,12 +1,10 @@
 <script lang="ts">
-    import * as api from "$lib/api";
-    import * as consts from "$lib/consts";
     import { type Error } from "$lib/json-rpc";
     import { goto } from "$app/navigation";
-    import { errorMessage, login } from "$lib/network";
+    import { errorMessage } from "$lib/network";
+    import { login } from "$lib/api/remote/login.remote";
     import { createToken } from "$lib/utils";
-    import type { UserSession } from "$lib/types";
-    import { setSession, userSession } from "$lib/stores";
+    import { setSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import BoxForm from "$lib/components/BoxForm.svelte";
     import OperationResult from "$lib/components/OperationResult.svelte";
@@ -22,24 +20,9 @@
     async function signin() {
         const token = createToken(id, password);
 
-        const params: api.User.Auth.Request = {
-            token: token,
-        };
-
         try {
-            const result = await api.User.Auth.exec(params, $userSession.token);
-
-            const session: UserSession = {
-                token: token,
-                id: id,
-                code: result.code,
-                name: result.name,
-                isAnonym: false,
-                isAdmin: result.code == consts.Account.Admin,
-            };
-
-            setSession(session);
-            await login(session);
+            const userSession = await login({ id, token });
+            setSession(userSession);
             goto("/");
         } catch (e) {
             error = errorMessage(e as Error);
