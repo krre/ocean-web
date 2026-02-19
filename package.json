@@ -14,7 +14,8 @@
     },
     "dependencies": {
         "sha1": "^1.1.1",
-        "uid-safe": "^2.1.5"
+        "uid-safe": "^2.1.5",
+        "valibot": "^1.2.0"
     },
     "devDependencies": {
         "@sveltejs/adapter-auto": "^7.0.0",
