@@ -1,8 +1,12 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
-    import * as api from "$lib/api";
     import { type Error } from "$lib/json-rpc";
-    import { errorMessage, login } from "$lib/network";
+    import { errorMessage } from "$lib/network";
+    import {
+        login,
+        updateProfile,
+        updateToken,
+    } from "$lib/api/remote/user.remote";
     import Frame from "$lib/components/Frame.svelte";
     import OperationResult from "$lib/components/OperationResult.svelte";
     import Profile from "$lib/components/Profile.svelte";
@@ -32,13 +36,12 @@
     });
 
     async function update() {
-        const params: api.User.UpdateProfile.Request = {
-            name: userName,
-            gender: currentGender,
-        };
-
         try {
-            await api.User.UpdateProfile.exec(params, $userSession.token);
+            await updateProfile({
+                name: userName,
+                gender: currentGender,
+                token: $userSession.token,
+            });
 
             $userSession.name = userName;
             setSession($userSession);
@@ -63,12 +66,8 @@
 
         const token = createToken(data.user.id, password1);
 
-        const params: api.User.UpdateToken.Request = {
-            token: token,
-        };
-
         try {
-            await api.User.UpdateToken.exec(params, $userSession.token);
+            await updateToken({ newToken: token, token: $userSession.token });
 
             $userSession.token = token;
             setSession($userSession);

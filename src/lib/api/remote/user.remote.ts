@@ -46,3 +46,11 @@ export const logout = command(v.string(), async (token) => {
         await deleteSession(sessionId)
     }
 });
+
+export const updateProfile = command(v.object({ name: v.string(), gender: v.number(), token: v.string() }), async ({ name, gender, token }) => {
+    await api.User.UpdateProfile.exec({ name, gender }, token);
+})
+
+export const updateToken = command(v.object({ newToken: v.string(), token: v.string() }), async ({ newToken, token }) => {
+    await api.User.UpdateToken.exec({ token: newToken }, token);
+})
