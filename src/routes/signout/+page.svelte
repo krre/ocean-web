@@ -1,12 +1,10 @@
 <script lang="ts">
-    import * as api from "$lib/api";
     import { goto } from "$app/navigation";
     import { anonymSession, setSession, userSession } from "$lib/stores";
-    import { logout } from "$lib/network";
+    import { logout } from "$lib/api/remote/login.remote";
 
     async function signout() {
-        await api.User.Logout.exec($userSession.token);
-        await logout();
+        await logout($userSession.token);
         setSession(anonymSession());
         goto("/");
     }

@@ -2,7 +2,7 @@ import * as api from "$lib/api";
 import * as consts from "$lib/consts";
 import * as v from 'valibot';
 import { getRequestEvent, command } from '$app/server';
-import { saveSession } from '$lib/session-store';
+import { saveSession, deleteSession } from '$lib/session-store';
 import type { UserSession } from '$lib/types';
 import uidSafe from 'uid-safe'
 
@@ -33,4 +33,16 @@ export const login = command(v.object({ id: v.number(), token: v.string() }), as
 
 
     return session;
+});
+
+export const logout = command(v.string(), async (token) => {
+    await api.User.Logout.exec(token);
+
+    const { cookies } = getRequestEvent();
+    const sessionId = cookies.get('session_id');
+
+    if (sessionId) {
+        cookies.delete("session_id", { path: '/' });
+        await deleteSession(sessionId)
+    }
 });
