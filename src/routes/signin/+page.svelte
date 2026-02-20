@@ -2,7 +2,7 @@
     import { type Error } from "$lib/json-rpc";
     import { goto } from "$app/navigation";
     import { errorMessage } from "$lib/network";
-    import { login } from "$lib/api/remote/login.remote";
+    import { login } from "$lib/api/remote/user.remote";
     import { createToken } from "$lib/utils";
     import { setSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
