@@ -3,6 +3,7 @@
     import * as route from "$lib/route";
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
+    import * as comment from "$lib/api/remote/comment.remote";
     import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
     import Rectangle from "$lib/components/Rectangle.svelte";
@@ -37,16 +38,15 @@
 
     let message: string = $state("");
     let messageEditorRef: MessageEditor | undefined = $state(undefined);
-
     let baseRoute = $derived(route.Mandela.Id(mandelaId));
 
     async function append() {
-        const params: api.Comment.Create.Request = {
-            mandela_id: +mandelaId,
-            message: message,
-        };
+        await comment.create({
+            mandela_id: mandelaId,
+            message,
+            token: $userSession.token,
+        });
 
-        await api.Comment.Create.exec(params, $userSession.token);
         onappended();
     }
 

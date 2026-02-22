@@ -3,6 +3,7 @@
     import * as bbcode from "$lib/bbcode";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
+    import * as comment from "$lib/api/remote/comment.remote";
     import type { PageProps } from "./$types";
     import { loadComments } from "$lib/comments";
     import { userSession } from "$lib/stores";
@@ -137,8 +138,13 @@
     }
 
     async function reloadComments() {
-        comments = (await loadComments(id, data.pageNo, $userSession.token))
-            .comments;
+        comments = (
+            await comment.getAll({
+                mandelaId: id,
+                pageNo: data.pageNo,
+                token: $userSession.token,
+            })
+        ).comments;
     }
 </script>
 
