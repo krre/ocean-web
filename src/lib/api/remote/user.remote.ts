@@ -54,3 +54,11 @@ export const updateProfile = command(v.object({ name: v.string(), gender: v.numb
 export const updateToken = command(v.object({ newToken: v.string(), token: v.string() }), async ({ newToken, token }) => {
     await api.User.UpdateToken.exec({ token: newToken }, token);
 })
+
+export const update = command(v.object({ id: v.number(), name: v.string(), code: v.string(), gender: v.number(), blocked: v.boolean(), token: v.string() }), async ({ id, name, code, gender, blocked, token }) => {
+    await api.User.Update.exec({ id, name, code, gender, blocked }, token);
+})
+
+export const deleteAccount = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
+    await api.User.Delete.exec({ id }, token);
+})

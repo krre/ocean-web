@@ -1,34 +1,40 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as api from "$lib/api";
+    import * as user from "$lib/api/remote/user.remote";
     import type { PageProps } from "./$types";
     import { userSession } from "$lib/stores";
+
     import Frame from "$lib/components/Frame.svelte";
     import Profile from "$lib/components/Profile.svelte";
 
     let { data }: PageProps = $props();
     let isUserExists = $state(true);
+    let blocked = $state(false);
+
+    $effect(() => {
+        blocked = data.user.blocked;
+    });
 
     async function updateUser() {
-        const params: api.User.Update.Request = {
+        await user.update({
             id: data.user.id,
             name: data.user.name,
             code: data.user.code,
             gender: data.user.gender,
             blocked: data.user.blocked,
-        };
-
-        await api.User.Update.exec(params, $userSession.token);
+            token: $userSession.token,
+        });
     }
 
     async function deleteUser() {
         if (!confirm("Удалить пользователя?")) return;
 
-        const params: api.User.Delete.Request = {
+        await user.deleteAccount({
             id: data.user.id,
-        };
+            token: $userSession.token,
+        });
 
-        await api.User.Delete.exec(params, $userSession.token);
         isUserExists = false;
     }
 </script>
@@ -78,8 +84,8 @@
                 <label>
                     <input
                         type="checkbox"
-                        bind:checked={data.user.blocked}
-                        onchange={(_) => updateUser()}
+                        bind:checked={blocked}
+                        onchange={() => updateUser()}
                     />
                     Заблокировано
                 </label>
