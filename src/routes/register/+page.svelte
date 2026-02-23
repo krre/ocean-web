@@ -2,6 +2,7 @@
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
+    import * as user from "$lib/api/remote/user.remote";
     import { goto } from "$app/navigation";
     import { createToken } from "$lib/utils";
     import { userSession } from "$lib/stores";
@@ -25,17 +26,16 @@
             return;
         }
 
-        const result = await api.User.GetNextId.exec($userSession.token);
+        const result = await user.getNextId({ token: $userSession.token });
         const id = result.id;
 
-        const params: api.User.Create.Request = {
+        await user.create({
             id: id,
             name: name.trim(),
             code: consts.Account.User,
             token: createToken(id, password1),
-        };
+        });
 
-        await api.User.Create.exec(params, $userSession.token);
         goto(route.Register.UserId(id));
     }
 </script>

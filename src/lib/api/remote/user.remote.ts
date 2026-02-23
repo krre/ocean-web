@@ -47,6 +47,14 @@ export const logout = command(v.string(), async (token) => {
     }
 });
 
+export const getNextId = command(v.object({ token: v.string() }), async ({ token }) => {
+    return await api.User.GetNextId.exec(token);
+})
+
+export const create = command(v.object({ id: v.number(), name: v.string(), code: v.string(), token: v.string() }), async ({ id, name, code, token }) => {
+    await api.User.Create.exec({ id, name, code, token }, token);
+});
+
 export const updateProfile = command(v.object({ name: v.string(), gender: v.number(), token: v.string() }), async ({ name, gender, token }) => {
     await api.User.UpdateProfile.exec({ name, gender }, token);
 })
