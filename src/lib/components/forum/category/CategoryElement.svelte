@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as route from "$lib/route";
     import * as api from "$lib/api";
+    import * as categoryFn from "$lib/api/remote/forum/category.remote";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
     import SectionElement from "$lib/components/forum/section/SectionElement.svelte";
@@ -20,10 +21,7 @@
     async function removeCategory() {
         if (!confirm("Удалить категорию?")) return;
 
-        const params: api.Forum.Category.Delete.Request = {
-            id: +category.id,
-        };
-        await api.Forum.Category.Delete.exec(params, $userSession.token);
+        await categoryFn.del({ id: category.id, token: $userSession.token });
         onremove();
     }
 

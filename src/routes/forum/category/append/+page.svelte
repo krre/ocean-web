@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
+    import * as category from "$lib/api/remote/forum/category.remote";
     import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import CategoryEditor from "$lib/components/forum/category/CategoryEditor.svelte";
@@ -12,12 +12,12 @@
     let order = $state(0);
 
     const action = async () => {
-        const params: api.Forum.Category.Create.Request = {
-            name: name,
+        await category.create({
+            name,
             order_index: order,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Forum.Category.Create.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

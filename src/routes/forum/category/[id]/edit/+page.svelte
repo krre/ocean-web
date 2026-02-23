@@ -2,7 +2,7 @@
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
+    import * as category from "$lib/api/remote/forum/category.remote";
     import Frame from "$lib/components/Frame.svelte";
     import CategoryEditor from "$lib/components/forum/category/CategoryEditor.svelte";
     import type { PageProps } from "./$types";
@@ -20,13 +20,13 @@
     });
 
     const action = async () => {
-        const params: api.Forum.Category.Update.Request = {
+        await category.update({
             id: data.id,
-            name: name,
+            name,
             order_index: order,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Forum.Category.Update.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>
