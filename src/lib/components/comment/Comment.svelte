@@ -101,22 +101,17 @@
     }
 
     async function editComment(row: number, message: string) {
-        const params: api.Comment.Update.Request = {
-            id: +comments[row].id,
-            message: message,
-        };
-
-        await api.Comment.Update.exec(params, $userSession.token);
+        await comment.update({
+            id: comments[row].id,
+            message,
+            token: $userSession.token,
+        });
         comments[row].message = message;
         comments[row].edit = false;
     }
 
     async function deleteComment(row: number) {
-        const params: api.Comment.Delete.Request = {
-            id: comments[row].id,
-        };
-
-        await api.Comment.Delete.exec(params, $userSession.token);
+        await comment.del({ id: comments[row].id, token: $userSession.token });
         comments[row].remove = false;
         comments.splice(row, 1);
     }

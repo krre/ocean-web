@@ -10,3 +10,11 @@ export const create = command(v.object({ mandela_id: v.number(), message: v.stri
 export const getAll = command(v.object({ mandelaId: v.number(), pageNo: v.number(), token: v.string() }), async ({ mandelaId, pageNo, token }) => {
     return await comments.loadComments(mandelaId, pageNo, token);
 });
+
+export const update = command(v.object({ id: v.number(), message: v.string(), token: v.string() }), async ({ id, message, token }) => {
+    await api.Comment.Update.exec({ id, message }, token);
+});
+
+export const del = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
+    await api.Comment.Delete.exec({ id }, token);
+});
