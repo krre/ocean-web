@@ -4,6 +4,7 @@
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
     import * as comment from "$lib/api/remote/comment.remote";
+    import * as like from "$lib/api/remote/like.remote";
     import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
     import Rectangle from "$lib/components/Rectangle.svelte";
@@ -52,12 +53,11 @@
 
     async function likeComment(row: number, action: LikeAction) {
         if (action == LikeAction.Like || action == LikeAction.Dislike) {
-            const params: api.Like.Create.Request = {
-                comment_id: +comments[row].id,
-                action: action,
-            };
-
-            await api.Like.Create.exec(params, $userSession.token);
+            await like.create({
+                comment_id: comments[row].id,
+                action,
+                token: $userSession.token,
+            });
 
             comments[row].like = action;
 
@@ -67,11 +67,10 @@
                 comments[row].dislike_count += 1;
             }
         } else {
-            const params: api.Like.Delete.Request = {
-                comment_id: +comments[row].id,
-            };
-
-            await api.Like.Delete.exec(params, $userSession.token);
+            await like.del({
+                comment_id: comments[row].id,
+                token: $userSession.token,
+            });
 
             if (comments[row].like === LikeAction.Like) {
                 comments[row].like_count -= 1;
@@ -86,14 +85,10 @@
     }
 
     async function getLikeUsers(row: number) {
-        const params: api.Like.GetUsers.Request = {
-            comment_id: +comments[row].id,
-        };
-
-        comments[row].likeUsers = await api.Like.GetUsers.exec(
-            params,
-            $userSession.token,
-        );
+        comments[row].likeUsers = await like.getUsers({
+            comment_id: comments[row].id,
+            token: $userSession.token,
+        });
     }
 
     function openEditor(row: number) {
