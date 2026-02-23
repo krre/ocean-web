@@ -2,6 +2,7 @@
     import * as bbcode from "$lib/bbcode";
     import * as api from "$lib/api";
     import * as consts from "$lib/consts";
+    import * as likeFn from "$lib/api/remote/like.remote";
     import { LikeAction, LikeSelection } from "$lib/types";
     import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
@@ -56,12 +57,11 @@
 
     async function likePost(row: number, action: LikeAction) {
         if (action == LikeAction.Like || action == LikeAction.Dislike) {
-            const params: api.Like.Create.Request = {
-                post_id: +post.id,
+            await likeFn.create({
+                post_id: post.id,
                 action: action,
-            };
-
-            await api.Like.Create.exec(params, $userSession.token);
+                token: $userSession.token,
+            });
 
             like = action;
 
@@ -71,11 +71,7 @@
                 dislikeCount += 1;
             }
         } else {
-            const params: api.Like.Delete.Request = {
-                post_id: +post.id,
-            };
-
-            await api.Like.Delete.exec(params, $userSession.token);
+            await likeFn.del({ post_id: post.id, token: $userSession.token });
 
             if (like === LikeAction.Like) {
                 likeCount -= 1;
@@ -88,11 +84,10 @@
     }
 
     async function getLikeUsers(row: number) {
-        const params: api.Like.GetUsers.Request = {
+        likeUsers = await likeFn.getUsers({
             post_id: id,
-        };
-
-        likeUsers = await api.Like.GetUsers.exec(params, $userSession.token);
+            token: $userSession.token,
+        });
     }
 
     async function editPost(message: string) {
