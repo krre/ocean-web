@@ -59,6 +59,6 @@ export const update = command(v.object({ id: v.number(), name: v.string(), code:
     await api.User.Update.exec({ id, name, code, gender, blocked }, token);
 })
 
-export const deleteAccount = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
+export const del = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
     await api.User.Delete.exec({ id }, token);
 })

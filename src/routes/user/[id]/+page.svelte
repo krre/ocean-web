@@ -30,7 +30,7 @@
     async function deleteUser() {
         if (!confirm("Удалить пользователя?")) return;
 
-        await user.deleteAccount({
+        await user.del({
             id: data.user.id,
             token: $userSession.token,
         });
