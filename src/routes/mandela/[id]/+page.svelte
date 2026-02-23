@@ -3,9 +3,9 @@
     import * as bbcode from "$lib/bbcode";
     import * as route from "$lib/route";
     import * as api from "$lib/api";
+    import * as mandelaFn from "$lib/api/remote/mandela.remote";
     import * as comment from "$lib/api/remote/comment.remote";
     import type { PageProps } from "./$types";
-    import { loadComments } from "$lib/comments";
     import { userSession } from "$lib/stores";
     import { goto } from "$app/navigation";
     import { formatDateTime, userUrl } from "$lib/utils";
@@ -53,36 +53,28 @@
     async function remove() {
         if (!confirm("Удалить манделу?")) return;
 
-        const params: api.Mandela.Delete.Request = {
-            id: [id],
-        };
-
-        await api.Mandela.Delete.exec(params, $userSession.token);
+        await mandelaFn.del({ id: [id], token: $userSession.token });
 
         alert("Мандела удалена!");
     }
 
     async function castVote() {
-        const params: api.Mandela.Vote.Request = {
+        votes = await mandelaFn.vote({
             id: mandela.id,
             vote: voteValue,
-        };
+            token: $userSession.token,
+        });
 
-        votes = await api.Mandela.Vote.exec(params, $userSession.token);
         vote = voteValue;
         editVote = false;
     }
 
     async function getVoteUsers() {
         if (!voteUserVisible) {
-            const params: api.Mandela.GetVoteUsers.Request = {
+            voteUsers = await mandelaFn.getVoteUsers({
                 id: mandela.id,
-            };
-
-            voteUsers = await api.Mandela.GetVoteUsers.exec(
-                params,
-                $userSession.token,
-            );
+                token: $userSession.token,
+            });
         }
 
         voteUserVisible = !voteUserVisible;
@@ -106,23 +98,21 @@
     async function updateTrash(trash: boolean) {
         if (!confirm("Переместить манделу?")) return;
 
-        const params: api.Mandela.UpdateTrash.Request = {
+        await mandelaFn.updateTrash({
             id: mandela.id,
             trash: trash,
             automatic_trash: automaticTrash,
-        };
-
-        await api.Mandela.UpdateTrash.exec(params, $userSession.token);
+            token: $userSession.token,
+        });
     }
 
     async function updateAutmaticTrash() {
-        const params: api.Mandela.UpdateTrash.Request = {
+        await mandelaFn.updateTrash({
             id: mandela.id,
             trash: mandela.trash,
             automatic_trash: automaticTrash,
-        };
-
-        await api.Mandela.UpdateTrash.exec(params, $userSession.token);
+            token: $userSession.token,
+        });
     }
 
     function getVoteCount(vote: number) {

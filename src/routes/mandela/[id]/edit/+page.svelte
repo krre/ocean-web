@@ -1,7 +1,7 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
-    import * as api from "$lib/api";
     import * as route from "$lib/route";
+    import * as mandelaFn from "$lib/api/remote/mandela.remote";
     import type { PageProps } from "./$types";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
@@ -32,8 +32,8 @@
     });
 
     async function edit() {
-        const params: api.Mandela.Update.Request = {
-            id: Number(id),
+        await mandelaFn.update({
+            id,
             title_mode: mandela.title_mode,
             title:
                 mandela.title_mode === consts.Mandela.Title.Simple ? title : "",
@@ -49,9 +49,9 @@
                     : "",
             description: description,
             categories: categories,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Mandela.Update.exec(params, $userSession.token);
         goto(route.Mandela.Id(id));
     }
 </script>
