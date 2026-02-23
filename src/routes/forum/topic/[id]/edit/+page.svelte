@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
+    import * as topic from "$lib/api/remote/forum/topic.remote";
     import type { PageProps } from "./$types";
     import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
@@ -23,12 +23,12 @@
     );
 
     const action = async () => {
-        const params: api.Forum.Topic.Update.Request = {
+        await topic.update({
             id: data.id,
-            name: name,
-        };
+            name,
+            token: $userSession.token,
+        });
 
-        await api.Forum.Topic.Update.exec(params, $userSession.token);
         goto(route.Forum.Section.Id(data.getOneResponse.section_id));
     };
 </script>

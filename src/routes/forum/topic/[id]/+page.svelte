@@ -2,6 +2,7 @@
     import * as route from "$lib/route";
     import * as types from "$lib/types";
     import * as api from "$lib/api";
+    import * as topic from "$lib/api/remote/forum/topic.remote";
     import * as consts from "$lib/consts";
     import type { PathPart } from "$lib/forum";
     import { isAnonymAllowed, userUrl } from "$lib/utils";
@@ -82,29 +83,22 @@
             votes = severalVote;
         }
 
-        const params: api.Forum.Topic.Vote.Request = {
+        const result = await topic.vote({
             id: data.topicId,
-            votes: votes,
-        };
+            votes,
+            token: $userSession.token,
+        });
 
-        const result = await api.Forum.Topic.Vote.exec(
-            params,
-            $userSession.token,
-        );
         topicPoll = result.poll;
         editVote = false;
     }
 
     async function getVoteUsers() {
         if (!voteUserVisible) {
-            const params: api.Forum.Topic.GetVoteUsers.Request = {
+            voteUsers = await topic.getVoteUsers({
                 id: data.topicId,
-            };
-
-            voteUsers = await api.Forum.Topic.GetVoteUsers.exec(
-                params,
-                $userSession.token,
-            );
+                token: $userSession.token,
+            });
         }
 
         voteUserVisible = !voteUserVisible;

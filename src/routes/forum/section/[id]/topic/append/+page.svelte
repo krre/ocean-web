@@ -2,6 +2,7 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import * as types from "$lib/types";
+    import * as topic from "$lib/api/remote/forum/topic.remote";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
@@ -33,21 +34,22 @@
             }
         }
 
-        const topicParams: api.Forum.Topic.Create.Request = {
+        let poll_answers: string[] | undefined;
+        let poll_answer_selection: types.ForumPollAnswerSelection | undefined;
+
+        if (type === types.ForumTopicType.Poll) {
+            poll_answers = answers;
+            poll_answer_selection = answerSelection;
+        }
+
+        const result = await topic.create({
             section_id: sectionId,
             name: name,
             type: type,
-        };
-
-        if (type === types.ForumTopicType.Poll) {
-            topicParams.poll_answers = answers;
-            topicParams.poll_answer_selection = answerSelection;
-        }
-
-        const result = await api.Forum.Topic.Create.exec(
-            topicParams,
-            $userSession.token,
-        );
+            poll_answers,
+            poll_answer_selection,
+            token: $userSession.token,
+        });
 
         const postParams: api.Forum.Post.Create.Request = {
             topic_id: result.id,

@@ -3,6 +3,7 @@
     import * as route from "$lib/route";
     import * as api from "$lib/api";
     import * as types from "$lib/types";
+    import * as topicFn from "$lib/api/remote/forum/topic.remote";
     import { userSession } from "$lib/stores";
     import { formatDateTime, userUrl, dateUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
@@ -28,10 +29,7 @@
     async function removeTopic() {
         if (!confirm("Удалить тему?")) return;
 
-        const params: api.Forum.Topic.Delete.Request = {
-            id: +topic.id,
-        };
-        await api.Forum.Topic.Delete.exec(params, $userSession.token);
+        await topicFn.del({ id: topic.id, token: $userSession.token });
         onremoved();
     }
 </script>
