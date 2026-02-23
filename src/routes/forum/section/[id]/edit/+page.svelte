@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
+    import * as section from "$lib/api/remote/forum/section.remote";
     import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import SectionEditor from "$lib/components/forum/section/SectionEditor.svelte";
@@ -20,13 +20,13 @@
     });
 
     const action = async () => {
-        const params: api.Forum.Section.Update.Request = {
+        await section.update({
             id: data.id,
             name,
             order_index: order,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Forum.Section.Update.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

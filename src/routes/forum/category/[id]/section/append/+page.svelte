@@ -1,6 +1,6 @@
 <script lang="ts">
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
+    import * as section from "$lib/api/remote/forum/section.remote";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
@@ -13,13 +13,13 @@
     let order = $state(0);
 
     const action = async () => {
-        const params: api.Forum.Section.Create.Request = {
+        await section.create({
             category_id: +(page.params.id ?? ""),
             name: name,
             order_index: order,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Forum.Section.Create.exec(params, $userSession.token);
         goto(route.Forum.Root);
     };
 </script>

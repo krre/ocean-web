@@ -1,6 +1,7 @@
 <script lang="ts">
     import * as route from "$lib/route";
     import * as api from "$lib/api";
+    import * as sectionFn from "$lib/api/remote/forum/section.remote";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
 
@@ -19,10 +20,7 @@
     async function removeSection() {
         if (!confirm("Удалить секцию?")) return;
 
-        const params: api.Forum.Section.Delete.Request = {
-            id: +section.id,
-        };
-        await api.Forum.Section.Delete.exec(params, $userSession.token);
+        await sectionFn.del({ id: section.id, token: $userSession.token });
         onremove();
     }
 </script>
