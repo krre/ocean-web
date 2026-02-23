@@ -1,7 +1,6 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
     import * as route from "$lib/route";
-    import * as api from "$lib/api";
     import * as user from "$lib/api/remote/user.remote";
     import { goto } from "$app/navigation";
     import { createToken } from "$lib/utils";
