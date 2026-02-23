@@ -3,6 +3,7 @@
     import * as types from "$lib/types";
     import * as api from "$lib/api";
     import * as topic from "$lib/api/remote/forum/topic.remote";
+    import * as postFn from "$lib/api/remote/forum/post.remote";
     import * as consts from "$lib/consts";
     import type { PathPart } from "$lib/forum";
     import { isAnonymAllowed, userUrl } from "$lib/utils";
@@ -60,12 +61,12 @@
     }
 
     async function append() {
-        const params: api.Forum.Post.Create.Request = {
+        await postFn.create({
             topic_id: data.topicId,
-            post: post,
-        };
+            post,
+            token: $userSession.token,
+        });
 
-        await api.Forum.Post.Create.exec(params, $userSession.token);
         reload();
     }
 

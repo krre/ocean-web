@@ -3,6 +3,7 @@
     import * as api from "$lib/api";
     import * as types from "$lib/types";
     import * as topic from "$lib/api/remote/forum/topic.remote";
+    import * as postFn from "$lib/api/remote/forum/post.remote";
     import { page } from "$app/state";
     import { goto } from "$app/navigation";
     import { userSession } from "$lib/stores";
@@ -51,12 +52,11 @@
             token: $userSession.token,
         });
 
-        const postParams: api.Forum.Post.Create.Request = {
+        await postFn.create({
             topic_id: result.id,
-            post: post,
-        };
-
-        await api.Forum.Post.Create.exec(postParams, $userSession.token);
+            post,
+            token: $userSession.token,
+        });
 
         goto(route.Forum.Topic.Id(result.id));
     };

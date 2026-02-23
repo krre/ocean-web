@@ -3,6 +3,7 @@
     import * as api from "$lib/api";
     import * as consts from "$lib/consts";
     import * as likeFn from "$lib/api/remote/like.remote";
+    import * as postFn from "$lib/api/remote/forum/post.remote";
     import { LikeAction, LikeSelection } from "$lib/types";
     import { userSession } from "$lib/stores";
     import { isAnonymAllowed } from "$lib/utils";
@@ -91,21 +92,18 @@
     }
 
     async function editPost(message: string) {
-        const params: api.Forum.Post.Update.Request = {
-            id: +post.id,
+        await postFn.update({
+            id: post.id,
             post: message,
-        };
+            token: $userSession.token,
+        });
 
-        await api.Forum.Post.Update.exec(params, $userSession.token);
         post.post = message;
         editMode = false;
     }
 
     async function removePost() {
-        const params: api.Forum.Post.Delete.Request = {
-            id: +post.id,
-        };
-        await api.Forum.Post.Delete.exec(params, $userSession.token);
+        await postFn.del({ id: +post.id, token: $userSession.token });
         onremove();
     }
 </script>
