@@ -4,17 +4,17 @@ import sha1 from "sha1";
 import { PUBLIC_ANONYM_ALLOWED } from '$env/static/public';
 
 export function formatDateTime(date: Date): string {
-    return formatDate(date) + " " + formatTime(date);
-}
+    date = new Date(date + "Z");
+    const pad = (n: number) => n.toString().padStart(2, '0');
 
-export function formatDate(date: Date): string {
-    const d = new Date(date);
-    return ("0" + d.getDate()).slice(-2) + "." + ("0" + (d.getMonth() + 1)).slice(-2) + "." + d.getFullYear();
-}
+    const d = date.getDate();
+    const m = date.getMonth() + 1;
+    const y = date.getFullYear();
 
-export function formatTime(date: Date): string {
-    const d = new Date(date);
-    return ("0" + d.getHours()).slice(-2) + ":" + ("0" + d.getMinutes()).slice(-2);
+    const h = date.getHours();
+    const min = date.getMinutes();
+
+    return `${pad(d)}.${pad(m)}.${y} ${pad(h)}:${pad(min)}`;
 }
 
 export function zeroLeading(value: number, digits: number): string {
