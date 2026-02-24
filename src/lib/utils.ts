@@ -30,14 +30,6 @@ export function createToken(id: number, password: string): string {
     return sha1(id.toString() + password) as string;
 }
 
-export function objectIsEmpty(object: any): boolean {
-    for (var i in object) {
-        return true;
-    }
-
-    return false;
-}
-
 export function textCut(text: string, count: number): string {
     return text.length <= count ? text : text.substring(0, count) + "..."
 }
