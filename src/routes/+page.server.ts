@@ -5,13 +5,12 @@ import * as route from "$lib/route";
 import type { ActivityMessage } from "$lib/types";
 import { makeTitle } from "$lib/utils";
 
-export const load: PageServerLoad = async ({ url, locals }) => {
+export const load: PageServerLoad = async ({ url }) => {
     const pageNo = Number(url.searchParams.get("page")) || 1;
     const filter = Number(url.searchParams.get("filter"));
     const category = Number(url.searchParams.get("category"));
     const sort = Number(url.searchParams.get("sort"));
     const userId = Number(url.searchParams.get("user"));
-    const token = locals.session.token;
 
     let params: api.Mandela.GetAll.Request = {
         sort: sort,
@@ -26,7 +25,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     }
 
     const getAllResponse = await api.Mandela.GetAll.exec(params);
-    const [topics, comments] = await loadActivity(token);
+    const [topics, comments] = await loadActivity();
 
     return {
         getAllResponse,
@@ -40,7 +39,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     };
 };
 
-async function loadActivity(token: string): Promise<
+async function loadActivity(): Promise<
     [ActivityMessage[], ActivityMessage[]]
 > {
     const params: api.Activity.GetAll.Request = {
