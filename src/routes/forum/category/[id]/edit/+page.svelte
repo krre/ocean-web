@@ -24,7 +24,6 @@
             id: data.id,
             name,
             order_index: order,
-            token: $userSession.token,
         });
 
         goto(route.Forum.Root);

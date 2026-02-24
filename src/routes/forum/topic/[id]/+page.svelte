@@ -64,7 +64,6 @@
         await postFn.create({
             topic_id: data.topicId,
             post,
-            token: $userSession.token,
         });
 
         reload();
@@ -87,7 +86,6 @@
         const result = await topic.vote({
             id: data.topicId,
             votes,
-            token: $userSession.token,
         });
 
         topicPoll = result.poll;
@@ -98,7 +96,6 @@
         if (!voteUserVisible) {
             voteUsers = await topic.getVoteUsers({
                 id: data.topicId,
-                token: $userSession.token,
             });
         }
 

@@ -45,7 +45,6 @@
         await comment.create({
             mandela_id: mandelaId,
             message,
-            token: $userSession.token,
         });
 
         onappended();
@@ -56,7 +55,6 @@
             await like.create({
                 comment_id: comments[row].id,
                 action,
-                token: $userSession.token,
             });
 
             comments[row].like = action;
@@ -69,7 +67,6 @@
         } else {
             await like.del({
                 comment_id: comments[row].id,
-                token: $userSession.token,
             });
 
             if (comments[row].like === LikeAction.Like) {
@@ -87,7 +84,6 @@
     async function getLikeUsers(row: number) {
         comments[row].likeUsers = await like.getUsers({
             comment_id: comments[row].id,
-            token: $userSession.token,
         });
     }
 
@@ -99,14 +95,13 @@
         await comment.update({
             id: comments[row].id,
             message,
-            token: $userSession.token,
         });
         comments[row].message = message;
         comments[row].edit = false;
     }
 
     async function deleteComment(row: number) {
-        await comment.del({ id: comments[row].id, token: $userSession.token });
+        await comment.del({ id: comments[row].id });
         comments[row].remove = false;
         comments.splice(row, 1);
     }

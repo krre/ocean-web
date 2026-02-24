@@ -28,8 +28,8 @@ export namespace GetAll {
         topics: Topic[];
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.topic.getAll", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.topic.getAll", params });
     }
 }
 
@@ -44,8 +44,8 @@ export namespace GetOne {
         section_id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.topic.getOne", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.topic.getOne", params });
     }
 }
 
@@ -62,8 +62,8 @@ export namespace Create {
         id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.topic.create", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.topic.create", params });
     }
 }
 
@@ -73,8 +73,8 @@ export namespace Update {
         name: string;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "forum.topic.update", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "forum.topic.update", params });
     }
 }
 
@@ -83,8 +83,8 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "forum.topic.delete", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "forum.topic.delete", params });
     }
 }
 
@@ -98,8 +98,8 @@ export namespace Vote {
         poll: ForumTopicPoll[];
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.topic.vote", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.topic.vote", params });
     }
 }
 
@@ -114,7 +114,7 @@ export namespace GetVoteUsers {
         answer_id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response[]> {
-        return await sendQuery({ method: "forum.topic.getVoteUsers", params, token });
+    export async function exec(params: Request): Promise<Response[]> {
+        return await sendQuery({ method: "forum.topic.getVoteUsers", params });
     }
 }

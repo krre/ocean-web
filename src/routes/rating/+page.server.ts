@@ -4,7 +4,7 @@ import * as local from './local'
 import * as types from "$lib/types";
 import * as api from "$lib/api";
 
-export const load: PageServerLoad = async ({ url, locals }) => {
+export const load: PageServerLoad = async ({ url }) => {
     const pageNo = Number(url.searchParams.get("page")) || 1;
     const vote = Number(url.searchParams.get("vote")) || MandelaVote.Yes;
     const type: types.RatingType =
@@ -21,9 +21,9 @@ export const load: PageServerLoad = async ({ url, locals }) => {
     if (type === types.RatingType.Mandels) {
         const par = params as api.Rating.GetMandels.Request;
         par.vote = vote;
-        getMandelsResponse = await api.Rating.GetMandels.exec(par, locals.session.token);
+        getMandelsResponse = await api.Rating.GetMandels.exec(par);
     } else {
-        getUsersResponse = await api.Rating.GetUsers.exec(params, locals.session.token);
+        getUsersResponse = await api.Rating.GetUsers.exec(params);
     }
 
     return {

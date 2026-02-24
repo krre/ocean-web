@@ -4,7 +4,6 @@
     import * as user from "$lib/api/remote/user.remote";
     import { goto } from "$app/navigation";
     import { createToken } from "$lib/utils";
-    import { userSession } from "$lib/stores";
     import Frame from "$lib/components/Frame.svelte";
     import BoxForm from "$lib/components/BoxForm.svelte";
     import OperationResult from "$lib/components/OperationResult.svelte";
@@ -25,7 +24,7 @@
             return;
         }
 
-        const result = await user.getNextId({ token: $userSession.token });
+        const result = await user.getNextId();
         const id = result.id;
 
         await user.create({

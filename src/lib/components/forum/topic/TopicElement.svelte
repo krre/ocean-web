@@ -29,7 +29,7 @@
     async function removeTopic() {
         if (!confirm("Удалить тему?")) return;
 
-        await topicFn.del({ id: topic.id, token: $userSession.token });
+        await topicFn.del({ id: topic.id });
         onremoved();
     }
 </script>

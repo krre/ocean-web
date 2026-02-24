@@ -40,7 +40,6 @@
             await updateProfile({
                 name: userName,
                 gender: currentGender,
-                token: $userSession.token,
             });
 
             $userSession.name = userName;
@@ -67,7 +66,7 @@
         const token = createToken(data.user.id, password1);
 
         try {
-            await updateToken({ newToken: token, token: $userSession.token });
+            await updateToken({ newToken: token });
 
             $userSession.token = token;
             setSession($userSession);

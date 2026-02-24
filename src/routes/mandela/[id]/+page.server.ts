@@ -8,15 +8,15 @@ export const load: PageServerLoad = async ({ url, locals, params }) => {
 
     const getOneResponse = await api.Mandela.GetOne.exec({
         id: mandelaId,
-    }, locals.session.token);
+    });
 
     const automaticTrash = getOneResponse.mandela.automatic_trash;
 
     if (!locals.session.isAnonym && !getOneResponse.mandela.mark_ts) {
-        await api.Mandela.Mark.exec({ id: getOneResponse.mandela.id }, locals.session.token);
+        await api.Mandela.Mark.exec({ id: getOneResponse.mandela.id });
     }
 
-    const commentGetAllResponse = await loadComments(mandelaId, pageNo, locals.session.token);
+    const commentGetAllResponse = await loadComments(mandelaId, pageNo);
 
     return {
         getOneResponse,

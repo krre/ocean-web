@@ -36,7 +36,7 @@ export namespace GetAll {
         topics: Topic[]
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "activity.getAll", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "activity.getAll", params });
     }
 }

@@ -12,16 +12,16 @@ export namespace GetOne {
 
     export interface Response extends CategoryData { }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.category.getOne", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.category.getOne", params });
     }
 }
 
 export namespace Create {
     export interface Request extends CategoryData { }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "forum.category.create", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "forum.category.create", params });
     }
 }
 
@@ -30,8 +30,8 @@ export namespace Update {
         id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "forum.category.update", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "forum.category.update", params });
     }
 }
 
@@ -40,7 +40,7 @@ export namespace Delete {
         id: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "forum.category.delete", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "forum.category.delete", params });
     }
 }

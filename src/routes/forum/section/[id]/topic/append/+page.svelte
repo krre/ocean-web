@@ -49,13 +49,11 @@
             type: type,
             poll_answers,
             poll_answer_selection,
-            token: $userSession.token,
         });
 
         await postFn.create({
             topic_id: result.id,
             post,
-            token: $userSession.token,
         });
 
         goto(route.Forum.Topic.Id(result.id));

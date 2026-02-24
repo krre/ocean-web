@@ -53,7 +53,7 @@
     async function remove() {
         if (!confirm("Удалить манделу?")) return;
 
-        await mandelaFn.del({ id: [id], token: $userSession.token });
+        await mandelaFn.del({ id: [id] });
 
         alert("Мандела удалена!");
     }
@@ -62,7 +62,6 @@
         votes = await mandelaFn.vote({
             id: mandela.id,
             vote: voteValue,
-            token: $userSession.token,
         });
 
         vote = voteValue;
@@ -73,7 +72,6 @@
         if (!voteUserVisible) {
             voteUsers = await mandelaFn.getVoteUsers({
                 id: mandela.id,
-                token: $userSession.token,
             });
         }
 
@@ -102,7 +100,6 @@
             id: mandela.id,
             trash: trash,
             automatic_trash: automaticTrash,
-            token: $userSession.token,
         });
     }
 
@@ -111,7 +108,6 @@
             id: mandela.id,
             trash: mandela.trash,
             automatic_trash: automaticTrash,
-            token: $userSession.token,
         });
     }
 
@@ -132,7 +128,6 @@
             await comment.getAll({
                 mandelaId: id,
                 pageNo: data.pageNo,
-                token: $userSession.token,
             })
         ).comments;
     }

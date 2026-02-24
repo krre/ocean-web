@@ -17,7 +17,6 @@
             category_id: +(page.params.id ?? ""),
             name: name,
             order_index: order,
-            token: $userSession.token,
         });
 
         goto(route.Forum.Root);

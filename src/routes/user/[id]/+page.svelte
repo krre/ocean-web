@@ -23,7 +23,6 @@
             code: data.user.code,
             gender: data.user.gender,
             blocked: data.user.blocked,
-            token: $userSession.token,
         });
     }
 
@@ -32,7 +31,6 @@
 
         await user.del({
             id: data.user.id,
-            token: $userSession.token,
         });
 
         isUserExists = false;

@@ -22,8 +22,8 @@ export namespace GetMandels {
         total_count: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "rating.getMandels", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "rating.getMandels", params });
     }
 }
 
@@ -44,7 +44,7 @@ export namespace GetUsers {
         users: User[];
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "rating.getUsers", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "rating.getUsers", params });
     }
 }

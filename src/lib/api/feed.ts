@@ -30,7 +30,7 @@ export namespace GetAll {
         total_count: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "feed.getAll", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "feed.getAll", params });
     }
 }

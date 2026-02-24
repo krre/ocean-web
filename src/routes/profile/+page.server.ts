@@ -6,6 +6,6 @@ export const load: PageServerLoad = async ({ locals }) => {
         id: locals.session.id,
     };
 
-    const user = await api.User.GetOne.exec(params, locals.session.token);
+    const user = await api.User.GetOne.exec(params);
     return { user };
 }

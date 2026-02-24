@@ -49,7 +49,6 @@
                     : "",
             description: description,
             categories: categories,
-            token: $userSession.token,
         });
 
         goto(route.Mandela.Id(id));

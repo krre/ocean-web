@@ -61,7 +61,6 @@
             await likeFn.create({
                 post_id: post.id,
                 action: action,
-                token: $userSession.token,
             });
 
             like = action;
@@ -72,7 +71,7 @@
                 dislikeCount += 1;
             }
         } else {
-            await likeFn.del({ post_id: post.id, token: $userSession.token });
+            await likeFn.del({ post_id: post.id });
 
             if (like === LikeAction.Like) {
                 likeCount -= 1;
@@ -87,7 +86,6 @@
     async function getLikeUsers(row: number) {
         likeUsers = await likeFn.getUsers({
             post_id: id,
-            token: $userSession.token,
         });
     }
 
@@ -95,7 +93,6 @@
         await postFn.update({
             id: post.id,
             post: message,
-            token: $userSession.token,
         });
 
         post.post = message;
@@ -103,7 +100,7 @@
     }
 
     async function removePost() {
-        await postFn.del({ id: +post.id, token: $userSession.token });
+        await postFn.del({ id: +post.id });
         onremove();
     }
 </script>

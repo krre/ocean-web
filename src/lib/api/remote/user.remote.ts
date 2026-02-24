@@ -7,7 +7,7 @@ import type { UserSession } from '$lib/types';
 import uidSafe from 'uid-safe'
 
 export const login = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
-    const result = await api.User.Auth.exec({ token }, token);
+    const result = await api.User.Auth.exec({ token });
 
     const session: UserSession = {
         token: token,
@@ -35,8 +35,8 @@ export const login = command(v.object({ id: v.number(), token: v.string() }), as
     return session;
 });
 
-export const logout = command(v.string(), async (token) => {
-    await api.User.Logout.exec(token);
+export const logout = command(async () => {
+    await api.User.Logout.exec();
 
     const { cookies } = getRequestEvent();
     const sessionId = cookies.get('session_id');
@@ -47,26 +47,26 @@ export const logout = command(v.string(), async (token) => {
     }
 });
 
-export const getNextId = command(v.object({ token: v.string() }), async ({ token }) => {
-    return await api.User.GetNextId.exec(token);
+export const getNextId = command(async () => {
+    return await api.User.GetNextId.exec();
 })
 
 export const create = command(v.object({ id: v.number(), name: v.string(), code: v.string(), token: v.string() }), async ({ id, name, code, token }) => {
-    await api.User.Create.exec({ id, name, code, token }, token);
+    await api.User.Create.exec({ id, name, code, token });
 });
 
-export const updateProfile = command(v.object({ name: v.string(), gender: v.number(), token: v.string() }), async ({ name, gender, token }) => {
-    await api.User.UpdateProfile.exec({ name, gender }, token);
+export const updateProfile = command(v.object({ name: v.string(), gender: v.number() }), async ({ name, gender }) => {
+    await api.User.UpdateProfile.exec({ name, gender });
 })
 
-export const updateToken = command(v.object({ newToken: v.string(), token: v.string() }), async ({ newToken, token }) => {
-    await api.User.UpdateToken.exec({ token: newToken }, token);
+export const updateToken = command(v.object({ newToken: v.string() }), async ({ newToken }) => {
+    await api.User.UpdateToken.exec({ token: newToken });
 })
 
-export const update = command(v.object({ id: v.number(), name: v.string(), code: v.string(), gender: v.number(), blocked: v.boolean(), token: v.string() }), async ({ id, name, code, gender, blocked, token }) => {
-    await api.User.Update.exec({ id, name, code, gender, blocked }, token);
+export const update = command(v.object({ id: v.number(), name: v.string(), code: v.string(), gender: v.number(), blocked: v.boolean() }), async ({ id, name, code, gender, blocked }) => {
+    await api.User.Update.exec({ id, name, code, gender, blocked });
 })
 
-export const del = command(v.object({ id: v.number(), token: v.string() }), async ({ id, token }) => {
-    await api.User.Delete.exec({ id }, token);
+export const del = command(v.object({ id: v.number() }), async ({ id }) => {
+    await api.User.Delete.exec({ id });
 })

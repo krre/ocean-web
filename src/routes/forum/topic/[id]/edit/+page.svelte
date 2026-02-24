@@ -26,7 +26,6 @@
         await topic.update({
             id: data.id,
             name,
-            token: $userSession.token,
         });
 
         goto(route.Forum.Section.Id(data.getOneResponse.section_id));

@@ -20,8 +20,8 @@ export namespace GetOne {
         dislike_count: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "user.getOne", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "user.getOne", params });
     }
 }
 
@@ -33,8 +33,8 @@ export namespace Create {
         token: string,
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "user.create", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "user.create", params });
     }
 }
 
@@ -43,8 +43,8 @@ export namespace Delete {
         id: number,
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "user.delete", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "user.delete", params });
     }
 }
 
@@ -57,8 +57,8 @@ export namespace Update {
         blocked: boolean;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "user.update", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "user.update", params });
     }
 }
 
@@ -68,8 +68,8 @@ export namespace UpdateProfile {
         gender: number;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "user.updateProfile", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "user.updateProfile", params });
     }
 }
 
@@ -78,8 +78,8 @@ export namespace UpdateToken {
         token: string;
     }
 
-    export async function exec(params: Request, token: string): Promise<void> {
-        return await sendCommand({ method: "user.updateToken", params, token });
+    export async function exec(params: Request): Promise<void> {
+        return await sendCommand({ method: "user.updateToken", params });
     }
 }
 
@@ -88,8 +88,8 @@ export namespace GetNextId {
         id: number;
     }
 
-    export async function exec(token: string): Promise<Response> {
-        return await sendQuery({ method: "user.getNextId", token })
+    export async function exec(): Promise<Response> {
+        return await sendQuery({ method: "user.getNextId" })
     }
 }
 
@@ -103,13 +103,13 @@ export namespace Auth {
         name: string,
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "user.auth", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "user.auth", params });
     }
 }
 
 export namespace Logout {
-    export async function exec(token: string): Promise<void> {
-        return await sendCommand({ method: "user.logout", token });
+    export async function exec(): Promise<void> {
+        return await sendCommand({ method: "user.logout" });
     }
 }

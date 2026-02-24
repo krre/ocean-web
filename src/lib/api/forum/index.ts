@@ -29,8 +29,8 @@ export namespace GetAll {
         sections: Section[];
     }
 
-    export async function exec(token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.getAll", token });
+    export async function exec(): Promise<Response> {
+        return await sendQuery({ method: "forum.getAll" });
     }
 }
 
@@ -56,7 +56,7 @@ export namespace GetNew {
         topics: Topic[];
     }
 
-    export async function exec(params: Request, token: string): Promise<Response> {
-        return await sendQuery({ method: "forum.getNew", params, token });
+    export async function exec(params: Request): Promise<Response> {
+        return await sendQuery({ method: "forum.getNew", params });
     }
 }

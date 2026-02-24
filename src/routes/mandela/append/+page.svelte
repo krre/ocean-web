@@ -26,7 +26,6 @@
             after: titleMode === consts.Mandela.Title.Complex ? after : "",
             description: description,
             categories: categories,
-            token: $userSession.token,
         });
 
         goto(route.Mandela.Id(result.id));

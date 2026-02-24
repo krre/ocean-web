@@ -21,7 +21,7 @@
     async function removeCategory() {
         if (!confirm("Удалить категорию?")) return;
 
-        await categoryFn.del({ id: category.id, token: $userSession.token });
+        await categoryFn.del({ id: category.id });
         onremove();
     }
 

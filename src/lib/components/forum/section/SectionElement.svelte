@@ -20,7 +20,7 @@
     async function removeSection() {
         if (!confirm("Удалить секцию?")) return;
 
-        await sectionFn.del({ id: section.id, token: $userSession.token });
+        await sectionFn.del({ id: section.id });
         onremove();
     }
 </script>

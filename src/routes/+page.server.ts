@@ -25,7 +25,7 @@ export const load: PageServerLoad = async ({ url, locals }) => {
         params.user_id = userId;
     }
 
-    const getAllResponse = await api.Mandela.GetAll.exec(params, token);
+    const getAllResponse = await api.Mandela.GetAll.exec(params);
     const [topics, comments] = await loadActivity(token);
 
     return {
@@ -46,7 +46,7 @@ async function loadActivity(token: string): Promise<
     const params: api.Activity.GetAll.Request = {
         limit: consts.Mandela.Activity.PageLimit,
     };
-    const result = await api.Activity.GetAll.exec(params, token);
+    const result = await api.Activity.GetAll.exec(params);
 
     const topics: ActivityMessage[] = [];
 
