@@ -5,12 +5,33 @@
     import { userSession } from "$lib/stores";
 
     interface Props {
-        [key: string]: any;
+        class?: string;
+        onclick?: () => void;
     }
 
-    let { ...props }: Props = $props();
+    let { onclick, class: className }: Props = $props();
 
     const isAnonymUser = $derived($userSession.code == consts.Account.Anonym);
+
+    const menuItems = $derived([
+        { href: "/", label: "Каталог", show: true },
+        {
+            href: route.Mandela.Append,
+            label: "Добавить",
+            show: isAnonymAllowed() || !isAnonymUser,
+        },
+        { href: route.Search, label: "Поиск", show: true },
+        { href: route.Rating, label: "Рейтинг", show: true },
+        { href: route.Forum.Root, label: "Форум", show: true },
+        { href: route.Help, label: "Справка", show: true },
+        { href: route.Profile, label: "Профиль", show: !isAnonymUser },
+        {
+            href: isAnonymUser ? route.Signin : route.Signout,
+            label: isAnonymUser ? "Войти" : "Выйти",
+            show: true,
+        },
+        { href: route.Register.Root, label: "Регистрация", show: isAnonymUser },
+    ]);
 </script>
 
 <style>
@@ -31,20 +52,12 @@
     }
 </style>
 
-<nav class={props.class}>
-    <a href="/">Каталог</a>
-    {#if isAnonymAllowed() || !isAnonymUser}
-        <a href={route.Mandela.Append}>Добавить</a>
-    {/if}
-    <a href={route.Search}>Поиск</a>
-    <a href={route.Rating}>Рейтинг</a>
-    <a href={route.Forum.Root}>Форум</a>
-    <a href={route.Help}>Справка</a>
-    {#if !isAnonymUser}<a href={route.Profile}>Профиль</a>{/if}
-    {#if !isAnonymUser}
-        <a href={route.Signout}>Выйти</a>
-    {:else}
-        <a href={route.Signin}>Войти</a>
-        <a href={route.Register.Root}>Регистрация</a>
-    {/if}
+<nav class={className}>
+    {#each menuItems as item}
+        {#if item.show}
+            <a href={item.href} {onclick}>
+                {item.label}
+            </a>
+        {/if}
+    {/each}
 </nav>
