@@ -4,11 +4,11 @@
     import Feed from "./Feed.svelte";
 
     interface Props {
-        comments?: ActivityMessage[];
-        topics?: ActivityMessage[];
+        comments: ActivityMessage[];
+        topics: ActivityMessage[];
     }
 
-    let { comments = [], topics = [] }: Props = $props();
+    let { comments, topics }: Props = $props();
 </script>
 
 <style>
