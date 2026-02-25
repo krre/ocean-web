@@ -5,11 +5,11 @@
     import Rectangle from "$lib/components/Rectangle.svelte";
 
     interface Props {
-        title?: string;
-        messages?: ActivityMessage[];
+        title: string;
+        messages: ActivityMessage[];
     }
 
-    let { title = "", messages = [] }: Props = $props();
+    let { title, messages }: Props = $props();
 </script>
 
 <style>
