@@ -20,22 +20,22 @@
     }
 
     interface Props {
-        pageLimit?: number;
-        pageNo?: number;
-        filter?: any;
-        category?: number;
-        sort?: number;
-        userId?: number;
+        pageLimit: number;
+        pageNo: number;
+        filter: any;
+        category: number;
+        sort: number;
+        userId: number;
         getAllResponse: api.Mandela.GetAll.Response;
     }
 
     let {
-        pageLimit = 1,
-        pageNo = $bindable(1),
-        filter = $bindable(Filter.All),
-        category = $bindable(0),
-        sort = $bindable(0),
-        userId = 0,
+        pageLimit,
+        pageNo,
+        filter,
+        category,
+        sort,
+        userId,
         getAllResponse,
     }: Props = $props();
 
