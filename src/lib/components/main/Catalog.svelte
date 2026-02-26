@@ -32,11 +32,6 @@
         $props();
 
     let baseQuery = $state(new URLSearchParams());
-
-    let mandels: api.Mandela.GetAll.Mandela[] = $derived(
-        getAllResponse.mandels,
-    );
-
     let currentCount = $state(0);
 
     const categories = ["Все"].concat(consts.Categories);
@@ -221,7 +216,7 @@
         </span>
     </div>
 
-    {#each mandels as mandela}
+    {#each getAllResponse.mandels as mandela}
         <div class="row" style="background-color: {voteColor(mandela.votes)}">
             <a class="row-link" href={route.Mandela.Id(mandela.id)}>
                 <span
