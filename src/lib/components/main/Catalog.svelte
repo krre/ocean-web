@@ -52,30 +52,25 @@
 
     let isLoaded = false;
 
-    function makeBaseQuery(): URLSearchParams {
-        const params = new URLSearchParams();
+    function makeQueryAndGoto(): URLSearchParams {
+        const baseQuery = new URLSearchParams();
 
         if (sort) {
-            params.append("sort", sort.toString());
+            baseQuery.append("sort", sort.toString());
         }
 
         if (category) {
-            params.append("category", category.toString());
+            baseQuery.append("category", category.toString());
         }
 
         if (filter) {
-            params.append("filter", filter.toString());
+            baseQuery.append("filter", filter.toString());
         }
 
         if (userId) {
-            params.append("user", userId.toString());
+            baseQuery.append("user", userId.toString());
         }
 
-        return params;
-    }
-
-    function makeQueryAndGoto(): URLSearchParams {
-        const baseQuery = makeBaseQuery();
         const query = new URLSearchParams(baseQuery);
 
         if (pageNo > 1) {
