@@ -20,7 +20,6 @@
     }
 
     interface Props {
-        pageLimit: number;
         pageNo: number;
         filter: any;
         category: number;
@@ -29,15 +28,8 @@
         getAllResponse: api.Mandela.GetAll.Response;
     }
 
-    let {
-        pageLimit,
-        pageNo,
-        filter,
-        category,
-        sort,
-        userId,
-        getAllResponse,
-    }: Props = $props();
+    let { pageNo, filter, category, sort, userId, getAllResponse }: Props =
+        $props();
 
     let baseQuery = $state(new URLSearchParams());
 
@@ -266,7 +258,7 @@
 
 <Pagination
     count={currentCount}
-    limit={pageLimit}
+    limit={consts.Mandela.Catalog.PageLimit}
     offset={pageNo}
     {baseQuery}
 />

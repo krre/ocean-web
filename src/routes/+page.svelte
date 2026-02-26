@@ -1,7 +1,3 @@
-<script module lang="ts">
-    import * as consts from "$lib/consts";
-</script>
-
 <script lang="ts">
     import type { PageProps } from "./$types";
     import Catalog from "$lib/components/main/Catalog.svelte";
@@ -41,7 +37,6 @@
             sort={data.sort}
             userId={data.userId}
             getAllResponse={data.getAllResponse}
-            pageLimit={consts.Mandela.Catalog.PageLimit}
         />
     </div>
 
