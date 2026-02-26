@@ -21,7 +21,7 @@
 
     interface Props {
         pageNo: number;
-        filter: any;
+        filter: number;
         category: number;
         sort: number;
         userId: number;
