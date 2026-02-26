@@ -32,7 +32,24 @@
         $props();
 
     let baseQuery = $state(new URLSearchParams());
-    let currentCount = $state(0);
+
+    let currentCount = $derived.by(() => {
+        if (userId) {
+            return getAllResponse.user_count;
+        } else if (filter === Filter.All) {
+            return getAllResponse.total_count;
+        } else if (filter === Filter.New) {
+            return getAllResponse.new_count;
+        } else if (filter === Filter.Mine) {
+            return getAllResponse.mine_count;
+        } else if (filter === Filter.Poll) {
+            return getAllResponse.poll_count;
+        } else if (filter === Filter.Trash) {
+            return getAllResponse.trash_count;
+        } else if (filter === Filter.Category) {
+            return getAllResponse.category_count;
+        }
+    });
 
     const categories = ["Все"].concat(consts.Categories);
     const sorts = ["Манделам", "Комментариям"];
@@ -93,24 +110,6 @@
 
     $effect(() => {
         filter = category > 0 ? Filter.Category : Filter.All;
-    });
-
-    $effect(() => {
-        if (userId) {
-            currentCount = getAllResponse.user_count;
-        } else if (filter === Filter.All) {
-            currentCount = getAllResponse.total_count;
-        } else if (filter === Filter.New) {
-            currentCount = getAllResponse.new_count;
-        } else if (filter === Filter.Mine) {
-            currentCount = getAllResponse.mine_count;
-        } else if (filter === Filter.Poll) {
-            currentCount = getAllResponse.poll_count;
-        } else if (filter === Filter.Trash) {
-            currentCount = getAllResponse.trash_count;
-        } else if (filter === Filter.Category) {
-            currentCount = getAllResponse.category_count;
-        }
     });
 
     $effect(() => {
