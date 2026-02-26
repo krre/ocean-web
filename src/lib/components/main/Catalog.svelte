@@ -36,13 +36,6 @@
     let mandels: api.Mandela.GetAll.Mandela[] = $derived(
         getAllResponse.mandels,
     );
-    let totalCount = $derived(getAllResponse.total_count);
-    let newCount = $derived(getAllResponse.new_count);
-    let mineCount = $derived(getAllResponse.mine_count);
-    let pollCount = $derived(getAllResponse.poll_count);
-    let trashCount = $derived(getAllResponse.trash_count);
-    let categoryCount = $derived(getAllResponse.category_count);
-    let userCount = $derived(getAllResponse.user_count);
 
     let currentCount = $state(0);
 
@@ -109,19 +102,19 @@
 
     $effect(() => {
         if (userId) {
-            currentCount = userCount;
+            currentCount = getAllResponse.user_count;
         } else if (filter === Filter.All) {
-            currentCount = totalCount;
+            currentCount = getAllResponse.total_count;
         } else if (filter === Filter.New) {
-            currentCount = newCount;
+            currentCount = getAllResponse.new_count;
         } else if (filter === Filter.Mine) {
-            currentCount = mineCount;
+            currentCount = getAllResponse.mine_count;
         } else if (filter === Filter.Poll) {
-            currentCount = pollCount;
+            currentCount = getAllResponse.poll_count;
         } else if (filter === Filter.Trash) {
-            currentCount = trashCount;
+            currentCount = getAllResponse.trash_count;
         } else if (filter === Filter.Category) {
-            currentCount = categoryCount;
+            currentCount = getAllResponse.category_count;
         }
     });
 
@@ -171,14 +164,14 @@
         {#if !userId}
             <Indicator
                 title="Всего"
-                count={totalCount}
+                count={getAllResponse.total_count}
                 active={filter == Filter.All}
                 onclick={() => (filter = Filter.All)}
             />
             {#if !$userSession.isAnonym}
                 <Indicator
                     title="Новые"
-                    count={newCount}
+                    count={getAllResponse.new_count}
                     active={filter == Filter.New}
                     highlightNew={true}
                     onclick={() => (filter = Filter.New)}
@@ -186,14 +179,14 @@
 
                 <Indicator
                     title="Мои"
-                    count={mineCount}
+                    count={getAllResponse.mine_count}
                     active={filter == Filter.Mine}
                     onclick={() => (filter = Filter.Mine)}
                 />
 
                 <Indicator
                     title="Опросы"
-                    count={pollCount}
+                    count={getAllResponse.poll_count}
                     highlightNew={true}
                     active={filter == Filter.Poll}
                     onclick={() => (filter = Filter.Poll)}
@@ -202,7 +195,7 @@
 
             <Indicator
                 title="Хлам"
-                count={trashCount}
+                count={getAllResponse.trash_count}
                 active={filter == Filter.Trash}
                 onclick={() => (filter = Filter.Trash)}
             />
