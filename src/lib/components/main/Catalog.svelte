@@ -113,7 +113,7 @@
     }
 
     $effect(() => {
-        filter = category > 0 ? Filter.Category : filter;
+        filter = category > 0 ? Filter.Category : userId ? Filter.All : filter;
     });
 
     $effect(() => {
