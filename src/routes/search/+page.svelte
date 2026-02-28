@@ -5,6 +5,7 @@
     import type { PageProps } from "./$types";
     import { pageUrl } from "$lib/utils";
     import { goto } from "$app/navigation";
+    import { untrack } from "svelte";
     import Frame from "$lib/components/Frame.svelte";
     import Rectangle from "$lib/components/Rectangle.svelte";
     import WaitButton from "$lib/components/WaitButton.svelte";
@@ -16,7 +17,6 @@
     let totalCount = $derived(data.searchGetAllResponse.total_count);
 
     let baseQuery = $state(new URLSearchParams());
-    let buttonEnabled = $state(true);
     let pageNo = $state(0);
 
     let searchType = $state(SearchType.Mandela);
@@ -29,18 +29,17 @@
             data.type >= 0 &&
             data.text.length >= 0 &&
             data.pageNo >= 1 &&
-            isLoaded
+            untrack(() => isLoaded)
         ) {
             searchType = data.type;
             searchText = data.text;
             pageNo = data.pageNo;
-        } else {
-            isLoaded = true;
         }
+
+        isLoaded = true;
     });
 
     async function search() {
-        buttonEnabled = false;
         pageNo = 1;
 
         try {
@@ -61,8 +60,6 @@
         } catch (e) {
             console.error(e);
         }
-
-        buttonEnabled = true;
     }
 
     function keyPressed(event: any) {
@@ -138,7 +135,7 @@
         <div>
             <WaitButton
                 title="Найти"
-                enabled={buttonEnabled}
+                enabled={isLoaded && searchText.length > 0}
                 sendAction={search}
             />
         </div>
