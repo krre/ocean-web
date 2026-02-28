@@ -1,6 +1,7 @@
 <script lang="ts">
     import { type Error } from "$lib/json-rpc";
     import { goto } from "$app/navigation";
+    import type { PageProps } from "./$types";
     import { errorMessage } from "$lib/network";
     import { login } from "$lib/api/remote/user.remote";
     import { createToken } from "$lib/utils";
@@ -11,9 +12,9 @@
 
     const title = "Войти";
 
-    let id = $state(0);
+    let { data }: PageProps = $props();
+    let id = $derived(data.id);
     let password = $state("");
-
     let signinButtonEnabled = $derived(id && password);
     let error = $state("");
 
