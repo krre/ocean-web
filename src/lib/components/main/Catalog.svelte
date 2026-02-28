@@ -4,6 +4,7 @@
     import * as api from "$lib/api";
     import { userSession } from "$lib/stores";
     import { goto } from "$app/navigation";
+    import { untrack } from "svelte";
     import { formatDateTime, zeroLeading, makeTitle } from "$lib/utils";
     import { Vote } from "$lib/types";
     import Indicator from "./Indicator.svelte";
@@ -58,39 +59,41 @@
     let isLoaded = false;
 
     function makeQueryAndGoto(): URLSearchParams {
-        const baseQuery = new URLSearchParams();
+        const prevFilter = untrack(() => Number(baseQuery.get("filter")));
+        const prevCategory = untrack(() => Number(baseQuery.get("category")));
+
+        const query = new URLSearchParams();
 
         if (sort) {
-            baseQuery.append("sort", sort.toString());
+            query.append("sort", sort.toString());
         }
 
-        if (category) {
-            baseQuery.append("category", category.toString());
-        }
-
-        if (filter) {
-            baseQuery.append("filter", filter.toString());
+        if (filter && filter != prevFilter && filter != Filter.Category) {
+            query.append("filter", filter.toString());
+        } else if (category && category != prevCategory) {
+            query.append("category", category.toString());
+            query.append("filter", Filter.Category.toString());
         }
 
         if (userId) {
-            baseQuery.append("user", userId.toString());
+            query.append("user", userId.toString());
         }
 
-        const query = new URLSearchParams(baseQuery);
+        const urlQuery = new URLSearchParams(query);
 
         if (pageNo > 1) {
-            query.append("page", pageNo.toString());
+            urlQuery.append("page", pageNo.toString());
         }
 
-        const queryString = query.toString();
-        let url = (queryString ? "?" : "") + queryString;
+        const urlQueryString = urlQuery.toString();
+        let url = (urlQueryString ? "?" : "") + urlQueryString;
 
         if (!url) {
             url = "/";
         }
 
         gotoUrl(url);
-        return baseQuery;
+        return query;
     }
 
     function gotoUrl(url: string) {
@@ -113,14 +116,6 @@
     }
 
     $effect(() => {
-        filter = category > 0 ? Filter.Category : userId ? Filter.All : filter;
-    });
-
-    $effect(() => {
-        category = filter == Filter.Category ? category : 0;
-    });
-
-    $effect(() => {
         if (
             filter >= 0 &&
             category >= 0 &&
@@ -129,9 +124,9 @@
             isLoaded
         ) {
             baseQuery = makeQueryAndGoto();
+        } else {
+            isLoaded = true;
         }
-
-        isLoaded = true;
     });
 </script>
 
@@ -169,7 +164,6 @@
                 count={getAllResponse.total_count}
                 active={filter == Filter.All}
                 onclick={() => {
-                    category = 0;
                     gotoUrl("/");
                 }}
             />
