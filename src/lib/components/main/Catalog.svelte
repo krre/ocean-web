@@ -89,9 +89,13 @@
             url = "/";
         }
 
-        goto(url);
-        isLoaded = false;
+        gotoUrl(url);
         return baseQuery;
+    }
+
+    function gotoUrl(url: string) {
+        isLoaded = false;
+        goto(url);
     }
 
     function voteColor(votes: api.Mandela.Vote[]): string {
@@ -109,7 +113,11 @@
     }
 
     $effect(() => {
-        filter = category > 0 ? Filter.Category : Filter.All;
+        filter = category > 0 ? Filter.Category : filter;
+    });
+
+    $effect(() => {
+        category = filter == Filter.Category ? category : 0;
     });
 
     $effect(() => {
@@ -121,9 +129,9 @@
             isLoaded
         ) {
             baseQuery = makeQueryAndGoto();
-        } else {
-            isLoaded = true;
         }
+
+        isLoaded = true;
     });
 </script>
 
@@ -160,7 +168,10 @@
                 title="Всего"
                 count={getAllResponse.total_count}
                 active={filter == Filter.All}
-                onclick={() => (filter = Filter.All)}
+                onclick={() => {
+                    category = 0;
+                    gotoUrl("/");
+                }}
             />
             {#if !$userSession.isAnonym}
                 <Indicator
