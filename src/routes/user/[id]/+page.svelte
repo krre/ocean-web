@@ -1,6 +1,5 @@
 <script lang="ts">
     import * as consts from "$lib/consts";
-    import * as api from "$lib/api";
     import * as user from "$lib/api/remote/user.remote";
     import type { PageProps } from "./$types";
     import { userSession } from "$lib/stores";
