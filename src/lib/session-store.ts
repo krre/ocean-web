@@ -16,7 +16,7 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
                 'utf-8'
             );
 
-            const session: UserSession = JSON.parse(file);
+            const session: UserSession = JSON.parse(file).user;
             session.isAnonym = false;
             session.isAdmin = session.code == consts.Account.Admin;
 
@@ -30,7 +30,7 @@ export async function loadSession(sessionId?: string): Promise<UserSession> {
 }
 
 export async function saveSession(sessionId: string, session: UserSession) {
-    const obj = {
+    const user = {
         id: session.id,
         code: session.code,
         name: session.name,
@@ -39,7 +39,7 @@ export async function saveSession(sessionId: string, session: UserSession) {
 
     await fs.writeFile(
         filePath(sessionId),
-        JSON.stringify(obj)
+        JSON.stringify({ user })
     );
 }
 
