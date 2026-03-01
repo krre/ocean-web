@@ -7,14 +7,19 @@ import { sveltekit } from '@sveltejs/kit/vite';
 
 export default defineConfig(({ mode }) => {
 	const env = loadEnv(mode, process.cwd(), '')
+	const httpsConfig = {
+		key: fs.readFileSync(path.resolve(env.SSL_KEY_PATH)),
+		cert: fs.readFileSync(path.resolve(env.SSL_CERT_PATH)),
+	}
 
 	return {
 		server: {
 			port: 3000,
-			https: {
-				key: fs.readFileSync(path.resolve(env.SSL_KEY_PATH)),
-				cert: fs.readFileSync(path.resolve(env.SSL_CERT_PATH)),
-			},
+			https: httpsConfig
+		},
+		preview: {
+			port: 3000,
+			https: httpsConfig
 		},
 		plugins: [sveltekit(), devtoolsJson()],
 		test: {
