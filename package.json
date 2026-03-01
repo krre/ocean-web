@@ -24,6 +24,7 @@
         "@types/node": "^25.3.2",
         "@types/sha1": "^1.1.5",
         "@types/uid-safe": "^2.1.5",
+        "@vitejs/plugin-basic-ssl": "^2.1.4",
         "@vitest/browser-playwright": "^4.0.18",
         "playwright": "^1.58.2",
         "svelte": "^5.53.6",
