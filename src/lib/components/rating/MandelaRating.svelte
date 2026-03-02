@@ -16,19 +16,8 @@
         pageNo = 1,
         pageLimit = 1,
         vote = $bindable(),
-        mandels = []
+        mandels = [],
     }: Props = $props();
-
-    function mandelaLink(
-        id: number,
-        mandela: api.Rating.GetMandels.Mandela,
-        i: number,
-    ) {
-        const title = makeTitle(mandela);
-        return `<a class="row-link" href=${route.Mandela.Id(id)}>${
-            i + 1 + (pageNo - 1) * pageLimit
-        }. ${title} - ${mandela.count}</a>`;
-    }
 </script>
 
 <select bind:value={vote}>
@@ -40,6 +29,11 @@
 <p></p>
 
 {#each mandels as mandela, i}
-    {@html mandelaLink(mandela.id, mandela, i)}
+    <a
+        class="row-link"
+        href={route.Mandela.Id(mandela.id)}
+        data-sveltekit-preload-data="off"
+        >{i + 1 + (pageNo - 1) * pageLimit}. {makeTitle(mandela)} - {mandela.count}
+    </a>
     <br />
 {/each}

@@ -222,7 +222,11 @@
 
     {#each getAllResponse.mandels as mandela}
         <div class="row" style="background-color: {voteColor(mandela.votes)}">
-            <a class="row-link" href={route.Mandela.Id(mandela.id)}>
+            <a
+                class="row-link"
+                href={route.Mandela.Id(mandela.id)}
+                data-sveltekit-preload-data="off"
+            >
                 <span
                     class:new-mandela={!$userSession.isAnonym &&
                         !mandela.mark_ts}
