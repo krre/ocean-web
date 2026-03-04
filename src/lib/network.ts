@@ -10,13 +10,14 @@ export interface RequestOptions<Req> {
 
 async function send<Req, Res>(options: RequestOptions<Req>): Promise<Res | void> {
     const rc = new RequestCreator(options.method, options.params);
-    const { locals } = getRequestEvent();
+    const { locals, getClientAddress } = getRequestEvent();
 
     const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${locals.session.token}`, {
         method: "POST",
         body: rc.toString(),
         headers: {
-            "content-type": "application/json",
+            "Content-Type": "application/json",
+            'X-Forwarded-For': getClientAddress()
         },
     })
 
