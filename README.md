@@ -1,2 +1,2 @@
 # Ocean Web
-Web frontend for [Ocean](http://ocean-mandela.info) site.
+Web frontend for [Ocean](https://ocean-mandela.info) site.
