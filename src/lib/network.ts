@@ -16,8 +16,8 @@ async function send<Req, Res>(options: RequestOptions<Req>): Promise<Res | void>
         method: "POST",
         body: rc.toString(),
         headers: {
-            "Content-Type": "application/json",
-            'X-Forwarded-For': getClientAddress()
+            "content-type": "application/json",
+            'x-forwarded-for': getClientAddress()
         },
     })
 
