@@ -38,6 +38,10 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+          build-args: |
+            PUBLIC_OCEAN_API_URL=${{ vars.PUBLIC_OCEAN_API_URL }}
+            PUBLIC_ANONYM_TOKEN=${{ secrets.PUBLIC_ANONYM_TOKEN }}
+            PUBLIC_ANONYM_ALLOWED=${{ vars.PUBLIC_ANONYM_ALLOWED }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
