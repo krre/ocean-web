@@ -1,5 +1,6 @@
 /.svelte-kit
 /.vscode
+/.zed
 /.sessions
 /node_modules/
 /build
