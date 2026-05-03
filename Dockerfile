@@ -2,18 +2,18 @@
 
 ARG NODE_VERSION=24.12.0
 
-FROM node:${NODE_VERSION}-alpine as base
+FROM node:${NODE_VERSION}-alpine AS base
 
 WORKDIR /app
 
-FROM base as deps
+FROM base AS deps
 
 RUN --mount=type=bind,source=package.json,target=package.json \
     --mount=type=bind,source=package-lock.json,target=package-lock.json \
     --mount=type=cache,target=/root/.npm \
     npm ci --omit=dev
 
-FROM deps as build
+FROM deps AS build
 
 ARG PUBLIC_OCEAN_API_URL
 ARG PUBLIC_ANONYM_TOKEN
@@ -32,9 +32,9 @@ COPY . .
 
 RUN npm run build
 
-FROM base as final
+FROM base AS final
 
-ENV NODE_ENV production
+ENV NODE_ENV=production
 
 RUN mkdir -p /app/.sessions && chown -R node:node /app
 
@@ -47,4 +47,4 @@ COPY --from=build /app/build ./build
 
 EXPOSE 3000
 
-CMD node build
+CMD ["node", "build"]
