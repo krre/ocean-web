@@ -1,35 +1,31 @@
 <script lang="ts">
-    import type { Input } from "$lib/types";
-    import Dialog from "$lib/components/dialog/Dialog.svelte";
-    import { closeDialog } from "$lib/stores";
+	import type { Input } from '$lib/types';
+	import Dialog from '$lib/components/dialog/Dialog.svelte';
+	import { closeDialog } from '$lib/stores';
 
-    let { onOk = (_link: string, _width?: number) => {} } = $props();
+	let { onOk = (_link: string, _width?: number) => {} } = $props();
 
-    let link = $state("");
-    let width = $state(0);
-    let inputRef = $state<Input | undefined>(undefined);
+	let link = $state('');
+	let width = $state(0);
+	let inputRef = $state<Input | undefined>(undefined);
 
-    $effect(() => {
-        inputRef?.focus();
-    });
+	$effect(() => {
+		inputRef?.focus();
+	});
 
-    function pressOk() {
-        onOk(link, width);
-        closeDialog();
-    }
+	function pressOk() {
+		onOk(link, width);
+		closeDialog();
+	}
 </script>
 
 <Dialog title="Добавление изображения">
-    <input
-        bind:value={link}
-        bind:this={inputRef}
-        placeholder="Введите ссылку"
-    />
-    <input bind:value={width} placeholder="Введите ширину (не обязательно)" />
-    {#snippet buttons()}
-        <div>
-            <button disabled={!link} onclick={pressOk}>ОК</button>
-            <button onclick={() => closeDialog()}>Отменить</button>
-        </div>
-    {/snippet}
+	<input bind:value={link} bind:this={inputRef} placeholder="Введите ссылку" />
+	<input bind:value={width} placeholder="Введите ширину (не обязательно)" />
+	{#snippet buttons()}
+		<div>
+			<button disabled={!link} onclick={pressOk}>ОК</button>
+			<button onclick={() => closeDialog()}>Отменить</button>
+		</div>
+	{/snippet}
 </Dialog>

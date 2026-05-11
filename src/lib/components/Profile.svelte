@@ -1,19 +1,19 @@
 <script lang="ts">
-    import * as consts from "$lib/consts";
-    import type * as api from "$lib/api";
-    import { formatDateTime } from "$lib/utils";
+	import * as consts from '$lib/consts';
+	import type * as api from '$lib/api';
+	import { formatDateTime } from '$lib/utils';
 
-    interface Props {
-        user: api.User.GetOne.Response;
-    }
+	interface Props {
+		user: api.User.GetOne.Response;
+	}
 
-    let { user }: Props = $props();
+	let { user }: Props = $props();
 
-    function openUrl() {
-        const params = new URLSearchParams();
-        params.append("user", user.id.toString());
-        return "/?" + params.toString();
-    }
+	function openUrl() {
+		const params = new URLSearchParams();
+		params.append('user', user.id.toString());
+		return '/?' + params.toString();
+	}
 </script>
 
 <div>Дата регистрации:</div>
@@ -22,8 +22,8 @@
 <div>{consts.Account.ModeNames[user.code]}</div>
 <div>Мандел:</div>
 <div>
-    {user.mandela_count}
-    <a href={openUrl()}>Показать</a>
+	{user.mandela_count}
+	<a href={openUrl()}>Показать</a>
 </div>
 <div>Комментариев:</div>
 <div>{user.comment_count}</div>

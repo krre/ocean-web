@@ -1,6 +1,6 @@
 // See https://svelte.dev/docs/kit/types#app.d.ts
 
-import type { UserSession } from "$lib/types";
+import type { UserSession } from '$lib/types';
 
 // for information about these interfaces
 declare global {
@@ -10,7 +10,7 @@ declare global {
 		}
 
 		interface Locals {
-			session: UserSession
+			session: UserSession;
 		}
 
 		// interface PageData {}
@@ -19,4 +19,4 @@ declare global {
 	}
 }
 
-export { };
+export {};

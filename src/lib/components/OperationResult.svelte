@@ -1,32 +1,32 @@
 <script lang="ts">
-    interface Props {
-        success?: string;
-        error?: string;
-    }
+	interface Props {
+		success?: string;
+		error?: string;
+	}
 
-    let { success, error }: Props = $props();
+	let { success, error }: Props = $props();
 
-    $effect(() => {
-        if (success) {
-            error = "";
-        }
-    });
+	$effect(() => {
+		if (success) {
+			error = '';
+		}
+	});
 </script>
 
-<style>
-    .success {
-        color: green;
-    }
-
-    .error {
-        color: red;
-    }
-</style>
-
 {#if success}
-    <div class="success">{success}</div>
+	<div class="success">{success}</div>
 {/if}
 
 {#if error}
-    <div class="error">Ошибка: {error}</div>
+	<div class="error">Ошибка: {error}</div>
 {/if}
+
+<style>
+	.success {
+		color: green;
+	}
+
+	.error {
+		color: red;
+	}
+</style>

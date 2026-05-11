@@ -1,255 +1,242 @@
 <script lang="ts">
-    import * as consts from "$lib/consts";
-    import * as route from "$lib/route";
-    import * as api from "$lib/api";
-    import { userSession } from "$lib/stores";
-    import { goto } from "$app/navigation";
-    import { untrack } from "svelte";
-    import { formatDateTime, zeroLeading, makeTitle } from "$lib/utils";
-    import { Vote } from "$lib/types";
-    import Indicator from "./Indicator.svelte";
-    import Pagination from "$lib/components/Pagination.svelte";
-    import Frame from "$lib/components/Frame.svelte";
+	import * as consts from '$lib/consts';
+	import * as route from '$lib/route';
+	import * as api from '$lib/api';
+	import { userSession } from '$lib/stores';
+	import { goto } from '$app/navigation';
+	import { untrack } from 'svelte';
+	import { formatDateTime, zeroLeading, makeTitle } from '$lib/utils';
+	import { Vote } from '$lib/types';
+	import Indicator from './Indicator.svelte';
+	import Pagination from '$lib/components/Pagination.svelte';
+	import Frame from '$lib/components/Frame.svelte';
 
-    enum Filter {
-        All,
-        New,
-        Mine,
-        Poll,
-        Trash,
-        Category,
-    }
+	enum Filter {
+		All,
+		New,
+		Mine,
+		Poll,
+		Trash,
+		Category
+	}
 
-    interface Props {
-        pageNo: number;
-        filter: number;
-        category: number;
-        sort: number;
-        userId: number;
-        getAllResponse: api.Mandela.GetAll.Response;
-    }
+	interface Props {
+		pageNo: number;
+		filter: number;
+		category: number;
+		sort: number;
+		userId: number;
+		getAllResponse: api.Mandela.GetAll.Response;
+	}
 
-    let { pageNo, filter, category, sort, userId, getAllResponse }: Props =
-        $props();
+	let { pageNo, filter, category, sort, userId, getAllResponse }: Props = $props();
 
-    let baseQuery = $state(new URLSearchParams());
+	let baseQuery = $state(new URLSearchParams());
 
-    let currentCount = $derived.by(() => {
-        if (userId) {
-            return getAllResponse.user_count;
-        } else if (filter === Filter.All) {
-            return getAllResponse.total_count;
-        } else if (filter === Filter.New) {
-            return getAllResponse.new_count;
-        } else if (filter === Filter.Mine) {
-            return getAllResponse.mine_count;
-        } else if (filter === Filter.Poll) {
-            return getAllResponse.poll_count;
-        } else if (filter === Filter.Trash) {
-            return getAllResponse.trash_count;
-        } else if (filter === Filter.Category) {
-            return getAllResponse.category_count;
-        }
-    });
+	let currentCount = $derived.by(() => {
+		if (userId) {
+			return getAllResponse.user_count;
+		} else if (filter === Filter.All) {
+			return getAllResponse.total_count;
+		} else if (filter === Filter.New) {
+			return getAllResponse.new_count;
+		} else if (filter === Filter.Mine) {
+			return getAllResponse.mine_count;
+		} else if (filter === Filter.Poll) {
+			return getAllResponse.poll_count;
+		} else if (filter === Filter.Trash) {
+			return getAllResponse.trash_count;
+		} else if (filter === Filter.Category) {
+			return getAllResponse.category_count;
+		}
+	});
 
-    const categories = ["Все"].concat(consts.Categories);
-    const sorts = ["Манделам", "Комментариям"];
-    const zeroLeadingCount = 4;
+	const categories = ['Все'].concat(consts.Categories);
+	const sorts = ['Манделам', 'Комментариям'];
+	const zeroLeadingCount = 4;
 
-    let isLoaded = false;
+	let isLoaded = false;
 
-    function makeQueryAndGoto(): URLSearchParams {
-        const prevFilter = untrack(() => Number(baseQuery.get("filter")));
-        const prevCategory = untrack(() => Number(baseQuery.get("category")));
+	function makeQueryAndGoto(): URLSearchParams {
+		const prevFilter = untrack(() => Number(baseQuery.get('filter')));
+		const prevCategory = untrack(() => Number(baseQuery.get('category')));
 
-        const query = new URLSearchParams();
+		const query = new URLSearchParams();
 
-        if (sort) {
-            query.append("sort", sort.toString());
-        }
+		if (sort) {
+			query.append('sort', sort.toString());
+		}
 
-        if (filter && filter != prevFilter && filter != Filter.Category) {
-            query.append("filter", filter.toString());
-        } else if (category && category != prevCategory) {
-            query.append("category", category.toString());
-            query.append("filter", Filter.Category.toString());
-        }
+		if (filter && filter != prevFilter && filter != Filter.Category) {
+			query.append('filter', filter.toString());
+		} else if (category && category != prevCategory) {
+			query.append('category', category.toString());
+			query.append('filter', Filter.Category.toString());
+		}
 
-        if (userId) {
-            query.append("user", userId.toString());
-        }
+		if (userId) {
+			query.append('user', userId.toString());
+		}
 
-        const urlQuery = new URLSearchParams(query);
+		const urlQuery = new URLSearchParams(query);
 
-        if (pageNo > 1) {
-            urlQuery.append("page", pageNo.toString());
-        }
+		if (pageNo > 1) {
+			urlQuery.append('page', pageNo.toString());
+		}
 
-        const urlQueryString = urlQuery.toString();
-        let url = (urlQueryString ? "?" : "") + urlQueryString;
+		const urlQueryString = urlQuery.toString();
+		let url = (urlQueryString ? '?' : '') + urlQueryString;
 
-        if (!url) {
-            url = "/";
-        }
+		if (!url) {
+			url = '/';
+		}
 
-        gotoUrl(url);
-        return query;
-    }
+		gotoUrl(url);
+		return query;
+	}
 
-    function gotoUrl(url: string) {
-        isLoaded = false;
-        goto(url);
-    }
+	function gotoUrl(url: string) {
+		isLoaded = false;
+		goto(url);
+	}
 
-    function voteColor(votes: api.Mandela.Vote[]): string {
-        let maxCount = 0;
-        let maxVote = Vote.Neutral;
+	function voteColor(votes: api.Mandela.Vote[]): string {
+		let maxCount = 0;
+		let maxVote = Vote.Neutral;
 
-        for (const vote of votes) {
-            if (vote.count > maxCount) {
-                maxCount = vote.count;
-                maxVote = vote.vote;
-            }
-        }
+		for (const vote of votes) {
+			if (vote.count > maxCount) {
+				maxCount = vote.count;
+				maxVote = vote.vote;
+			}
+		}
 
-        return consts.VoteColors[maxVote];
-    }
+		return consts.VoteColors[maxVote];
+	}
 
-    $effect(() => {
-        if (
-            filter >= 0 &&
-            category >= 0 &&
-            sort >= 0 &&
-            userId >= 0 &&
-            isLoaded
-        ) {
-            baseQuery = makeQueryAndGoto();
-        } else {
-            isLoaded = true;
-        }
-    });
+	$effect(() => {
+		if (filter >= 0 && category >= 0 && sort >= 0 && userId >= 0 && isLoaded) {
+			baseQuery = makeQueryAndGoto();
+		} else {
+			isLoaded = true;
+		}
+	});
 </script>
 
-<style>
-    .comments {
-        color: red;
-        display: inline;
-        background-color: rgb(255, 247, 230);
-        padding: 0 0.4em;
-    }
-
-    .new-mandela {
-        color: red;
-    }
-
-    .row {
-        display: block;
-        margin: 0.3em 0;
-    }
-
-    .tool-bar {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: 0.5em;
-        margin-bottom: 0.7em;
-    }
-</style>
-
 <Frame title="Океан. Каталог фактов эффекта Манделы" showHeader={false}>
-    <div class="tool-bar">
-        {#if !userId}
-            <Indicator
-                title="Всего"
-                count={getAllResponse.total_count}
-                active={filter == Filter.All}
-                onclick={() => {
-                    gotoUrl("/");
-                }}
-            />
-            {#if !$userSession.isAnonym}
-                <Indicator
-                    title="Новые"
-                    count={getAllResponse.new_count}
-                    active={filter == Filter.New}
-                    highlightNew={true}
-                    onclick={() => (filter = Filter.New)}
-                />
+	<div class="tool-bar">
+		{#if !userId}
+			<Indicator
+				title="Всего"
+				count={getAllResponse.total_count}
+				active={filter == Filter.All}
+				onclick={() => {
+					gotoUrl('/');
+				}}
+			/>
+			{#if !$userSession.isAnonym}
+				<Indicator
+					title="Новые"
+					count={getAllResponse.new_count}
+					active={filter == Filter.New}
+					highlightNew={true}
+					onclick={() => (filter = Filter.New)}
+				/>
 
-                <Indicator
-                    title="Мои"
-                    count={getAllResponse.mine_count}
-                    active={filter == Filter.Mine}
-                    onclick={() => (filter = Filter.Mine)}
-                />
+				<Indicator
+					title="Мои"
+					count={getAllResponse.mine_count}
+					active={filter == Filter.Mine}
+					onclick={() => (filter = Filter.Mine)}
+				/>
 
-                <Indicator
-                    title="Опросы"
-                    count={getAllResponse.poll_count}
-                    highlightNew={true}
-                    active={filter == Filter.Poll}
-                    onclick={() => (filter = Filter.Poll)}
-                />
-            {/if}
+				<Indicator
+					title="Опросы"
+					count={getAllResponse.poll_count}
+					highlightNew={true}
+					active={filter == Filter.Poll}
+					onclick={() => (filter = Filter.Poll)}
+				/>
+			{/if}
 
-            <Indicator
-                title="Хлам"
-                count={getAllResponse.trash_count}
-                active={filter == Filter.Trash}
-                onclick={() => (filter = Filter.Trash)}
-            />
-        {/if}
+			<Indicator
+				title="Хлам"
+				count={getAllResponse.trash_count}
+				active={filter == Filter.Trash}
+				onclick={() => (filter = Filter.Trash)}
+			/>
+		{/if}
 
-        <span
-            >Категория:
-            <select bind:value={category}>
-                {#each categories as categoryName, i}
-                    <option value={i} selected={category == i}>
-                        {categoryName}
-                    </option>
-                {/each}
-            </select>
-        </span>
-        <span
-            >Сортировать по:
-            <select bind:value={sort}>
-                {#each sorts as sortName, i}
-                    <option value={i} selected={sort == i}>{sortName}</option>
-                {/each}
-            </select>
-        </span>
-    </div>
+		<span
+			>Категория:
+			<select bind:value={category}>
+				{#each categories as categoryName, i}
+					<option value={i} selected={category == i}>
+						{categoryName}
+					</option>
+				{/each}
+			</select>
+		</span>
+		<span
+			>Сортировать по:
+			<select bind:value={sort}>
+				{#each sorts as sortName, i}
+					<option value={i} selected={sort == i}>{sortName}</option>
+				{/each}
+			</select>
+		</span>
+	</div>
 
-    {#each getAllResponse.mandels as mandela}
-        <div class="row" style="background-color: {voteColor(mandela.votes)}">
-            <a
-                class="row-link"
-                href={route.Mandela.Id(mandela.id)}
-                data-sveltekit-preload-data="off"
-            >
-                <span
-                    class:new-mandela={!$userSession.isAnonym &&
-                        !mandela.mark_ts}
-                    >{zeroLeading(mandela.id, zeroLeadingCount)}</span
-                >
-                ·
-                {formatDateTime(mandela.create_ts)}
-                ·
-                {makeTitle(mandela)}
-                ·
-                {mandela.user_name}
-                {#if mandela.comment_count}
-                    · Комментариев:
-                    <div class="comments">{mandela.comment_count}</div>
-                {/if}
-            </a>
-        </div>
-    {/each}
+	{#each getAllResponse.mandels as mandela}
+		<div class="row" style="background-color: {voteColor(mandela.votes)}">
+			<a class="row-link" href={route.Mandela.Id(mandela.id)} data-sveltekit-preload-data="off">
+				<span class:new-mandela={!$userSession.isAnonym && !mandela.mark_ts}
+					>{zeroLeading(mandela.id, zeroLeadingCount)}</span
+				>
+				·
+				{formatDateTime(mandela.create_ts)}
+				·
+				{makeTitle(mandela)}
+				·
+				{mandela.user_name}
+				{#if mandela.comment_count}
+					· Комментариев:
+					<div class="comments">{mandela.comment_count}</div>
+				{/if}
+			</a>
+		</div>
+	{/each}
 </Frame>
 
 <Pagination
-    count={currentCount}
-    limit={consts.Mandela.Catalog.PageLimit}
-    offset={pageNo}
-    {baseQuery}
+	count={currentCount}
+	limit={consts.Mandela.Catalog.PageLimit}
+	offset={pageNo}
+	{baseQuery}
 />
+
+<style>
+	.comments {
+		color: red;
+		display: inline;
+		background-color: rgb(255, 247, 230);
+		padding: 0 0.4em;
+	}
+
+	.new-mandela {
+		color: red;
+	}
+
+	.row {
+		display: block;
+		margin: 0.3em 0;
+	}
+
+	.tool-bar {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 0.5em;
+		margin-bottom: 0.7em;
+	}
+</style>

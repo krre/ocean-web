@@ -1,72 +1,72 @@
-import { sendQuery, sendCommand } from "$lib/network";
+import { sendQuery, sendCommand } from '$lib/network';
 
 export namespace GetAll {
-    export interface Request {
-        category_id: number;
-    }
+	export interface Request {
+		category_id: number;
+	}
 
-    export interface Section {
-        id: number;
-        name: string;
-        topic_count: number;
-        post_count: number;
-    }
+	export interface Section {
+		id: number;
+		name: string;
+		topic_count: number;
+		post_count: number;
+	}
 
-    export interface Response {
-        category_name: string;
-        sections: Section[];
-    }
+	export interface Response {
+		category_name: string;
+		sections: Section[];
+	}
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery({ method: "forum.section.getAll", params });
-    }
+	export async function exec(params: Request): Promise<Response> {
+		return await sendQuery({ method: 'forum.section.getAll', params });
+	}
 }
 
 interface SectionData {
-    name: string;
-    order_index: number;
+	name: string;
+	order_index: number;
 }
 
 export namespace GetOne {
-    export interface Request {
-        id: number;
-    }
+	export interface Request {
+		id: number;
+	}
 
-    export interface Response extends SectionData {
-        category_id: number;
-    }
+	export interface Response extends SectionData {
+		category_id: number;
+	}
 
-    export async function exec(params: Request): Promise<Response> {
-        return await sendQuery({ method: "forum.section.getOne", params });
-    }
+	export async function exec(params: Request): Promise<Response> {
+		return await sendQuery({ method: 'forum.section.getOne', params });
+	}
 }
 
 export namespace Create {
-    export interface Request extends SectionData {
-        category_id: number;
-    }
+	export interface Request extends SectionData {
+		category_id: number;
+	}
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand({ method: "forum.section.create", params });
-    }
+	export async function exec(params: Request): Promise<void> {
+		return await sendCommand({ method: 'forum.section.create', params });
+	}
 }
 
 export namespace Update {
-    export interface Request extends SectionData {
-        id: number;
-    }
+	export interface Request extends SectionData {
+		id: number;
+	}
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand({ method: "forum.section.update", params });
-    }
+	export async function exec(params: Request): Promise<void> {
+		return await sendCommand({ method: 'forum.section.update', params });
+	}
 }
 
 export namespace Delete {
-    export interface Request {
-        id: number;
-    }
+	export interface Request {
+		id: number;
+	}
 
-    export async function exec(params: Request): Promise<void> {
-        return await sendCommand({ method: "forum.section.delete", params });
-    }
+	export async function exec(params: Request): Promise<void> {
+		return await sendCommand({ method: 'forum.section.delete', params });
+	}
 }

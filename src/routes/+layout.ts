@@ -4,8 +4,8 @@ import { browser } from '$app/environment';
 
 export const load: LayoutLoad = async ({ data }) => {
 	if (browser) {
-		setSession(data.session)
+		setSession(data.session);
 	}
 
-	return { session: data.session }
+	return { session: data.session };
 };

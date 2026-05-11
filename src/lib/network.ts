@@ -1,50 +1,50 @@
-import { RequestCreator, type Response, type Error } from "$lib/json-rpc"
-import { printMessage } from "$lib/api-error"
+import { RequestCreator, type Response, type Error } from '$lib/json-rpc';
+import { printMessage } from '$lib/api-error';
 import { getRequestEvent } from '$app/server';
 import { PUBLIC_OCEAN_API_URL } from '$env/static/public';
 
 export interface RequestOptions<Req> {
-    method: string,
-    params?: Req
+	method: string;
+	params?: Req;
 }
 
 async function send<Req, Res>(options: RequestOptions<Req>): Promise<Res | void> {
-    const rc = new RequestCreator(options.method, options.params);
-    const { locals, getClientAddress } = getRequestEvent();
+	const rc = new RequestCreator(options.method, options.params);
+	const { locals, getClientAddress } = getRequestEvent();
 
-    const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${locals.session.token}`, {
-        method: "POST",
-        body: rc.toString(),
-        headers: {
-            "content-type": "application/json",
-            'x-forwarded-for': getClientAddress()
-        },
-    })
+	const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${locals.session.token}`, {
+		method: 'POST',
+		body: rc.toString(),
+		headers: {
+			'content-type': 'application/json',
+			'x-forwarded-for': getClientAddress()
+		}
+	});
 
-    const text = await answer.text();
-    const response: Response<Res> = JSON.parse(text);
+	const text = await answer.text();
+	const response: Response<Res> = JSON.parse(text);
 
-    if (response.error) {
-        throw (response.error);
-    }
+	if (response.error) {
+		throw response.error;
+	}
 
-    return response.result;
+	return response.result;
 }
 
 export async function sendQuery<Req, Res>(options: RequestOptions<Req>): Promise<Res> {
-    const result = send<Req, Res>(options);
+	const result = send<Req, Res>(options);
 
-    if (result === undefined) {
-        throw new Error(`Method ${options.method} expected data, but received undefined`);
-    }
+	if (result === undefined) {
+		throw new Error(`Method ${options.method} expected data, but received undefined`);
+	}
 
-    return result as Res;
+	return result as Res;
 }
 
 export async function sendCommand<Req>(options: RequestOptions<Req>): Promise<void> {
-    send<Req, void>(options);
+	send<Req, void>(options);
 }
 
 export function errorMessage(error: Error): string {
-    return printMessage(error.code, error.message);
+	return printMessage(error.code, error.message);
 }

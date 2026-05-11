@@ -1,12 +1,12 @@
-import * as comment from "./comment"
-import * as rating from "./rating"
-import * as mandela from "./mandela"
-import * as user from "./user"
-import * as search from "./search"
-import * as forum from "./forum"
-import * as activity from "./activity"
-import * as feed from "./feed"
-import * as like from "./like"
+import * as comment from './comment';
+import * as rating from './rating';
+import * as mandela from './mandela';
+import * as user from './user';
+import * as search from './search';
+import * as forum from './forum';
+import * as activity from './activity';
+import * as feed from './feed';
+import * as like from './like';
 
 export import Comment = comment;
 export import Rating = rating;

@@ -1,10 +1,10 @@
 import type { PageServerLoad } from './$types';
-import * as api from "$lib/api";
+import * as api from '$lib/api';
 
 export const load: PageServerLoad = async () => {
-    const getAllResponse = await api.Forum.GetAll.exec();
+	const getAllResponse = await api.Forum.GetAll.exec();
 
-    return {
-        getAllResponse,
-    };
-}
+	return {
+		getAllResponse
+	};
+};
