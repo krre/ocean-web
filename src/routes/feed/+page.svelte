@@ -10,8 +10,6 @@
 	import Rectangle from '$lib/components/Rectangle.svelte';
 	import Pagination from '$lib/components/Pagination.svelte';
 
-	const title = 'Лента новостей';
-
 	let { data }: PageProps = $props();
 
 	const feeds = $derived(data.getAllResponse.feeds);

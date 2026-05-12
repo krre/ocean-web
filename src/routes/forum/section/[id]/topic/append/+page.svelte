@@ -1,12 +1,10 @@
 <script lang="ts">
 	import * as route from '$lib/route';
-	import * as api from '$lib/api';
 	import * as types from '$lib/types';
 	import * as topic from '$lib/api/remote/forum/topic.remote';
 	import * as postFn from '$lib/api/remote/forum/post.remote';
 	import { page } from '$app/state';
 	import { goto } from '$app/navigation';
-	import { userSession } from '$lib/stores';
 	import Frame from '$lib/components/Frame.svelte';
 	import MessageEditor from '$lib/components/post/MessageEditor.svelte';
 
@@ -79,7 +77,7 @@
 		{#if type == types.ForumTopicType.Poll}
 			<div>Укажите вопрос в названии темы и добавьте варианты ответа.</div>
 
-			{#each answers as answer, i}
+			{#each answers, i}
 				<div class="answer">
 					<input bind:value={answers[i]} />
 					<button

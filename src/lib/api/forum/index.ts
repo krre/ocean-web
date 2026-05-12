@@ -2,7 +2,7 @@ import * as category from './category';
 import * as section from './section';
 import * as topic from './topic';
 import * as post from './post';
-import { sendQuery, sendCommand } from '$lib/network';
+import { sendQuery } from '$lib/network';
 
 export import Category = category;
 export import Section = section;

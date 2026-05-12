@@ -4,7 +4,6 @@
 	import * as mandelaFn from '$lib/api/remote/mandela.remote';
 	import type { PageProps } from './$types';
 	import { goto } from '$app/navigation';
-	import { userSession } from '$lib/stores';
 	import Frame from '$lib/components/Frame.svelte';
 	import MandelaEditor from '$lib/components/MandelaEditor.svelte';
 

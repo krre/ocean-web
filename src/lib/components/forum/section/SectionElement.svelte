@@ -3,7 +3,6 @@
 	import * as api from '$lib/api';
 	import * as sectionFn from '$lib/api/remote/forum/section.remote';
 	import { goto } from '$app/navigation';
-	import { userSession } from '$lib/stores';
 
 	interface Props {
 		section: api.Forum.Section.GetAll.Section;

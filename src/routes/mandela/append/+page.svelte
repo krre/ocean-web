@@ -3,7 +3,6 @@
 	import * as route from '$lib/route';
 	import * as mandela from '$lib/api/remote/mandela.remote';
 	import { goto } from '$app/navigation';
-	import { userSession } from '$lib/stores';
 	import Frame from '$lib/components/Frame.svelte';
 	import MandelaEditor from '$lib/components/MandelaEditor.svelte';
 
