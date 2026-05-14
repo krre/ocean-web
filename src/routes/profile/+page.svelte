@@ -1,14 +1,14 @@
 <script lang="ts">
 	import * as consts from '$lib/consts';
 	import { type Error } from '$lib/json-rpc';
+	import type { PageProps } from './$types';
 	import { errorMessage } from '$lib/network';
 	import { login, updateProfile, updateToken } from '$lib/api/remote/user.remote';
+	import { createToken } from '$lib/utils';
+	import { setSession, userSession } from '$lib/stores';
 	import Frame from '$lib/components/Frame.svelte';
 	import OperationResult from '$lib/components/OperationResult.svelte';
 	import Profile from '$lib/components/Profile.svelte';
-	import type { PageProps } from './$types';
-	import { createToken } from '$lib/utils';
-	import { setSession, userSession } from '$lib/stores';
 
 	let { data }: PageProps = $props();
 
