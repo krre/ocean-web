@@ -37,7 +37,7 @@
 </script>
 
 <div class="rules">
-	<a href="help#rules">Рекомендуемые правила оформления мандел</a>
+	<a href="/help#rules">Рекомендуемые правила оформления мандел</a>
 </div>
 
 <div class="column">
