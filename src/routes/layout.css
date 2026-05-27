@@ -11,17 +11,8 @@ body {
 	margin: 0;
 	font-family: var(--font-body);
 	font-variant-numeric: tabular-nums;
-	font-feature-settings:
-		'liga' 1,
-		'calt' 1; /* fix for Chrome */
 	font-size: 90%;
 	background-color: var(--page-background);
-}
-
-@supports (font-variation-settings: normal) {
-	:root {
-		font-family: InterVariable, sans-serif;
-	}
 }
 
 a {
