@@ -72,11 +72,6 @@
 		border-bottom: none;
 	}
 
-	.info {
-		margin-top: 0.5em;
-		color: rgb(90, 90, 90);
-	}
-
 	button {
 		margin-left: 0.2em;
 		color: gray;
