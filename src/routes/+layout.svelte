@@ -72,11 +72,6 @@
 	}
 
 	:global(.row-link) {
-		text-decoration: none;
 		color: rgb(51, 51, 51);
-	}
-
-	:global(.row-link:hover) {
-		text-decoration: underline;
 	}
 </style>
