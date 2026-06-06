@@ -28,14 +28,6 @@
 		align-items: center;
 	}
 
-	.burger {
-		display: block;
-	}
-
-	.menu {
-		display: block;
-	}
-
 	@media screen and (max-width: 45em) {
 		.burger {
 			display: block;
