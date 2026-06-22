@@ -9,7 +9,21 @@
 
 		<link href="/fontawesome/css/all.css" rel="stylesheet" />
 
-		%sveltekit.head% %sveltekit.analytics%
+		%sveltekit.head%
+
+		<script
+			async
+			src="https://www.googletagmanager.com/gtag/js?id=%sveltekit.env.GOOGLE_ANALYTICS_ID%"
+		></script>
+
+		<script>
+			window.dataLayer ??= [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', '%sveltekit.env.GOOGLE_ANALYTICS_ID%');
+		</script>
 	</head>
 
 	<body data-sveltekit-preload-data="hover">
