@@ -1,7 +1,7 @@
 import { RequestCreator, type Response, type Error } from '$lib/json-rpc';
 import { printMessage } from '$lib/api-error';
 import { getRequestEvent } from '$app/server';
-import { PUBLIC_OCEAN_API_URL } from '$env/static/public';
+import { OCEAN_API_URL } from '$app/env/public';
 
 export interface RequestOptions<Req> {
 	method: string;
@@ -12,7 +12,7 @@ async function send<Req, Res>(options: RequestOptions<Req>): Promise<Res | void>
 	const rc = new RequestCreator(options.method, options.params);
 	const { locals, getClientAddress } = getRequestEvent();
 
-	const answer = await fetch(`${PUBLIC_OCEAN_API_URL}?token=${locals.session.token}`, {
+	const answer = await fetch(`${OCEAN_API_URL}?token=${locals.session.token}`, {
 		method: 'POST',
 		body: rc.toString(),
 		headers: {

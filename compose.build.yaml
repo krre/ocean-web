@@ -3,8 +3,8 @@ services:
     build:
       context: .
       args:
-        - PUBLIC_OCEAN_API_URL=${PUBLIC_OCEAN_API_URL}
-        - PUBLIC_ANONYM_TOKEN=${PUBLIC_ANONYM_TOKEN}
-        - PUBLIC_ANONYM_ALLOWED=${PUBLIC_ANONYM_ALLOWED}
-        - PUBLIC_GA_ID=${PUBLIC_GA_ID}
+        - OCEAN_API_URL=${OCEAN_API_URL}
+        - ANONYM_TOKEN=${ANONYM_TOKEN}
+        - ANONYM_ALLOWED=${ANONYM_ALLOWED}
+        - GOOGLE_ANALYTICS_ID=${GOOGLE_ANALYTICS_ID}
     image: krre/ocean-web:1.0

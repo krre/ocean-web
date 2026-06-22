@@ -41,10 +41,10 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            PUBLIC_OCEAN_API_URL=${{ vars.PUBLIC_OCEAN_API_URL }}
-            PUBLIC_ANONYM_TOKEN=${{ secrets.PUBLIC_ANONYM_TOKEN }}
-            PUBLIC_ANONYM_ALLOWED=${{ vars.PUBLIC_ANONYM_ALLOWED }}
-            PUBLIC_GA_ID=${{ vars.PUBLIC_GA_ID }}
+            OCEAN_API_URL=${{ vars.OCEAN_API_URL }}
+            ANONYM_TOKEN=${{ secrets.ANONYM_TOKEN }}
+            ANONYM_ALLOWED=${{ vars.ANONYM_ALLOWED }}
+            GOOGLE_ANALYTICS_ID=${{ vars.GOOGLE_ANALYTICS_ID }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 

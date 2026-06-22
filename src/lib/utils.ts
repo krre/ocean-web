@@ -1,7 +1,7 @@
 import * as consts from '$lib/consts';
 import type { MandelaTitle } from '$lib/types';
 import sha1 from 'sha1';
-import { PUBLIC_ANONYM_ALLOWED } from '$env/static/public';
+import { ANONYM_ALLOWED } from '$app/env/public';
 
 export function formatDateTime(date: Date): string {
 	date = new Date(date + 'Z');
@@ -53,5 +53,5 @@ export function dateUrl(baseUrl: string, date: Date, id: number, page: number) {
 }
 
 export function isAnonymAllowed(): boolean {
-	return PUBLIC_ANONYM_ALLOWED === '1';
+	return ANONYM_ALLOWED === '1';
 }

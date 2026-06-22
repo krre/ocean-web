@@ -1,6 +1,6 @@
 import type { LayoutLoad } from './$types';
 import { setSession } from '$lib/stores';
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 export const load: LayoutLoad = async ({ data }) => {
 	if (browser) {

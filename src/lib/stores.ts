@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import type { UserSession } from './types';
 import * as consts from '$lib/consts';
-import { PUBLIC_ANONYM_TOKEN } from '$env/static/public';
+import { ANONYM_TOKEN } from '$app/env/public';
 
 interface DialogOptions {
 	component: any;
@@ -24,7 +24,7 @@ export function anonymSession(): UserSession {
 		id: 0,
 		code: consts.Account.Anonym,
 		name: consts.Account.ModeNames[consts.Account.Anonym],
-		token: PUBLIC_ANONYM_TOKEN,
+		token: ANONYM_TOKEN,
 		isAdmin: false,
 		isAnonym: true
 	};
