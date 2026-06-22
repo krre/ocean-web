@@ -2,15 +2,19 @@ import { defineEnvVars } from '@sveltejs/kit/hooks';
 
 export const variables = defineEnvVars({
 	OCEAN_API_URL: {
-		public: true
+		public: true,
+		static: true
 	},
 	ANONYM_TOKEN: {
-		public: true
+		public: true,
+		static: true
 	},
 	ANONYM_ALLOWED: {
-		public: true
+		public: true,
+		static: true
 	},
 	GOOGLE_ANALYTICS_ID: {
-		public: true
+		public: true,
+		static: true
 	}
 });
